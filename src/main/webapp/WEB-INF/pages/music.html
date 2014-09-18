@@ -19,7 +19,7 @@
 				<div class="card-actions">
 					<i class="icon-heart"></i> <span class="like-count">${music.like_count}</span>&nbsp;&nbsp;
 					<a href="javascript:void(0);" onclick="$unique.music.download('${music.id!}, ${music.mp3_url!}')" title="下载：${music.song!}"><i class="icon-arrow-down"></i> 下载</a>
-					<span class="text-muted">&nbsp;&nbsp;${music.time_zh!}</span>
+					<span class="text-muted">&nbsp;&nbsp;${music.date_zh!}</span>
 				</div>
 			</div>
 		</div>
@@ -38,6 +38,6 @@
 	</div>
 </div>
 
+<% include("common.html"){} %>
 <script type="text/javascript" src="${cdn}/static/js/front/music.js"></script>
-
 <% include("footer.html"){} %>

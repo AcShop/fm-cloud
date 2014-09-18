@@ -1,7 +1,8 @@
 package org.unique.cloud.controller.admin;
 
+import java.util.Map;
+
 import org.unique.cloud.controller.BaseController;
-import org.unique.cloud.model.Music;
 import org.unique.cloud.service.MusicService;
 import org.unique.cloud.service.SettingService;
 import org.unique.ioc.annotation.Autowired;
@@ -31,9 +32,9 @@ public class IndexController extends BaseController {
 	public void music(){
 		String singer = this.getPara("singer");
 		String song = this.getPara("song");
-		Page<Music> musicPage = musicService.getPageList(uid, singer, song, page, pageSize, "create_time");
-		this.setAttr("page", musicPage);
-		this.render("index");
+		Page<Map<String, Object>> musicPage = musicService.getPageMapList(uid, singer, song, page, pageSize, "create_time");
+		this.setAttr("pageMap", musicPage);
+		this.render("music");
 	}
 	
 }

@@ -6,8 +6,11 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.unique.cloud.api.QiniuApi;
+import org.unique.cloud.model.Mcat;
 import org.unique.cloud.model.Music;
+import org.unique.cloud.model.User;
 import org.unique.cloud.service.FileService;
+import org.unique.cloud.service.McatService;
 import org.unique.cloud.service.MusicService;
 import org.unique.cloud.service.UserService;
 import org.unique.cloud.util.AttachUtil;
@@ -31,10 +34,11 @@ public class MusicServiceImpl implements MusicService {
 
 	@Autowired
 	private FileService fileService;
-
 	@Autowired
 	private UserService userService;
-
+	@Autowired
+	private McatService mcatService;
+	
 	@Override
 	public Music get(Integer mid) {
 		SqlBase base = SqlBase.select("select * from t_music");
@@ -251,9 +255,29 @@ public class MusicServiceImpl implements MusicService {
 					resultMap.put("cover_url", cover_url);
 				}
 			}
+			// 所属分类
+			if(StringUtils.isNotBlank(music.getCids())){
+				String[] cids = music.getCids().split(",");
+				List<String> mcatList = CollectionUtil.newArrayList();
+				if(null != cids && cids.length > 0){
+					for(String cid : cids){
+						Mcat mcat = mcatService.get(Integer.valueOf(cid));
+						if(null != mcat){
+							mcatList.add(mcat.getName());
+						}
+					}
+				}
+				resultMap.put("mcat", mcatList.toString());
+			}
 			// 上传日期
 			if(null != music.getCreate_time()){
-				resultMap.put("time_zh", DateUtil.convertIntToDatePattern(music.getCreate_time(), "yyyy/MM/dd"));
+				resultMap.put("date_zh", DateUtil.convertIntToDatePattern(music.getCreate_time(), "yyyy/MM/dd"));
+				resultMap.put("time_zh", DateUtil.convertIntToDatePattern(music.getCreate_time(), "yyyy-MM-dd HH:mm:ss"));
+			}
+			// 上传人
+			if(null != music.getUid()){
+				User user = userService.getByUid(music.getUid());
+				resultMap.put("nickname", user.getNickname());
 			}
 		}
 		return resultMap;
