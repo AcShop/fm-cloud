@@ -1,0 +1,18 @@
+<script type="text/javascript">
+var $unique = {};
+/*
+ * app path
+ */
+$unique.base = '${base}';
+/**
+ * 弹出窗
+ */
+$unique.alert = function(content_, lock_, width_){
+	art.dialog({
+		lock: lock_ || true,
+	    width: width_ || '20em',
+	    icon: 'warning',
+	    content: content_
+	});
+}
+</script>

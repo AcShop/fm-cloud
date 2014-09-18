@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="${cdn}/static/zui/css/zui.min.css" />
+<link rel="stylesheet" href="${cdn}/static/js/nice/jquery.validator.css" />
+<link rel="stylesheet" href="${cdn}/static/css/style.css" />
+<style type="text/css">
+#container{ width:250px; border:1px solid #000; font:12px/150% Simsun,Arial; padding:5px; }
+#title{ float:left; width:150px; white-space:nowrap; text-overflow:ellipsis; overflow:hidden; }
+#time{ float:right; }
+#range{ display:block; margin:0; padding:0; width:250px; clear:both; }
+.button{ display:inline-block; border:1px solid #000; text-align:center; padding:3px; text-decoration:none; color:#000; }
+.button:hover{ border-color:#966; color:#966; }
+#play{ width:40px; }
+#volume{ width:75px; vertical-align:bottom; }
+</style>
+</head>
+<body>
+
+	<div>
+
+		<div>
+
+			<section class="cards">
+				<%for(music in pageData!){%>
+				<div class="col-md-4 col-sm-6 col-lg-3">
+					<div class="card">
+						<img width="150" height="150" src="${music.cover_url!}" alt=""> <span class="caption">Lorem
+							ipsum dolor sit amet, consectetur adipisicing elit. Iste,
+							voluptatem.</span>
+						<div class="card-heading">
+							<span class="pull-right">
+								<a href="javascript:void(0)">
+									<i class="icon-star-empty"></i>
+								</a>
+							</span>
+							<a href="javascript:void(0)" onclick="playerMp3(${music.id})"><strong>${music.song!}</strong></a>
+						</div>
+						<div class="card-actions">
+							<a href="javascript:void(0);"><i class="icon-comment"></i> ${music.like_count}</a> <span
+								class="text-muted">&nbsp;&nbsp;${music.time_zh!}</span>
+						</div>
+					</div>
+				</div>
+				<%}%>
+			</section>
+		</div>
+
+		<!-- 播放区域 -->
+		<div>
+			<div id="container">
+			    <div id="title"></div>
+			    <div id="time"></div>
+			    <input id="range" type="range" min="0" max="1" step="any" value="0" />
+			    <a id="play" class="button" href="###"></a>
+			    音量:<input id="volume" type="range" min="0" max="1" step="any" value="0.5" />
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="${cdn}/static/js/jq/jquery-2.0.min.js"></script>
+	<script type="text/javascript" src="${cdn}/static/js/jq/jquery.form.js"></script>
+	<script type="text/javascript" src="${cdn}/static/zui/js/zui.min.js"></script>
+	<script type="text/javascript" src="${cdn}/static/js/nice/jquery.validator.js"></script>
+	<script type="text/javascript" src="${cdn}/static/js/nice/local/zh_CN.js"></script>
+	<script type="text/javascript" src="${cdn}/static/js/art/artDialog.js?skin=default"></script>
+	<script type="text/javascript">
+		function playerMp3(mid){
+			var url = '${base}/get_music';
+			var param = {mid : mid};
+			$.get(url, param, function(data){
+				if(data){
+					loadAudio(data.mp3_url, data.song);
+				}
+			},'json');
+		}
+		
+		var audioEl,
+		titleEl,
+		timeEl,
+		rangeEl,
+		playEl,
+		volumeEl;
+	function initAudio(){
+		var _audio;
+		if(audioEl){ return; } //如果存在,说明已经初始化
+		if(window['Audio'] && (_audio=new Audio()).canPlayType('audio/mpeg')){
+			_audio.addEventListener('canplay',onCanPlay,false);
+			_audio.addEventListener('play',onPlay,false);
+			_audio.addEventListener('pause',onPause,false);
+			_audio.addEventListener('ended',onEnded,false);
+			_audio.addEventListener('error',onError,false);
+			_audio.addEventListener('timeupdate',onTimeUpdate,false);
+			_audio.volume=0.5;
+			document.getElementById('container').appendChild(_audio);
+			
+			audioEl=_audio;
+			titleEl=document.getElementById('title');
+			timeEl=document.getElementById('time');
+			rangeEl=document.getElementById('range');
+			playEl=document.getElementById('play');
+			volumeEl=document.getElementById('volume');
+			
+			volumeEl.addEventListener('change',onVolumeChange,false);
+			rangeEl.addEventListener('change',onRangeChange,false);
+			playEl.addEventListener('click',onPlayButtonClick,false);
+		}else{
+			alert('Oops, nice browser.');
+			return;
+		}
+	}
+	function loadAudio(url,title){
+		if(!audioEl){ return; }
+		var name=title || url.replace(/^.*\//,'').replace(/[#\?].*$/,'') || 'Unknown';
+		titleEl.innerHTML=name;
+		rangeEl.value=0;
+		rangeEl.disabled=true;
+		timeEl.innerHTML='--:-- / --:--';
+		playEl.innerHTML='加载中';
+		audioEl.autoplay=true;
+		audioEl.src=url;
+		//audioEl.load();
+	}
+	function onCanPlay(){
+		rangeEl.disabled=false;
+	}
+	function onPlay(){
+		playEl.innerHTML='暂停';
+	}
+	function onPause(){
+		playEl.innerHTML='播放';
+	}
+	function onEnded(){
+		audioEl.pause();
+		audioEl.currentTime=0;
+	}
+	function onError(){
+		rangeEl.disabled=true;
+		titleEl.innerHTML='<span style="color:red">加载错误:'+titleEl.innerHTML+'</span>';
+		playEl.innerHTML='已停止';
+	}
+	function onTimeUpdate(){
+		var pos=audioEl.currentTime,
+			dora=audioEl.duration;
+		timeEl.innerHTML=formatTime(pos)+' / '+formatTime(dora);
+		//console.info(pos,dora);
+		if(isFinite(dora) && dora>0){
+			rangeEl.value=pos/dora;
+		}
+	}
+	function onVolumeChange(){
+		if(!audioEl){ return; }
+		audioEl.volume=volumeEl.value;
+	}
+	function onRangeChange(){
+		if(!audioEl){ return; }
+		var buf=audioEl.buffered.length?audioEl.buffered.end(0):0,
+			dora=audioEl.duration;
+		if(isFinite(dora) && dora>0){
+			var value=rangeEl.value,
+				pos=value*dora;
+			if(pos>buf){
+				pos=buf;
+			}
+			audioEl.currentTime=pos;
+		}
+	}
+	function onPlayButtonClick(){
+		if(!audioEl){ return; }
+		if(audioEl.error){ //加载错误
+			return;
+		}else if(audioEl.readyState<2){ //还没可以播放
+			audioEl.autoplay^=true; //切换是否autoplay
+		}else if(audioEl.paused){
+			audioEl.play();
+		}else{
+			audioEl.pause();
+		}
+	}
+	function formatTime(sec){
+		if(!isFinite(sec) || sec<0){
+			return '--:--';
+		}else{
+			var m=Math.floor(sec/60),
+				s=Math.floor(sec)%60;
+			return (m<10?'0'+m:m)+':'+(s<10?'0'+s:s);
+		}
+	}
+	initAudio();
+	</script>
+</body>
+</html>

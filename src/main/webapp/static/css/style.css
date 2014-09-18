@@ -1,0 +1,11 @@
+@CHARSET "utf-8";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: Helvetica, 'microsoft yahei', Arial, sans-serif;
+	font-size: 12px;
+}
