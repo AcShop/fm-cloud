@@ -24,15 +24,15 @@ public class MusicController extends BaseController {
 	/**
 	 * 上传/编辑音乐页
 	 */
-	@Action("save_page/{mid}")
-	public void save_page(){
+	@Action("edit/{mid}")
+	public void edit_music(){
 		Integer mid = this.getParaToInt();
 		// 编辑
 		if(null != mid){
 			Map<String, Object> music = musicService.getMap(null, mid);
 			this.setAttr("music", music);
 		}
-		this.render("upload");
+		this.render("/admin/edit_music");
 	}
 	
 	/**
