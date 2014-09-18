@@ -73,7 +73,7 @@ public class MusicController extends BaseController {
 	 * 删除一首音乐
 	 */
 	public void delete_music(){
-		Integer mid = this.getParaToInt("id");
+		Integer mid = this.getParaToInt("mid");
 		int count = musicService.delete(mid);
 		if(count > 0){
 			this.renderText(WebConst.MSG_SUCCESS);
@@ -86,9 +86,10 @@ public class MusicController extends BaseController {
 	 * 1喜欢/2收听/3下载音乐 点击+1
 	 */
 	public void hit(){
-		Integer mid = this.getParaToInt("id");
+		Integer mid = this.getParaToInt("mid");
 		Integer type = this.getParaToInt("type");
 		musicService.like(mid, type);
+		this.renderText(WebConst.MSG_SUCCESS);
 	}
 	
 	/**

@@ -3,11 +3,9 @@ package org.unique.cloud.controller.admin;
 import java.util.Map;
 
 import org.unique.cloud.controller.BaseController;
-import org.unique.cloud.model.Music;
 import org.unique.cloud.service.MusicService;
 import org.unique.cloud.util.WebConst;
 import org.unique.ioc.annotation.Autowired;
-import org.unique.plugin.dao.Page;
 import org.unique.web.annotation.Action;
 import org.unique.web.annotation.Path;
 
@@ -22,17 +20,6 @@ public class MusicController extends BaseController {
 
 	@Autowired
 	private MusicService musicService;
-	
-	/**
-	 * 音乐列表
-	 */
-	public void index(){
-		String singer = this.getPara("singer");
-		String song = this.getPara("song");
-		Page<Music> musicPage = musicService.getPageList(uid, singer, song, page, pageSize, "create_time");
-		this.setAttr("page", musicPage);
-		this.render("index");
-	}
 	
 	/**
 	 * 上传/编辑音乐页

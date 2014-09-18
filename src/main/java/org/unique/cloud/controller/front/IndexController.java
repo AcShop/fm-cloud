@@ -30,7 +30,6 @@ public class IndexController extends BaseController {
 	private UserService userService;
 	
 	public void index() {
-		System.out.println("index.");
 		this.render("index");
 	}
 
