@@ -103,11 +103,11 @@ CREATE TABLE `t_mcat` (
   `name` varchar(20) NOT NULL COMMENT '分类名称',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '分类状态',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='音乐分类';
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='音乐分类';
 
 /*Data for the table `t_mcat` */
 
-insert  into `t_mcat`(`id`,`name`,`status`) values (1,'流行',1),(2,'伤感',1),(3,'励志',1),(4,'酒吧',1),(5,'致青春',1),(6,'网络',1),(7,'轻音乐',1);
+insert  into `t_mcat`(`id`,`name`,`status`) values (1,'流行',1),(2,'伤感',1),(3,'励志',1),(4,'酒吧',1),(5,'致青春',1),(6,'网络',1),(7,'轻音乐',1),(8,'舞曲',1);
 
 /*Table structure for table `t_music` */
 
@@ -127,11 +127,11 @@ CREATE TABLE `t_music` (
   `download_count` int(10) DEFAULT '0' COMMENT '下载次数',
   `create_time` int(11) NOT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='音乐表';
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='音乐表';
 
 /*Data for the table `t_music` */
 
-insert  into `t_music`(`id`,`uid`,`singer`,`song`,`song_path`,`cover_path`,`introduce`,`cids`,`listen_count`,`like_count`,`download_count`,`create_time`) values (1,1,'阿萨德阿萨德','wish.mp3','user/1/music/14099105233850.mp3','',NULL,'2',0,0,0,1409910523);
+insert  into `t_music`(`id`,`uid`,`singer`,`song`,`song_path`,`cover_path`,`introduce`,`cids`,`listen_count`,`like_count`,`download_count`,`create_time`) values (1,1,'阿萨德阿萨德','wish.mp3','user/1/music/14099105233850.mp3','http://i1.tietuku.com/40077290f316fa51.jpg',NULL,'2',0,0,0,1409910523),(2,1,'-','热播韩文超弹跳电嗨压潮爽','http://qqmp3.djwma.com/mp3/热播韩文超弹跳电嗨压潮爽鼓包房必备.mp3','','热播韩文超弹跳电嗨压潮爽','8',0,0,0,1410948011),(3,1,'-','女唱疯狂嗨翻全场重低音压','http://qqmp3.djwma.com/mp3/女唱疯狂嗨翻全场重低音压潮神鼓.mp3','','女唱疯狂嗨翻全场重低音压','8',0,0,0,1410948033),(4,1,'-','小苹果dj版-筷子兄弟','http://qqmp3.djwma.com/mp3/小苹果dj版-筷子兄弟(你是我的小苹果).mp3','','小苹果dj版-筷子兄弟','8,1',0,0,0,1410948059),(5,1,'-','高端大气上档次的重鼓女唱','http://qqmp3.djwma.com/mp3/高端大气上档次的重鼓女唱超爽震撼音效.mp3','','高端大气上档次的重鼓女唱','8,4',0,0,0,1410948080);
 
 /*Table structure for table `t_open` */
 
@@ -160,6 +160,7 @@ CREATE TABLE `t_pic` (
   `path` varchar(200) DEFAULT NULL COMMENT '图片路径',
   `album_id` int(10) NOT NULL COMMENT '所属相册',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '图片状态',
+  `create_time` int(11) NOT NULL COMMENT '上传时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
