@@ -9,3 +9,56 @@ body {
 	font-family: Helvetica, 'microsoft yahei', Arial, sans-serif;
 	font-size: 12px;
 }
+
+/*
+* 播放器
+*/
+#container {
+	width: 250px;
+	border: 1px solid #000;
+	font: 12px/150% Simsun, Arial;
+	padding: 5px;
+}
+
+#title {
+	float: left;
+	width: 150px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+#time {
+	float: right;
+}
+
+#range {
+	display: block;
+	margin: 0;
+	padding: 0;
+	width: 250px;
+	clear: both;
+}
+
+.button {
+	display: inline-block;
+	border: 1px solid #000;
+	text-align: center;
+	padding: 3px;
+	text-decoration: none;
+	color: #000;
+}
+
+.button:hover {
+	border-color: #966;
+	color: #966;
+}
+
+#play {
+	width: 40px;
+}
+
+#volume {
+	width: 75px;
+	vertical-align: bottom;
+}
