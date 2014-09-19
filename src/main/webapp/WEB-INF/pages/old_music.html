@@ -1,0 +1,43 @@
+<% include("/header.html"){} %>
+
+<!-- 音乐专辑 -->
+<div id="music-album-list">
+	<section class="cards">
+		<%for(music in pageData!){%>
+		<div class="col-md-4 col-sm-4 col-lg-3" id="music-${music.id}">
+			<div class="card">
+				<img class="music-cover" src="${music.cover_url!'./static/img/music/default-music.jpg'}" alt="${music.song!}" onclick="$unique.music.playerMp3(${music.id})">
+				<div class="card-heading">
+					<span class="pull-right">
+						<a href="javascript:void(0);" onclick="$unique.music.like(this,${music.id!})"><i class="icon-star-empty"></i></a>
+					</span>
+					<!-- <a href="javascript:void(0)" onclick="$unique.music.playerMp3(${music.id})">
+						<strong>${music.song!}</strong>
+					</a> -->
+					<i class="icon-music"></i> <a class="song-name" title="${music.song!}">${music.song!}</a>
+				</div>
+				<div class="card-actions">
+					<i class="icon-heart"></i> <span class="like-count">${music.like_count}</span>&nbsp;&nbsp;
+					<a href="javascript:void(0);" onclick="$unique.music.download('${music.id!}, ${music.mp3_url!}')" title="下载：${music.song!}"><i class="icon-arrow-down"></i> 下载</a>
+					<span class="text-muted">&nbsp;&nbsp;${music.date_zh!}</span>
+				</div>
+			</div>
+		</div>
+		<%}%>
+	</section>
+</div>
+
+<!-- 播放区域 -->
+<div>
+	<div id="player">
+		<div id="title"></div>
+		<div id="time"></div>
+		<input id="range" type="range" min="0" max="1" step="any" value="0" />
+		<a id="play" class="button" href="javascript:void(0);"></a> 
+		音量:<input id="volume" type="range" min="0" max="1" step="any" value="0.5" />
+	</div>
+</div>
+
+<% include("/common.html"){} %>
+<script type="text/javascript" src="${cdn}/static/js/front/music.js"></script>
+<% include("/footer.html"){} %>
