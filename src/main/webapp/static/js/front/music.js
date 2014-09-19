@@ -7,9 +7,6 @@ var cssSelector = {
 };
 
 var options = {
-//	playlistOptions: {
-//	    autoPlay: true
-//	},
 	swfPath : $unique.cdn + "/static/js/jq/Jplayer.swf",
 	supplied : "ogv, m4v, oga, mp3"
 };
@@ -28,13 +25,7 @@ $(function() {
 		mp3 : "http://jq22.qiniudn.com/i2.mp3",
 		//oga:"http://www.jplayer.org/audio/ogg/TSP-01-Cro_magnon_man.ogg",
 		poster : $unique.cdn + "/static/img/tumblr_nbmb3j8nU51sq3g2zo1_500.png"
-	}, {
-		title : "Bubble",
-		m4a : "http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a",
-		oga : "http://www.jplayer.org/audio/ogg/Miaow-07-Bubble.ogg",
-		poster : $unique.cdn + "/static/img/tumblr_nbe8wsmKuz1rknpqyo1_500.jpg"
 	}];
-
 	myPlaylist = new jPlayerPlaylist(cssSelector, playlist, options);
 });
 
@@ -45,7 +36,7 @@ $(function() {
  */
 $unique.music.playerMp3 = function(mid) {
 	if (mid) {
-		var url = $unique.base + '/get_music';
+		var url = $unique.base + '/m/get_music';
 		var param = {
 			mid : mid
 		};
@@ -72,7 +63,7 @@ $unique.music.playerMp3 = function(mid) {
 $unique.music.like = function(obj, mid) {
 	var cls = $(obj).find('i').attr('class');
 	if (mid && cls === 'icon-star-empty') {
-		var url = $unique.root + '/hit';
+		var url = $unique.root + '/m/hit';
 		var param = {
 			mid : mid,
 			type : 1
@@ -96,7 +87,7 @@ $unique.music.like = function(obj, mid) {
  */
 $unique.music.download = function(mid, downloadUrl) {
 	if (mid && downloadUrl) {
-		var url = $unique.root + '/hit';
+		var url = $unique.root + '/m/hit';
 		var param = {
 			mid : mid,
 			type : 3

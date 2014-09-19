@@ -18,23 +18,12 @@ import org.unique.web.annotation.Path;
  * @date:2014年8月20日
  * @version:1.0
  */
-@Path("/")
+@Path("/m")
 public class MusicController extends BaseController {
 
 	@Autowired
 	private MusicService musicService;
 
-	/**
-	 * 音乐列表
-	 */
-	public void music(){
-		String singer = this.getPara("singer");
-		String song = this.getPara("song");
-		Page<Map<String, Object>> pageList = musicService.getPageMapList(uid, singer, song, page, pageSize, "create_time desc");
-		this.setAttr("pageData", pageList.getResults());
-		this.render("music");
-	}
-	
 	/**
 	 * 最新10首歌
 	 */
