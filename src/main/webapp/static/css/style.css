@@ -1,6 +1,6 @@
 @CHARSET "utf-8";
 
-* {
+*{
 	margin: 0;
 	padding: 0;
 }
@@ -11,10 +11,18 @@ body {
 	background-color: #f4f4f4;
 	overflow: scroll;
 	scroll: both;
+	/*background: #eee url("http://i.imgur.com/82fLDu4.jpg") no-repeat center;*/
+}
+.left{
+	float: left;
+}
+.clear{
+	clear: both;
 }
 /*
 音乐专辑
 */
+/*
 div#music-album-list{
 	margin-top: 20px;
 }
@@ -31,6 +39,7 @@ div#music-album-list{
 #music-album-list a{
 	text-decoration: none;
 }
+*/
 /*
 曲目封面
 */
