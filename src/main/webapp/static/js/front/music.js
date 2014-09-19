@@ -1,9 +1,38 @@
 /**
  * 全局music
  */
-var audioEl, titleEl, timeEl, rangeEl, playEl, volumeEl;
+var cssSelector = {
+	jPlayer : "#jquery_jplayer",
+	cssSelectorAncestor : ".music-player"
+};
+
+var options = {
+	swfPath : $unique.cdn + "/static/js/jq/Jplayer.swf",
+	supplied : "ogv, m4v, oga, mp3"
+};
+var myPlaylist = null;
+
 $(function() {
-	$unique.music.initAudio();
+//	var playlist = [{
+//		title : "Hidden",
+//		artist : "Miaow",
+//		mp3 : "http://jq22.qiniudn.com/i1.mp3",
+//		//oga:"http://www.jplayer.org/audio/ogg/Miaow-02-Hidden.ogg",
+//		poster : "http://33.media.tumblr.com/0b35eb42176eedbf4a96e52efa760875/tumblr_mxp7a0v3fr1rqx86wo1_500.png"
+//	}, {
+//		title : "Cro Magnon Man",
+//		artist : "The Stark Palace",
+//		mp3 : "http://jq22.qiniudn.com/i2.mp3",
+//		//oga:"http://www.jplayer.org/audio/ogg/TSP-01-Cro_magnon_man.ogg",
+//		poster : "http://33.media.tumblr.com/bf9dc125a47dcca91ce5b3575bc3ba92/tumblr_nbmb3j8nU51sq3g2zo1_500.png"
+//	}, {
+//		title : "Bubble",
+//		m4a : "http://www.jplayer.org/audio/m4a/Miaow-07-Bubble.m4a",
+//		oga : "http://www.jplayer.org/audio/ogg/Miaow-07-Bubble.ogg",
+//		poster : "http://31.media.tumblr.com/810b1125a8b9e9f192d009ef58dceb07/tumblr_nbe8wsmKuz1rknpqyo1_500.jpg"
+//	}];
+//
+//	myPlaylist = new jPlayerPlaylist(cssSelector, playlist, options);
 });
 
 /**
@@ -13,14 +42,23 @@ $(function() {
  */
 $unique.music.playerMp3 = function(mid) {
 	if (mid) {
-		var url = $unique.root + '/get_music';
+		var url = $unique.base + '/get_music';
 		var param = {
 			mid : mid
 		};
 		$.get(url, param, function(data) {
 			if (data) {
+				var playlist = [{
+					title : data.song,
+					artist : data.singer,
+					mp3 : data.mp3_url,
+					ogg : data.mp3_url,
+					poster : data.cover_url
+				}];
+				myPlaylist = new jPlayerPlaylist(cssSelector, playlist, options);
 				// 播放
-				$unique.music.loadAudio(data.mp3_url, data.song);
+				$("#jquery_jplayer").jPlayer("playHeadTime", 0);
+				//$unique.music.loadAudio(data.mp3_url, data.song);
 			}
 		}, 'json');
 	}
@@ -65,128 +103,5 @@ $unique.music.download = function(mid, downloadUrl) {
 		$.get(url, param, function(data) {
 			window.open(downloadUrl);
 		});
-	}
-}
-
-/**
- * 初始化音频设置
- */
-$unique.music.initAudio = function() {
-	var _audio;
-	if (audioEl) {
-		return;
-	} // 如果存在,说明已经初始化
-	if (window['Audio'] && (_audio = new Audio()).canPlayType('audio/mpeg')) {
-		_audio.addEventListener('canplay', onCanPlay, false);
-		_audio.addEventListener('play', onPlay, false);
-		_audio.addEventListener('pause', onPause, false);
-		_audio.addEventListener('ended', onEnded, false);
-		_audio.addEventListener('error', onError, false);
-		_audio.addEventListener('timeupdate', onTimeUpdate, false);
-		_audio.volume = 0.5;
-		document.getElementById('player').appendChild(_audio);
-
-		audioEl = _audio;
-		titleEl = document.getElementById('title');
-		timeEl = document.getElementById('time');
-		rangeEl = document.getElementById('range');
-		playEl = document.getElementById('play');
-		volumeEl = document.getElementById('volume');
-
-		volumeEl.addEventListener('change', onVolumeChange, false);
-		rangeEl.addEventListener('change', onRangeChange, false);
-		playEl.addEventListener('click', onPlayButtonClick, false);
-	} else {
-		alert('Oops, nice browser.');
-		return;
-	}
-}
-/**
- * 加载mp3
- * 
- * @param url
- * @param title
- */
-$unique.music.loadAudio = function(url, title) {
-	if (!audioEl) {
-		return;
-	}
-	var name = title || url.replace(/^.*\//, '').replace(/[#\?].*$/, '')
-			|| 'Unknown';
-	titleEl.innerHTML = '<i class="icon-music">&nbsp;</i>' + name;
-	rangeEl.value = 0;
-	rangeEl.disabled = true;
-	timeEl.innerHTML = '--:--/--:--';
-	playEl.innerHTML = '加载中';
-	audioEl.autoplay = true;
-	audioEl.src = url;
-	// audioEl.load();
-}
-function onCanPlay() {
-	rangeEl.disabled = false;
-}
-function onPlay() {
-	playEl.innerHTML = '暂停';
-}
-function onPause() {
-	playEl.innerHTML = '播放';
-}
-function onEnded() {
-	audioEl.pause();
-	audioEl.currentTime = 0;
-}
-function onError() {
-	rangeEl.disabled = true;
-	titleEl.innerHTML = '<span style="color:red">加载错误:' + titleEl.innerHTML
-			+ '</span>';
-	playEl.innerHTML = '已停止';
-}
-function onTimeUpdate() {
-	var pos = audioEl.currentTime, dora = audioEl.duration;
-	timeEl.innerHTML = formatTime(pos) + '/' + formatTime(dora);
-	// console.info(pos,dora);
-	if (isFinite(dora) && dora > 0) {
-		rangeEl.value = pos / dora;
-	}
-}
-function onVolumeChange() {
-	if (!audioEl) {
-		return;
-	}
-	audioEl.volume = volumeEl.value;
-}
-function onRangeChange() {
-	if (!audioEl) {
-		return;
-	}
-	var buf = audioEl.buffered.length ? audioEl.buffered.end(0) : 0, dora = audioEl.duration;
-	if (isFinite(dora) && dora > 0) {
-		var value = rangeEl.value, pos = value * dora;
-		if (pos > buf) {
-			pos = buf;
-		}
-		audioEl.currentTime = pos;
-	}
-}
-function onPlayButtonClick() {
-	if (!audioEl) {
-		return;
-	}
-	if (audioEl.error) { // 加载错误
-		return;
-	} else if (audioEl.readyState < 2) { // 还没可以播放
-		audioEl.autoplay ^= true; // 切换是否autoplay
-	} else if (audioEl.paused) {
-		audioEl.play();
-	} else {
-		audioEl.pause();
-	}
-}
-function formatTime(sec) {
-	if (!isFinite(sec) || sec < 0) {
-		return '--:--';
-	} else {
-		var m = Math.floor(sec / 60), s = Math.floor(sec) % 60;
-		return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
 	}
 }
