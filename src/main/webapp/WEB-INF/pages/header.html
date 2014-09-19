@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="七牛云音乐分享" />
+<link rel="shortcut icon" href="${cdn}/static/img/favicon.ico"
+	type="image/vnd.microsoft.icon" />
+<link rel="stylesheet" href="${cdn}/static/zui/css/zui.min.css" />
+<link rel="stylesheet" href="${cdn}/static/js/nice/jquery.validator.css" />
+<link rel="stylesheet" href="${cdn}/static/css/style.css" />
+<script type="text/javascript">
+			var $unique= {};
+			$unique.root = '${base}';
+			$unique.cdn = '${cdn}';
+		</script>
+<script type="text/javascript"
+	src="${cdn}/static/js/jq/jquery-2.0.min.js"></script>
+</head>
+<body class="container">
+	<!-- header:S -->
+	<header>
+		<ul class="nav nav-secondary nav-justified">
+			<li>
+				<a href="${base}/index"><i class="icon-home"></i>首页 <i class="icon-heart pull-right"></i></a>
+			</li>
+			<li class="active">
+				<a href="${base}/music"><i class="icon-music"></i> 音乐页 <span class="label label-badge label-success pull-right">4</span></a>
+			</li>
+			<li>
+				<a href="###"><i class="icon-comment"></i> 消息 <span
+					class="label label-dot label-danger"></span></a>
+			</li>
+			<li>
+				<a class="dropdown-toggle" data-toggle="dropdown" href="###">
+					更多 <span class="caret"></span></a>
+				<ul class="dropdown-menu">
+					<li><a href="${base}/admin/music">音乐列表</a></li>
+					<li><a href="${base}/admin/music/save_page">添加音乐</a></li>
+				</ul>
+			</li>
+		</ul>
+	</header>
+	<!-- header:E -->
+	

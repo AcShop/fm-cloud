@@ -10,7 +10,7 @@ import org.unique.web.annotation.Action;
 import org.unique.web.annotation.Path;
 
 /**
- * 音乐管理
+ * 后台音乐管理
  * @author:rex
  * @date:2014年8月19日
  * @version:1.0

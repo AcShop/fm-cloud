@@ -1,0 +1,53 @@
+<% include("/header.html"){} %>
+<div style="margin: 10px;">
+	<button class="btn btn-primary" >
+		<i class="icon-edit"></i> 添加音乐
+	</button>
+</div>
+<div>
+	<table class="table table-hover table-bordered">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>曲目名称</th>
+				<th>歌手</th>
+				<th>所属分类</th>
+				<th>收听次数</th>
+				<th>喜欢次数</th>
+				<th>下载次数</th>
+				<th>上传时间</th>
+				<th>上传人</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for(music in pageMap.results!){%>
+			<tr>
+				<td>${musicLP.index}</td>
+				<td><a href="javascript:void(0);" title="编辑">${music.song!}</a></td>
+				<td>${music.singer!}</td>
+				<td>${music.mcat!}</td>
+				<td>${music.listen_count!}</td>
+				<td>${music.like_count!}</td>
+				<td>${music.download_count!}</td>
+				<td>${music.time_zh!}</td>
+				<td>${music.nickname!}</td>
+				<td>
+					<button class="btn btn-info" onclick="window.location.href='${base}/admin/music/edit/${music.id!}'">
+						<i class="icon-edit"></i> 编辑
+					</button>
+					<button class="btn btn-danger" onclick="$unique.admin.music.del(${music.id!})">
+						<i class="icon-edit"></i> 禁用
+					</button>
+					<button class="btn btn-danger" onclick="$unique.admin.music.del(${music.id!})">
+						<i class="icon-edit"></i> 删除
+					</button>
+				</td>
+			</tr>
+			<% }%>
+		</tbody>
+	</table>
+</div>
+<% include("/common.html"){} %>
+<script type="text/javascript" src="${cdn}/static/js/admin/music.js"></script>
+<% include("/footer.html"){} %>
