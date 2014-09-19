@@ -29,6 +29,7 @@ public class BaseInterceptor extends GlobalInterceptor{
 	    //设置basepath
 	    String basePath = request.getContextPath();
 	    request.setAttribute("base", basePath);
+	    request.setAttribute("static_v", "1.0");
 	    request.setAttribute("cdn", request.getContextPath());
 	    //request.setAttribute("cdn", QiniuConst.DOMAIN);
 	    

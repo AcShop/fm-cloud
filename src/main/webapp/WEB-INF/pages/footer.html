@@ -1,5 +1,39 @@
 		
-		
-		
+	<footer id="footer" class="clearfix">
+	</footer>
+	
+	<script type="text/javascript" src="${cdn}/static/js/jq/jquery.form.js?v=${static_v}"></script>
+	<script type="text/javascript" src="${cdn}/static/zui/js/zui.min.js?v=${static_v}"></script>
+	<script type="text/javascript" src="${cdn}/static/js/nice/jquery.validator.js?v=${static_v}"></script>
+	<script type="text/javascript" src="${cdn}/static/js/nice/local/zh_CN.js?v=${static_v}"></script>
+	<script type="text/javascript" src="${cdn}/static/js/art/artDialog.js?skin=default"></script>
+	<script type="text/javascript">
+	var $unique = {};
+	$unique.music = {};
+	$unique.admin = {};
+	$unique.admin.music = {};
+	$unique.base = '${base}';
+	$unique.cdn = '${cdn}';
+	/**
+	 * 弹出窗
+	 */
+	$unique.alert = function(content_, lock_, width_){
+		art.dialog({
+			lock: lock_ || true,
+		    width: width_ || '20em',
+		    icon: 'warning',
+		    content: content_
+		});
+	}
+	
+	</script>
+	<%
+		for(js_src in jsList!){%>
+			<script type="text/javascript" charset="utf-8" src="${cdn}/static/js/${js_src}?v=${static_v}"></script>
+	<%	}%>
+	<!-- 
+	<a class="bshareDiv" href="http://www.bshare.cn/share">分享按钮</a>
+	<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#uuid=&amp;style=5&amp;fs=4&amp;bgcolor=Purple"></script>
+	 -->
 	</body>
 </html>

@@ -96,8 +96,6 @@
 		  <version>0.5.0</version>
 		</dependency>
 		
-		
-		
 		<!-- beetl -->
 		<dependency>
 			<groupId>org.beetl</groupId>
