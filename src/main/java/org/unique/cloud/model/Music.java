@@ -22,6 +22,7 @@ public class Music extends Model<Music> {
 	private String cover_path;
 	private String introduce;
 	private String cids;
+	private String tags;
 	private Integer listen_count;
 	private Integer like_count;
 	private Integer download_count;
@@ -124,6 +125,14 @@ public class Music extends Model<Music> {
 	
 	public Integer getCreate_time() {
 		return this.create_time;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
 
 }

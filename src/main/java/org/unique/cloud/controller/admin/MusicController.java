@@ -49,9 +49,9 @@ public class MusicController extends BaseController {
 		boolean flag = false;
 		
 		if(null != mid){
-			flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids);
+			flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, null);
 		} else{
-			flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids);
+			flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, null);
 		}
 		
 		if(flag){

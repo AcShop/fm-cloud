@@ -48,7 +48,7 @@ public class MusicServiceImpl implements MusicService {
 
 	@Override
 	public boolean save(Integer uid, String singer, String song, String song_path, String cover_path, String introduce,
-			String cids) {
+			String cids, String tags) {
 		int count = 0;
 		//1 上传到七牛
 		String random = DateUtil.convertDateToInt(new Date()) + StringUtils.randomNum(4);
@@ -88,8 +88,8 @@ public class MusicServiceImpl implements MusicService {
 		//2 保存数据库
 		try {
 			count = Music.db.update(
-					"insert into t_music(uid, singer, song, song_path, cover_path, introduce, cids, create_time) "
-							+ "values(?, ?, ?, ?, ?, ?, ?, ?)", uid, singer, song, key, cover_key, introduce, cids,
+					"insert into t_music(uid, singer, song, song_path, cover_path, introduce, cids, tags, create_time) "
+							+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)", uid, singer, song, key, cover_key, introduce, cids, tags,
 					DateUtil.getCurrentTime());
 		} catch (UpdateException e) {
 			logger.warn("添加音乐失败：" + e.getMessage());
@@ -100,17 +100,17 @@ public class MusicServiceImpl implements MusicService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getList(Integer uid, String singer, String song, String order) {
+	public List<Map<String, Object>> getList(Integer uid, String singer, String song, String tag, String order) {
 		SqlBase base = SqlBase.select("select t.* from t_music t");
-		base.likeLeft("uid", uid).likeLeft("singer", singer).likeLeft("song", song).order(order);
+		base.likeLeft("uid", uid).likeLeft("singer", singer).likeLeft("song", song).like("tags", tag).order(order);
 		List<Music> list = Music.db.findList(base.getSQL(), base.getParams());
 		return this.getMusicMapList(list);
 	}
 
 	@Override
-	public Page<Music> getPageList(Integer uid, String singer, String song, Integer page, Integer pageSize, String order) {
+	public Page<Music> getPageList(Integer uid, String singer, String song, String tag, Integer page, Integer pageSize, String order) {
 		SqlBase base = SqlBase.select("select t.* from t_music t");
-		base.likeLeft("uid", uid).likeLeft("singer", singer).like("song", song).order(order);
+		base.likeLeft("uid", uid).likeLeft("singer", singer).like("song", song).like("tags", tag).order(order);
 		return Music.db.findListPage(page, pageSize, base.getSQL(), base.getParams());
 	}
 
@@ -161,7 +161,7 @@ public class MusicServiceImpl implements MusicService {
 
 	@Override
 	public int update(Integer id, String singer, String song, String song_path, String cover_path, String introduce,
-			String cids) {
+			String cids, String tags) {
 		int count = 0;
 		if (null != id) {
 
@@ -195,7 +195,7 @@ public class MusicServiceImpl implements MusicService {
 
 					base.set("cover_path", cover_key);
 				}
-				base.set("introduce", introduce).set("cids", cids).eq("id", id);
+				base.set("introduce", introduce).set("cids", cids).set("tags", tags).eq("id", id);
 				try {
 					count = Music.db.update(base.getSQL(), base.getParams());
 				} catch (UpdateException e) {
@@ -302,9 +302,9 @@ public class MusicServiceImpl implements MusicService {
 	}
 
 	@Override
-	public Page<Map<String, Object>> getPageMapList(Integer uid, String singer, String song, Integer page,
-			Integer pageSize, String order) {
-		Page<Music> pageList = this.getPageList(uid, singer, song, page, pageSize, order);
+	public Page<Map<String, Object>> getPageMapList(Integer uid, String singer, String song, String tag,
+			Integer page, Integer pageSize, String order) {
+		Page<Music> pageList = this.getPageList(uid, singer, song, tag, page, pageSize, order);
 		
 		List<Music> musicList = pageList.getResults();
 		Page<Map<String, Object>> pageMap = new Page<Map<String,Object>>((long) musicList.size(), pageSize, pageSize);

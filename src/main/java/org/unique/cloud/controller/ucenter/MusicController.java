@@ -29,7 +29,7 @@ public class MusicController extends BaseController {
 	public void index(){
 		String singer = this.getPara("singer");
 		String song = this.getPara("song");
-		Page<Music> musicPage = musicService.getPageList(uid, singer, song, page, pageSize, "create_time");
+		Page<Music> musicPage = musicService.getPageList(uid, singer, song, null, page, pageSize, "create_time");
 		this.setAttr("page", musicPage);
 		this.render("index");
 	}
@@ -62,9 +62,9 @@ public class MusicController extends BaseController {
 		boolean flag = false;
 		
 		if(null != mid){
-			flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids);
+			flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, null);
 		} else{
-			flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids);
+			flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, null);
 		}
 		
 		if(flag){

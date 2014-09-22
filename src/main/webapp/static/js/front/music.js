@@ -162,7 +162,39 @@ $unique.music.tagclick = function(tag_type){
 	}
 	// 最新曲目
 	if(tag_type == 2){
-		
+		url = $unique.base + '/m/new_music';
+		$.get(url, null, function(r) {
+			if(r){
+				var musicList = [];
+				var data = r.results;
+				for(m in data){
+					var mid = data[m].id;
+					var cover_url = (null == data[m].cover_url || data[m].cover_url === '') ? './static/img/music/default-music.jpg' : data[m].cover_path;
+					var introduce = (data[m].introduce == '') ? data[m].song : introduce;
+					var inner = '<div class="col-md-4 col-sm-6 col-lg-3 music" id="m-'+ mid +'">'
+								+ '	<div class="card">'
+								+ '		<div class="media-wrapper">'
+								+ '			<img onclick="$unique.music.playerMp3('+ mid +')" title="'+data[m].song+'" src="'+cover_url+'">'
+								+ '		</div>'
+								+ '		<span class="caption">'+introduce+'</span>'
+								+ '		<div class="card-heading">'
+								+ '			<span title="'+data[m].song+'" class="pull-left song-name">'
+								+ '				<strong>'+data[m].song+'</strong>'
+								+ '			</span>'
+								+ '			<div style="margin-top: 20px;" class="profile">'
+								+ '				<span title="有'+data[m].like_count+'人喜欢这首歌" onclick="$unique.music.like(this,'+mid+')"><i class="icon-heart-empty"></i> <span class="like-count">1</span></span>&nbsp;&nbsp;'
+								+ '				<span title="下载：'+data[m].song+'" onclick="$unique.music.download(\''+mid+', '+data[m].mp3_url+'\')"><i class="icon-arrow-down"></i> 下载</span>&nbsp;&nbsp;' 
+								+ '				<span><i class="icon-time"></i> '+data[m].date_zh+'</span>'
+								+ '			</div>'
+								+ '		</div>'
+								+ '	</div>'
+								+ '</div>';
+					musicList.push(inner);
+				}
+				alert(musicList);
+				$('#music-list').html(musicList);
+			}
+		});
 	}
 	// 个性化标签
 	if(tag_type == 3){
