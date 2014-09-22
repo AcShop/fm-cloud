@@ -1,6 +1,7 @@
 package org.unique.cloud.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.unique.cloud.model.User;
 import org.unique.plugin.dao.Page;
@@ -96,6 +97,8 @@ public interface UserService {
 	 * @return
 	 */
 	Page<User> getPageList(String username, String email, Integer status, Integer page, Integer pageSize, String order);
+	
+	Page<Map<String, Object>> getPageMapList(String username, String email, Integer status, Integer page, Integer pageSize, String order);
 	
 	/**
 	 * 增加剩余空间

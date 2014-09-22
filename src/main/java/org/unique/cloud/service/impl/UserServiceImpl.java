@@ -1,6 +1,7 @@
 package org.unique.cloud.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.unique.cloud.model.Open;
 import org.unique.cloud.model.User;
@@ -8,7 +9,9 @@ import org.unique.cloud.service.ActiveService;
 import org.unique.cloud.service.OpenService;
 import org.unique.cloud.service.UserService;
 import org.unique.cloud.util.Base64;
+import org.unique.cloud.util.BeanUtil;
 import org.unique.cloud.util.EncrypHandler;
+import org.unique.common.tools.CollectionUtil;
 import org.unique.common.tools.DateUtil;
 import org.unique.common.tools.StringUtils;
 import org.unique.ioc.annotation.Autowired;
@@ -181,6 +184,36 @@ public class UserServiceImpl implements UserService {
 			count = 0;
 		}
 		return count;
+	}
+
+	@Override
+	public Page<Map<String, Object>> getPageMapList(String username, String email, Integer status, Integer page,
+			Integer pageSize, String order) {
+		Page<User> pageList = this.getPageList(username, email, status, page, pageSize, order);
+		
+		List<User> userList = pageList.getResults();
+		Page<Map<String, Object>> pageMap = new Page<Map<String,Object>>((long) userList.size(), pageSize, pageSize);
+		
+		List<Map<String, Object>> listMap = CollectionUtil.newArrayList();
+		for (int i = 0, len = userList.size(); i < len; i++) {
+			User user = userList.get(i);
+			if(null != user){
+				listMap.add(this.getMap(user, null));
+			}
+		}
+		pageMap.setResults(listMap);
+		return pageMap;
+	}
+
+	private Map<String, Object> getMap(User user, Integer uid) {
+		Map<String, Object> resultMap = CollectionUtil.newHashMap();
+		if (null == user) {
+			user = this.find(uid, null, null);
+		}
+		if (null != user) {
+			resultMap = BeanUtil.toMap(user);
+		}
+		return resultMap;
 	}
 
 }

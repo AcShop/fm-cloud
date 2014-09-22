@@ -97,3 +97,79 @@ $unique.music.download = function(mid, downloadUrl) {
 		});
 	}
 }
+/**
+ * 热门歌曲
+ */
+$unique.music.tagclick = function(tag_type){
+	var url = '';
+	//随机播放
+	if(tag_type == 0){
+		url = $unique.base + '/m/random';
+		$.get(url, null, function(data) {
+			if(data){
+				var playList = [];
+				for(m in data){
+					var p = {
+						title: data[m].song,
+		                artist: data[m].singer,
+		                mp3: data[m].mp3_url,
+		                poster: data[m].cover_url
+					};
+					playList.push(p);
+				}
+				myPlaylist.setPlaylist(playList);
+				//设置自动播放
+				myPlaylist.option("autoPlay", true);
+				myPlaylist.play(0);
+			}
+		});
+	}
+	// 热门曲目
+	if(tag_type == 1){
+		url = $unique.base + '/m/hot';
+		$.get(url, null, function(r) {
+			if(r){
+				var musicList = [];
+				var data = r.results;
+				for(m in data){
+					var mid = data[m].id;
+					var cover_url = (null == data[m].cover_url || data[m].cover_url === '') ? './static/img/music/default-music.jpg' : data[m].cover_path;
+					var introduce = (data[m].introduce == '') ? data[m].song : introduce;
+					var inner = '<div class="col-md-4 col-sm-6 col-lg-3 music" id="m-'+ mid +'">'
+								+ '	<div class="card">'
+								+ '		<div class="media-wrapper">'
+								+ '			<img onclick="$unique.music.playerMp3('+ mid +')" title="'+data[m].song+'" src="'+cover_url+'">'
+								+ '		</div>'
+								+ '		<span class="caption">'+introduce+'</span>'
+								+ '		<div class="card-heading">'
+								+ '			<span title="'+data[m].song+'" class="pull-left song-name">'
+								+ '				<strong>'+data[m].song+'</strong>'
+								+ '			</span>'
+								+ '			<div style="margin-top: 20px;" class="profile">'
+								+ '				<span title="有'+data[m].like_count+'人喜欢这首歌" onclick="$unique.music.like(this,'+mid+')"><i class="icon-heart-empty"></i> <span class="like-count">1</span></span>&nbsp;&nbsp;'
+								+ '				<span title="下载：'+data[m].song+'" onclick="$unique.music.download(\''+mid+', '+data[m].mp3_url+'\')"><i class="icon-arrow-down"></i> 下载</span>&nbsp;&nbsp;' 
+								+ '				<span><i class="icon-time"></i> '+data[m].date_zh+'</span>'
+								+ '			</div>'
+								+ '		</div>'
+								+ '	</div>'
+								+ '</div>';
+					musicList.push(inner);
+				}
+				alert(musicList);
+				$('#music-list').html(musicList);
+			}
+		});
+	}
+	// 最新曲目
+	if(tag_type == 2){
+		
+	}
+	// 个性化标签
+	if(tag_type == 3){
+		
+	}
+	// 音乐专辑
+	if(tag_type == 4){
+		
+	}
+}

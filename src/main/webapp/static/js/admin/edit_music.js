@@ -1,6 +1,6 @@
 $(function() {
 	$('#submit_btn').click(function() {
-		var url = $unique.base + "/admin/music/save";
+		var url = $unique.base + "/admin/m/save";
 		var paramter = $('#upload_music_form')
 				.serializeArray();
 		$.post(url, paramter, function(data) {

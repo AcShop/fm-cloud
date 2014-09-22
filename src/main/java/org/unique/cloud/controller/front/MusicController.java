@@ -35,26 +35,26 @@ public class MusicController extends BaseController {
 	/**
 	 * 最热门的10首歌
 	 */
-	public void hot10(){
-		Page<Music> top10List = musicService.getPageList(null, null, null, 1, 10, "like_count desc");
-		this.renderJson(top10List.getResults());
+	public void hot(){
+		Page<Map<String, Object>> top10List = musicService.getPageMapList(null, null, null, 1, 10, "like_count desc");
+		this.renderJson(top10List);
 	}
 	
 	/**
-	 * 按歌名/歌手名/分类查询
+	 * 按歌名查询
 	 */
 	public void search(){
-		Integer search_type = this.getParaToInt("search_type");
-		if(null != search_type){
-			//1、 按歌名 2、按歌手 3、按分类
-		}
+		String song = this.getPara("song");
+		String singer = this.getPara("singer");
+		Page<Map<String, Object>> top10List = musicService.getPageMapList(null, singer, song, 1, 10, "like_count desc");
+		this.renderJson(top10List);
 	}
 	
 	/**
 	 * 随机推荐
 	 */
 	public void random(){
-		List<Music> randomList = musicService.getRandom(10);
+		List<Map<String, Object>> randomList = musicService.getRandom(10);
 		this.renderJson(randomList);
 	}
 	

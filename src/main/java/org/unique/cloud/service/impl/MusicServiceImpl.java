@@ -100,16 +100,17 @@ public class MusicServiceImpl implements MusicService {
 	}
 
 	@Override
-	public List<Music> getList(Integer uid, String singer, String song, String order) {
+	public List<Map<String, Object>> getList(Integer uid, String singer, String song, String order) {
 		SqlBase base = SqlBase.select("select t.* from t_music t");
 		base.likeLeft("uid", uid).likeLeft("singer", singer).likeLeft("song", song).order(order);
-		return Music.db.findList(base.getSQL(), base.getParams());
+		List<Music> list = Music.db.findList(base.getSQL(), base.getParams());
+		return this.getMusicMapList(list);
 	}
 
 	@Override
 	public Page<Music> getPageList(Integer uid, String singer, String song, Integer page, Integer pageSize, String order) {
 		SqlBase base = SqlBase.select("select t.* from t_music t");
-		base.likeLeft("uid", uid).likeLeft("singer", singer).likeLeft("song", song).order(order);
+		base.likeLeft("uid", uid).likeLeft("singer", singer).like("song", song).order(order);
 		return Music.db.findListPage(page, pageSize, base.getSQL(), base.getParams());
 	}
 
@@ -207,9 +208,26 @@ public class MusicServiceImpl implements MusicService {
 	}
 
 	@Override
-	public List<Music> getRandom(Integer count) {
-		return Music.db.findList("select * from t_music t1 " + "join(select max(id) id from  t_music) t2 "
+	public List<Map<String, Object>> getRandom(Integer count) {
+		List<Music> list = Music.db.findList("select t1.id,t1.singer,t1.song,t1.song_path,t1.like_count from t_music t1 " + "join(select max(id) id from  t_music) t2 "
 				+ "on (t1.id >= floor( t2.id*rand() )) limit ?", count);
+		return this.getMusicMapList(list);
+	}
+	
+	/**
+	 * 私有的list转map
+	 * @param list
+	 * @return
+	 */
+	private List<Map<String, Object>> getMusicMapList(List<Music> list){
+		List<Map<String, Object>> mapList = CollectionUtil.newArrayList();
+		for(int i = 0,len=list.size(); i<len; i++){
+			Music music = list.get(i);
+			if(null != music){
+				mapList.add(this.getMap(music, null));
+			}
+		}
+		return mapList;
 	}
 
 	@Override
@@ -291,13 +309,7 @@ public class MusicServiceImpl implements MusicService {
 		List<Music> musicList = pageList.getResults();
 		Page<Map<String, Object>> pageMap = new Page<Map<String,Object>>((long) musicList.size(), pageSize, pageSize);
 		
-		List<Map<String, Object>> listMap = CollectionUtil.newArrayList();
-		for (int i = 0, len = musicList.size(); i < len; i++) {
-			Music music = musicList.get(i);
-			if(null != music){
-				listMap.add(this.getMap(music, null));
-			}
-		}
+		List<Map<String, Object>> listMap = this.getMusicMapList(musicList);
 		pageMap.setResults(listMap);
 		return pageMap;
 	}

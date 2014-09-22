@@ -61,14 +61,14 @@ public interface MusicService {
 	 * @param order
 	 * @return
 	 */
-	List<Music> getList(Integer uid, String singer, String song, String order);
+	List<Map<String, Object>> getList(Integer uid, String singer, String song, String order);
 	
 	/**
 	 * 随机获取音乐
 	 * @param count
 	 * @return
 	 */
-	List<Music> getRandom(Integer count);
+	List<Map<String, Object>> getRandom(Integer count);
 	
 	/**
 	 * 分页查询音乐列表
