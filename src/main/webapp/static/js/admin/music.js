@@ -10,7 +10,7 @@ $(function() {
 $unique.admin.music.del = function(mid){
 	
 	if (mid && downloadUrl) {
-		var url = $unique.root + '/hit';
+		var url = $unique.base + '/hit';
 		var param = {
 			mid : mid,
 			type : 3

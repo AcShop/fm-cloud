@@ -11,10 +11,12 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
+import org.unique.cloud.service.FileService;
 import org.unique.common.tools.CollectionUtil;
 import org.unique.common.tools.DateUtil;
 import org.unique.common.tools.FileUtil;
 import org.unique.common.tools.StringUtils;
+import org.unique.ioc.annotation.Autowired;
 import org.unique.web.annotation.Path;
 import org.unique.web.core.Const;
 import org.unique.web.core.Controller;
@@ -41,6 +43,9 @@ public class UploadController extends Controller {
 	private static final String FILE_NAME = "file_name";
 
 	private String savePath = "";
+	
+	@Autowired
+	private FileService fileService;
 
 	/**
 	 * 上传临时文件

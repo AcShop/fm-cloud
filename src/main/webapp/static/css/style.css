@@ -19,3 +19,5 @@ body {
 .clear{
 	clear: both;
 }
+
+#upload_music_form .n-invalid {border: 1px solid #f00;}

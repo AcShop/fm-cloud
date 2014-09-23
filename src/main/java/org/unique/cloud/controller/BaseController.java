@@ -36,6 +36,8 @@ public class BaseController extends Controller {
 		User user = SessionUtil.getLoginUser();
 		if(null != user){
 			uid = user.getUid();
+		} else{
+			uid = 1;
 		}
 	}
 

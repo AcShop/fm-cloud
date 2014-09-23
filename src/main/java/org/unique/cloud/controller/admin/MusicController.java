@@ -1,8 +1,11 @@
 package org.unique.cloud.controller.admin;
 
+import java.util.List;
 import java.util.Map;
 
 import org.unique.cloud.controller.BaseController;
+import org.unique.cloud.model.Mcat;
+import org.unique.cloud.service.McatService;
 import org.unique.cloud.service.MusicService;
 import org.unique.cloud.util.WebConst;
 import org.unique.ioc.annotation.Autowired;
@@ -20,6 +23,8 @@ public class MusicController extends BaseController {
 
 	@Autowired
 	private MusicService musicService;
+	@Autowired
+	private McatService mcatService;
 	
 	/**
 	 * 上传/编辑音乐页
@@ -32,6 +37,8 @@ public class MusicController extends BaseController {
 			Map<String, Object> music = musicService.getMap(null, mid);
 			this.setAttr("music", music);
 		}
+		List<Mcat> mcatList = mcatService.getList(1);
+		this.setAttr("mcatList", mcatList);
 		this.render("/admin/edit_music");
 	}
 	
@@ -47,11 +54,11 @@ public class MusicController extends BaseController {
 		String introduce = this.getPara("introduce");
 		String cids = this.getPara("cids");
 		boolean flag = false;
-		
+		uid = 1;
 		if(null != mid){
-			flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, null);
+			flag = musicService.update(uid, singer, song, song_path, cover_path, introduce, cids, null, null) > 0;
 		} else{
-			flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, null);
+			flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, null, null);
 		}
 		
 		if(flag){

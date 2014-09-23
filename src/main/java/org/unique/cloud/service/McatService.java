@@ -1,5 +1,7 @@
 package org.unique.cloud.service;
 
+import java.util.List;
+
 import org.unique.cloud.model.Mcat;
 
 
@@ -14,4 +16,5 @@ public interface McatService {
 
 	Mcat get(Integer id);
 	
+	List<Mcat> getList(Integer status);
 }

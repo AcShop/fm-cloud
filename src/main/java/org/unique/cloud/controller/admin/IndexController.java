@@ -39,7 +39,7 @@ public class IndexController extends BaseController {
 	public void music(){
 		String singer = this.getPara("singer");
 		String song = this.getPara("song");
-		Page<Map<String, Object>> musicPage = musicService.getPageMapList(uid, singer, song, null, page, pageSize, "create_time");
+		Page<Map<String, Object>> musicPage = musicService.getPageMapList(uid, singer, song, null, null, page, pageSize, "create_time");
 		this.setAttr("pageMap", musicPage);
 		this.render("music");
 	}

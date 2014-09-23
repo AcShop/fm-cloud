@@ -48,25 +48,25 @@ public class MusicServiceImpl implements MusicService {
 
 	@Override
 	public boolean save(Integer uid, String singer, String song, String song_path, String cover_path, String introduce,
-			String cids, String tags) {
+			String cids, Integer sid, String tags) {
 		int count = 0;
 		//1 上传到七牛
 		String random = DateUtil.convertDateToInt(new Date()) + StringUtils.randomNum(4);
-		String key = AttachUtil.getMusicKey(uid, song_path, random);
+		String song_key = AttachUtil.getMusicKey(uid, song_path, random);
 		String cover_key = "";
 
 		if (StringUtils.isNotBlank(song_path)) {
 			if (FileUtil.exists(song_path)) {
 				//上传歌曲
-				int code = fileService.upload(key, song_path);
+				int code = fileService.upload(song_key, song_path);
 				if (code == 200) {
 					//增加用户剩余空间
-					Entry musicEntry = fileService.getInfo(key);
+					Entry musicEntry = fileService.getInfo(song_key);
 					userService.updateUseSize(uid, +musicEntry.getFsize());
 				}
 			}
 			if (song_path.startsWith("http://")) {
-				cover_key = song_path;
+				song_key = song_path;
 			}
 		}
 
@@ -77,7 +77,7 @@ public class MusicServiceImpl implements MusicService {
 				int code = fileService.upload(cover_key, cover_path);
 				if (code == 200) {
 					//增加用户剩余空间
-					Entry coverEntry = fileService.getInfo(key);
+					Entry coverEntry = fileService.getInfo(song_key);
 					userService.updateUseSize(uid, +coverEntry.getFsize());
 				}
 			}
@@ -88,8 +88,8 @@ public class MusicServiceImpl implements MusicService {
 		//2 保存数据库
 		try {
 			count = Music.db.update(
-					"insert into t_music(uid, singer, song, song_path, cover_path, introduce, cids, tags, create_time) "
-							+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)", uid, singer, song, key, cover_key, introduce, cids, tags,
+					"insert into t_music(uid, singer, song, song_path, cover_path, introduce, cids, sid, tags, create_time) "
+							+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", uid, singer, song, song_key, cover_key, introduce, cids, sid, tags,
 					DateUtil.getCurrentTime());
 		} catch (UpdateException e) {
 			logger.warn("添加音乐失败：" + e.getMessage());
@@ -100,17 +100,17 @@ public class MusicServiceImpl implements MusicService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getList(Integer uid, String singer, String song, String tag, String order) {
+	public List<Map<String, Object>> getList(Integer uid, String singer, String song, Integer sid, String tag, String order) {
 		SqlBase base = SqlBase.select("select t.* from t_music t");
-		base.likeLeft("uid", uid).likeLeft("singer", singer).likeLeft("song", song).like("tags", tag).order(order);
+		base.eq("t.uid", uid).likeLeft("t.singer", singer).likeLeft("t.song", song).like("t.tags", tag).eq("t.sid", sid).order(order);
 		List<Music> list = Music.db.findList(base.getSQL(), base.getParams());
 		return this.getMusicMapList(list);
 	}
 
 	@Override
-	public Page<Music> getPageList(Integer uid, String singer, String song, String tag, Integer page, Integer pageSize, String order) {
+	public Page<Music> getPageList(Integer uid, String singer, String song, Integer sid, String tag, Integer page, Integer pageSize, String order) {
 		SqlBase base = SqlBase.select("select t.* from t_music t");
-		base.likeLeft("uid", uid).likeLeft("singer", singer).like("song", song).like("tags", tag).order(order);
+		base.eq("t.uid", uid).likeLeft("t.singer", singer).like("t.song", song).like("t.tags", tag).eq("t.sid", sid).order(order);
 		return Music.db.findListPage(page, pageSize, base.getSQL(), base.getParams());
 	}
 
@@ -161,7 +161,7 @@ public class MusicServiceImpl implements MusicService {
 
 	@Override
 	public int update(Integer id, String singer, String song, String song_path, String cover_path, String introduce,
-			String cids, String tags) {
+			String cids, Integer sid, String tags) {
 		int count = 0;
 		if (null != id) {
 
@@ -195,7 +195,7 @@ public class MusicServiceImpl implements MusicService {
 
 					base.set("cover_path", cover_key);
 				}
-				base.set("introduce", introduce).set("cids", cids).set("tags", tags).eq("id", id);
+				base.set("introduce", introduce).set("cids", cids).set("tags", tags).set("sid", sid).eq("id", id);
 				try {
 					count = Music.db.update(base.getSQL(), base.getParams());
 				} catch (UpdateException e) {
@@ -238,9 +238,6 @@ public class MusicServiceImpl implements MusicService {
 				Music.db.update("update t_music set like_count=(like_count + 1) where id = ?", id);
 				break;
 			case 2:
-				Music.db.update("update t_music set listen_count=(listen_count + 1) where id = ?", id);
-				break;
-			case 3:
 				Music.db.update("update t_music set download_count=(download_count + 1) where id = ?", id);
 				break;
 			}
@@ -259,7 +256,7 @@ public class MusicServiceImpl implements MusicService {
 			if (StringUtils.isNotBlank(music.getSong_path())) {
 				if (music.getSong_path().startsWith("http://")) {
 					resultMap.put("mp3_url", music.getSong_path());
-				} else {
+				} else{
 					String music_url = QiniuApi.getUrlByKey(music.getSong_path());
 					resultMap.put("mp3_url", music_url);
 				}
@@ -268,7 +265,7 @@ public class MusicServiceImpl implements MusicService {
 			if(StringUtils.isNotBlank(music.getCover_path())){
 				if (music.getCover_path().startsWith("http://")) {
 					resultMap.put("cover_url", music.getCover_path());
-				} else {
+				} else{
 					String cover_url = QiniuApi.getUrlByKey(music.getCover_path());
 					resultMap.put("cover_url", cover_url);
 				}
@@ -286,6 +283,7 @@ public class MusicServiceImpl implements MusicService {
 					}
 				}
 				resultMap.put("mcat", mcatList.toString());
+				resultMap.put("mcatList", mcatList);
 			}
 			// 上传日期
 			if(null != music.getCreate_time()){
@@ -302,9 +300,9 @@ public class MusicServiceImpl implements MusicService {
 	}
 
 	@Override
-	public Page<Map<String, Object>> getPageMapList(Integer uid, String singer, String song, String tag,
-			Integer page, Integer pageSize, String order) {
-		Page<Music> pageList = this.getPageList(uid, singer, song, tag, page, pageSize, order);
+	public Page<Map<String, Object>> getPageMapList(Integer uid, String singer, String song, 
+			Integer sid, String tag, Integer page, Integer pageSize, String order) {
+		Page<Music> pageList = this.getPageList(uid, singer, song, sid, tag, page, pageSize, order);
 		
 		List<Music> musicList = pageList.getResults();
 		Page<Map<String, Object>> pageMap = new Page<Map<String,Object>>((long) musicList.size(), pageSize, pageSize);

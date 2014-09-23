@@ -28,7 +28,7 @@ public class MusicController extends BaseController {
 	 * 最新10首歌
 	 */
 	public void new_music(){
-		Page<Music> top10List = musicService.getPageList(null, null, null, null, 1, 10, "create_time desc");
+		Page<Music> top10List = musicService.getPageList(null, null, null, null, null, 1, 10, "create_time desc");
 		this.renderJson(top10List.getResults());
 	}
 	
@@ -36,7 +36,7 @@ public class MusicController extends BaseController {
 	 * 最热门的10首歌
 	 */
 	public void hot(){
-		Page<Map<String, Object>> top10List = musicService.getPageMapList(null, null, null, null, 1, 10, "like_count desc");
+		Page<Map<String, Object>> top10List = musicService.getPageMapList(null, null, null, null, null, 1, 10, "like_count desc");
 		this.renderJson(top10List);
 	}
 	
@@ -46,7 +46,7 @@ public class MusicController extends BaseController {
 	public void search(){
 		String song = this.getPara("song");
 		String singer = this.getPara("singer");
-		Page<Map<String, Object>> top10List = musicService.getPageMapList(null, singer, song, null, 1, 10, "like_count desc");
+		Page<Map<String, Object>> top10List = musicService.getPageMapList(null, singer, song, null, null, 1, 10, "like_count desc");
 		this.renderJson(top10List);
 	}
 	
@@ -72,7 +72,7 @@ public class MusicController extends BaseController {
 	}
 	
 	/**
-	 * 1喜欢/2收听/3下载音乐 点击+1
+	 * 1喜欢/2下载量
 	 */
 	public void hit(){
 		Integer mid = this.getParaToInt("mid");
