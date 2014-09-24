@@ -122,14 +122,14 @@ public class MusicServiceImpl implements MusicService {
 			Music music = this.get(id);
 			if (null != music) {
 				String key = music.getSong_path();
-				if (StringUtils.isNotBlank(key)) {
+				if (StringUtils.isNotBlank(key) && !key.startsWith("http://")) {
 					Entry musicEntry = fileService.getInfo(key);
 					if (musicEntry.getStatusCode() == 200) {
 						userService.updateUseSize(music.getUid(), -musicEntry.getFsize());
 					}
 				}
 				String cover_key = music.getCover_path();
-				if (StringUtils.isNotBlank(cover_key)) {
+				if (StringUtils.isNotBlank(cover_key) && !cover_key.startsWith("http://")) {
 					Entry coverEntry = fileService.getInfo(cover_key);
 					if (coverEntry.getStatusCode() == 200) {
 						userService.updateUseSize(music.getUid(), -coverEntry.getFsize());

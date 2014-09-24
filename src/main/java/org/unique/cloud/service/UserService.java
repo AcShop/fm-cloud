@@ -107,14 +107,7 @@ public interface UserService {
 	 */
 	int updateUseSize(Integer uid, Long useSpace);
 	
-	/**
-	 * 更新用户状态
-	 * @param uid
-	 * @param email
-	 * @param status
-	 * @return
-	 */
-	int updateStatus(Integer uid, String email, Integer status);
+	int update(Integer uid, String email, String nickName, Long space_size, Integer status);
 
 	/**
 	 * 第三方登录
@@ -134,5 +127,13 @@ public interface UserService {
 	 * @return
 	 */
 	User openBind(Integer type, String openid, String nickName, String email, String ip);
+
+	/**
+	 * 获取user map
+	 * @param user
+	 * @param uid
+	 * @return
+	 */
+	Map<String, Object> getMap(User user, Integer uid);
 	
 }

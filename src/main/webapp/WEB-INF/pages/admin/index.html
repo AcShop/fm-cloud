@@ -1,26 +1,7 @@
-<!DOCTYPE html>
-<html lang="zh-cn">
-<head>
-	<title>后台管理中心</title>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="${cdn}/static/zui/css/zui.min.css" />
-	<link rel="stylesheet" href="${cdn}/static/js/nice/jquery.validator.css" />
-	<link rel="stylesheet" href="${cdn}/static/css/style.css" />
-</head>
-<body>
+<% include("/admin/header.html", {active : 'home'}){} %>
 	<div class="container ">
-		<% include("/common/header.html"){} %>
+		
 		<!-- content:S -->
 		后台中心
 	</div>
-	<% include("/common/common.html"){} %>
-	<script type="text/javascript" src="${cdn}/static/js/jq/jquery-2.0.min.js"></script>
-	<script type="text/javascript" src="${cdn}/static/zui/js/zui.min.js"></script>
-	<script type="text/javascript" src="${cdn}/static/js/nice/jquery.validator.js"></script>
-	<script type="text/javascript" src="${cdn}/static/js/nice/local/zh_CN.js"></script>
-	<script type="text/javascript" src="${cdn}/static/js/art/artDialog.js?skin=default"></script>
-	<script type="text/javascript" src="${cdn}/static/js/admin/login.js"></script>
-</body>
-</html>
+<% include("/admin/footer.html"){} %>

@@ -9,7 +9,6 @@ import org.unique.cloud.service.MusicService;
 import org.unique.cloud.service.SpecialService;
 import org.unique.cloud.service.UserService;
 import org.unique.cloud.util.SessionUtil;
-import org.unique.cloud.util.WebConst;
 import org.unique.common.tools.StringUtils;
 import org.unique.ioc.annotation.Autowired;
 import org.unique.plugin.dao.Page;
@@ -52,26 +51,6 @@ public class IndexController extends BaseController {
 		if (null != user) {
 			//成功
 		}
-	}
-
-	/**
-	 * 用户登录
-	 */
-	public void admin() {
-		String step = this.getPara("step");
-		if (null != step && step.equals("login")) {
-			String email = this.getPara("email");
-			String pass_word = this.getPara("pass_word");
-			User user = userService.login(email, pass_word);
-			//登录成功
-			if (null != user) {
-				SessionUtil.setLoginUser(user);
-				this.renderText(WebConst.MSG_SUCCESS);
-			} else {
-				this.renderText(WebConst.MSG_FAILURE);
-			}
-		}
-		this.render("login");
 	}
 
 	/**

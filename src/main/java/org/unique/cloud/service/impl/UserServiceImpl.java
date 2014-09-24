@@ -10,7 +10,7 @@ import org.unique.cloud.service.OpenService;
 import org.unique.cloud.service.UserService;
 import org.unique.cloud.util.Base64;
 import org.unique.cloud.util.BeanUtil;
-import org.unique.cloud.util.EncrypHandler;
+import org.unique.cloud.util.EncrypUtil;
 import org.unique.common.tools.CollectionUtil;
 import org.unique.common.tools.DateUtil;
 import org.unique.common.tools.StringUtils;
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	public User register(String nickname, String email, String password, String ip) {
 		User user = null;
 		//密码规则:md5(email+password)
-		String md5pwd = EncrypHandler.md5(email + password);
+		String md5pwd = EncrypUtil.md5(email + password);
 		Integer currtime = DateUtil.getCurrentTime();
 		int count = 0;
 		try {
@@ -87,14 +87,14 @@ public class UserServiceImpl implements UserService {
 		int count = 0;
 		if (null != uid) {
 			try {
-				count = User.db.delete("delete from t_user u where u.uid = ?", uid);
+				count = User.db.delete("delete from t_user where uid = ?", uid);
 			} catch (UpdateException e) {
 				count = 0;
 			}
 		}
 		if (StringUtils.isNotBlank(email)) {
 			try {
-				count = User.db.delete("delete from t_user u where u.email = ?", email);
+				count = User.db.delete("delete from t_user where email = ?", email);
 			} catch (UpdateException e) {
 				count = 0;
 			}
@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
 		int count = 0;
 		if (null != uids) {
 			try {
-				count = User.db.delete("delete from t_user u where u.uid in (?)", uids);
+				count = User.db.delete("delete from t_user where uid in (?)", uids);
 			} catch (UpdateException e) {
 				count = 0;
 			}
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User login(String email, String password) {
-		String pwd = EncrypHandler.md5(email + password);
+		String pwd = EncrypUtil.md5(email + password);
 		User user = this.find(null, email, 1, 1);
 		if (null != user && user.getPassword().equals(pwd)) {
 			return user;
@@ -174,10 +174,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int updateStatus(Integer uid, String email, Integer status) {
+	public int update(Integer uid, String email, String nickName, Long space_size, Integer status) {
 		int count = 0;
 		SqlBase base = SqlBase.update("update t_user u");
-		base.set("u.status", status).eq("u.uid", uid).eq("u.email", email);
+		base.set("u.status", status).set("nickName", nickName).set("space_size", space_size).eq("u.uid", uid).eq("u.email", email);
 		try {
 			count = User.db.update(base.getSQL(), base.getParams());
 		} catch (UpdateException e) {
@@ -205,13 +205,20 @@ public class UserServiceImpl implements UserService {
 		return pageMap;
 	}
 
-	private Map<String, Object> getMap(User user, Integer uid) {
+	@Override
+	public Map<String, Object> getMap(User user, Integer uid) {
 		Map<String, Object> resultMap = CollectionUtil.newHashMap();
 		if (null == user) {
 			user = this.find(uid, null, null, null);
 		}
 		if (null != user) {
 			resultMap = BeanUtil.toMap(user);
+			if(null != user.getReg_time()){
+				resultMap.put("reg_time_zh", DateUtil.convertIntToDatePattern(user.getReg_time(), "yyyy/MM/dd HH:mm"));
+			}
+			if(null != user.getLog_time()){
+				resultMap.put("last_login_time", DateUtil.convertIntToDatePattern(user.getLog_time(), "yyyy/MM/dd HH:mm"));
+			}
 		}
 		return resultMap;
 	}

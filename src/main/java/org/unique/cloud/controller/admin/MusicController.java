@@ -18,7 +18,7 @@ import org.unique.web.annotation.Path;
  * @date:2014年8月19日
  * @version:1.0
  */
-@Path("/admin/m")
+@Path("/admin/music")
 public class MusicController extends BaseController {
 
 	@Autowired

@@ -3,7 +3,7 @@ package org.unique.cloud.service.impl;
 import org.unique.cloud.model.Setting;
 import org.unique.cloud.model.User;
 import org.unique.cloud.service.SettingService;
-import org.unique.cloud.util.EncrypHandler;
+import org.unique.cloud.util.EncrypUtil;
 import org.unique.common.tools.StringUtils;
 import org.unique.ioc.annotation.Service;
 import org.unique.plugin.dao.SqlBase;
@@ -64,10 +64,10 @@ public class SettingServiceImpl implements SettingService {
 	 	Setting setAdmin = this.get("admin_name");
 	 	if(null != setAdmin && setAdmin.getValue().equals(login_name)){
 	 		//密码规则: md5(loginname+pass_word)
-	 		String pwd = EncrypHandler.md5(login_name + pass_word);
+	 		String pwd = EncrypUtil.md5(login_name + pass_word);
 	 		Setting pass = this.get("admin_pass");
 	 		if(pass.getValue().equals(pwd)){
-	 			return EncrypHandler.md5(login_name);
+	 			return EncrypUtil.md5(login_name);
 	 		}
 	 	}
 		return null;

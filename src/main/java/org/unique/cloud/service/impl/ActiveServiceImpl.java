@@ -43,7 +43,7 @@ public class ActiveServiceImpl implements ActiveService {
 	public void active(String code) {
 		try {
 			String email = Base64.decoder(code);
-			userService.updateStatus(null, email, 1);
+			userService.update(null, email, null, null, 1);
 		} catch (UnsupportedEncodingException e) {
 			logger.warn("激活激活码失败：" + e.getMessage());
 		}

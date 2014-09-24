@@ -8,7 +8,7 @@ import java.security.MessageDigest;
  * @author Michael
  *
  */
-public class EncrypHandler {
+public class EncrypUtil {
 
 	private static final String ALGORITHM = "MD5";
 
@@ -75,13 +75,13 @@ public class EncrypHandler {
 	}
 	
 	public static String sha1(final String str){
-		return EncrypHandler.encode("SHA1", str);
+		return EncrypUtil.encode("SHA1", str);
 	}
 
 	public static void main(String[] args) {
-		System.out.println("111111 MD5  :" + EncrypHandler.md5("111111"));
-		System.out.println("111111 MD5  :" + EncrypHandler.encode("MD5", "111111"));
-		System.out.println("111111 SHA1 :" + EncrypHandler.sha1("111111"));
+		System.out.println("111111 MD5  :" + EncrypUtil.md5("111111"));
+		System.out.println("111111 MD5  :" + EncrypUtil.encode("MD5", "111111"));
+		System.out.println("111111 SHA1 :" + EncrypUtil.sha1("111111"));
 	}
 
 }

@@ -17,4 +17,5 @@ public interface McatService {
 	Mcat get(Integer id);
 	
 	List<Mcat> getList(Integer status);
+	
 }
