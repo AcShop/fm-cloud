@@ -9,10 +9,12 @@ import org.unique.cloud.service.SpecialService;
 import org.unique.cloud.util.BeanUtil;
 import org.unique.common.tools.CollectionUtil;
 import org.unique.common.tools.DateUtil;
+import org.unique.ioc.annotation.Service;
 import org.unique.plugin.dao.Page;
 import org.unique.plugin.dao.SqlBase;
 import org.unique.plugin.db.exception.UpdateException;
 
+@Service
 public class SpecialServiceImpl implements SpecialService {
 
 	private Logger logger = Logger.getLogger(SpecialServiceImpl.class);

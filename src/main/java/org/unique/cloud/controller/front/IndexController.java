@@ -57,7 +57,7 @@ public class IndexController extends BaseController {
 	/**
 	 * 用户登录
 	 */
-	public void login() {
+	public void admin() {
 		String step = this.getPara("step");
 		if (null != step && step.equals("login")) {
 			String email = this.getPara("email");
@@ -155,13 +155,14 @@ public class IndexController extends BaseController {
 		this.setAttr("pageData", pageList.getResults());
 		this.render("music");
 	}
-	
+
 	/**
 	 * 电台列表
 	 */
-	public void radio(){
+	public void radio() {
 		//获取推荐的前9个
-		
+		Page<Map<String, Object>> specialPage = specialService.getPageMapList(null, null, 1, 1, 1, 9, "last_time desc");
+		this.setAttr("specialPage", specialPage.getResults());
 		this.render("radio");
 	}
 }

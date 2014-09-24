@@ -28,15 +28,15 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ActiveService activeService;
 
-	private User find(Integer uid, String email, Integer status) {
+	private User find(Integer uid, String email, Integer is_admin, Integer status) {
 		SqlBase base = SqlBase.select("select * from t_user u");
-		base.eq("u.uid", uid).eq("u.email", email).eq("u.status", status);
+		base.eq("u.uid", uid).eq("is_admin", is_admin).eq("u.email", email).eq("u.status", status);
 		return User.db.find(base.getSQL(), base.getParams());
 	}
 
 	@Override
 	public User getByUid(Integer uid) {
-		return this.find(uid, null, null);
+		return this.find(uid, null, null, null);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 			count = 0;
 		}
 		if (count > 0) {
-			user = this.find(null, email, 1);
+			user = this.find(null, email, null, 1);
 			// 生成激活码: sha1(email) 激活码
 			String code = Base64.encoder(email);
 			activeService.save(user.getUid(), code);
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean exists(String email) {
-		return null == this.find(null, email, 1);
+		return null == this.find(null, email, null, 1);
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User login(String email, String password) {
 		String pwd = EncrypHandler.md5(email + password);
-		User user = this.find(null, email, 1);
+		User user = this.find(null, email, 1, 1);
 		if (null != user && user.getPassword().equals(pwd)) {
 			return user;
 		}
@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService {
 		User user = null;
 		Open open = openService.get(null, openid, type);
 		if (null != open) {
-			user = this.find(null, open.getEmail(), 1);
+			user = this.find(null, open.getEmail(), null, 1);
 		}
 		return user;
 	}
@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User get(String email, Integer status) {
-		return this.find(null, email, status);
+		return this.find(null, email, null, status);
 	}
 
 	@Override
@@ -190,14 +190,14 @@ public class UserServiceImpl implements UserService {
 	public Page<Map<String, Object>> getPageMapList(String username, String email, Integer status, Integer page,
 			Integer pageSize, String order) {
 		Page<User> pageList = this.getPageList(username, email, status, page, pageSize, order);
-		
+
 		List<User> userList = pageList.getResults();
-		Page<Map<String, Object>> pageMap = new Page<Map<String,Object>>((long) userList.size(), pageSize, pageSize);
-		
+		Page<Map<String, Object>> pageMap = new Page<Map<String, Object>>((long) userList.size(), pageSize, pageSize);
+
 		List<Map<String, Object>> listMap = CollectionUtil.newArrayList();
 		for (int i = 0, len = userList.size(); i < len; i++) {
 			User user = userList.get(i);
-			if(null != user){
+			if (null != user) {
 				listMap.add(this.getMap(user, null));
 			}
 		}
@@ -208,7 +208,7 @@ public class UserServiceImpl implements UserService {
 	private Map<String, Object> getMap(User user, Integer uid) {
 		Map<String, Object> resultMap = CollectionUtil.newHashMap();
 		if (null == user) {
-			user = this.find(uid, null, null);
+			user = this.find(uid, null, null, null);
 		}
 		if (null != user) {
 			resultMap = BeanUtil.toMap(user);
