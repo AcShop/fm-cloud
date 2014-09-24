@@ -1,0 +1,56 @@
+<% include("/admin/header.html", {active : 'user'}){} %>
+<div style="margin: 10px;">
+	
+</div>
+<div>
+	<table class="table table-hover table-bordered">
+		<thead>
+			<tr>
+				<th>用户编号</th>
+				<th>昵称</th>
+				<th>邮箱</th>
+				<th>注册ip</th>
+				<th>注册时间</th>
+				<th>注册时长</th>
+				<th>最后登录时间</th>
+				<th>用户空间大小</th>
+				<th>已使用空间大小</th>
+				<th>用户状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for(user in userPage.results!){%>
+			<tr>
+				<td>${user.uid}</td>
+				<td><a href="${base}/admin/users/${user.uid!}">${user.nickname!}</a></td>
+				<td>${user.email!}</td>
+				<td>${user.reg_ip!}</td>
+				<td>${user.reg_time_zh!}</td>
+				<td>${user.reg_len!}</td>
+				<td>${user.last_login_time!}</td>
+				<td>${user.space_size!}</td>
+				<td>${user.use_size!}</td>
+				<td>
+					<%
+						if(1 == user.status!){%>
+							正常
+						<%} else if(0 == user.status!){%>
+							停用
+						<%}
+					%>
+				</td>
+				<td>
+					<button class="btn btn-info btn-xs" onclick="window.location.href='${base}/admin/users/${user.uid!}'">
+						<i class="icon-edit"></i> 编辑
+					</button>
+					<button class="btn btn-danger btn-xs" onclick="$unique.admin.user.del(${user.uid!})">
+						<i class="icon-edit"></i> 停用
+					</button>
+				</td>
+			</tr>
+			<% }%>
+		</tbody>
+	</table>
+</div>
+<% include("/admin/footer.html",{jsList:['admin/users.js']}){} %>

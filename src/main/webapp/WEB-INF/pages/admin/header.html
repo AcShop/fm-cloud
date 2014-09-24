@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>${title!'七牛云fm'}</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="七牛云音乐分享后台" />
+<link rel="shortcut icon" href="${cdn}/static/img/favicon.ico" type="image/vnd.microsoft.icon" />
+<link rel="stylesheet" href="${cdn}/static/zui/css/zui.min.css" />
+<link rel="stylesheet" href="${cdn}/static/js/nice/jquery.validator.css" />
+<link rel="stylesheet" href="${cdn}/static/css/style.css?v=${static_v}" />
+<!--[if lt IE 9]>
+	<script src='${cdn}/static/js/html5shiv.min.js' type='text/javascript'></script>
+	<script src='${cdn}/static/js/respond.min.js' type='text/javascript'></script>
+<![endif]-->
+<!--[if lt IE 10]>
+	<script src='${cdn}/static/js/jq/placeholder.min.js' type='text/javascript'></script>
+<![endif]-->
+<script type="text/javascript" src="${cdn}/static/js/jq/jquery-2.0.min.js?v=${static_v}"></script>
+</head>
+<body class="container">
+	<!-- header:S -->
+	<header>
+		<nav class="navbar navbar-default" role="navigation">
+			<ul class="nav navbar-nav nav-justified">
+				<li class="cat-item <% if(active=='home'){%>active<%}%>"><a href="${base}/admin/index">首页</a></li>
+				<li class="cat-item <% if(active=='user'){%>active<%}%>"><a href="${base}/admin/users">用户管理</a></li>
+				<li class="cat-item <% if(active=='music'){%>active<%}%>"><a href="${base}/admin/music">音乐管理</a></li>
+				<li class="cat-item <% if(active=='special'){%>active<%}%>"><a href="${base}/admin/special">专辑管理</a></li>
+				<li class="cat-item <% if(active=='mcat'){%>active<%}%>"><a href="${base}/admin/mcat">分类管理</a></li>
+				<li class="cat-item dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">更多<b class="caret"></b></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="${base}/admin/logout">退出</a></li>
+                    <li class="divider"></li>
+                    <li><a href="${base}/" target="_blank">查看前台</a></li>
+                  </ul>
+                </li>
+			</ul>
+		</nav>
+	</header>
+	<!-- header:E -->

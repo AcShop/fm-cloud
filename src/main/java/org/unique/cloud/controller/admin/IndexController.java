@@ -101,7 +101,7 @@ public class IndexController extends BaseController {
 	/**
 	 * 保存用户
 	 */
-	@Action("users/save")
+	@Action("user/save")
 	public void save_user() {
 		Integer uid = this.getParaToInt("uid");
 		if(null != uid){
