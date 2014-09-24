@@ -19,7 +19,7 @@ $('#save_user_form').validator({
         required: "请填写{0}"
     },
     valid: function(form){
-    	var url = $unique.base + '/admin/user/save';
+    	var url = $unique.base + '/admin/users/save';
 		var param = $(form).serializeArray();
 		$.post(url, param, function(data) {
 			if(data){
