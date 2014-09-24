@@ -154,10 +154,9 @@ public class IndexController extends BaseController {
 	}
 	
 	/**
-	 * 电台首页
+	 * 电台列表
 	 */
 	public void radio(){
 		this.render("radio");
 	}
-
 }

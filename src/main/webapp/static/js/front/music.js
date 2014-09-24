@@ -98,7 +98,7 @@ $unique.music.download = function(mid, downloadUrl) {
 	}
 }
 /**
- * 热门歌曲
+ * 标签播放
  */
 $unique.music.tagclick = function(tag_type){
 	var url = '';
@@ -134,7 +134,7 @@ $unique.music.tagclick = function(tag_type){
 				for(m in data){
 					var mid = data[m].id;
 					var cover_url = (null == data[m].cover_url || data[m].cover_url === '') ? './static/img/music/default-music.jpg' : data[m].cover_path;
-					var introduce = (data[m].introduce == '') ? data[m].song : introduce;
+					var introduce = (data[m].introduce && data[m].introduce != '') ?  data[m].introduce : data[m].song;
 					var inner = '<div class="col-md-4 col-sm-6 col-lg-3 music" id="m-'+ mid +'">'
 								+ '	<div class="card">'
 								+ '		<div class="media-wrapper">'
@@ -155,7 +155,6 @@ $unique.music.tagclick = function(tag_type){
 								+ '</div>';
 					musicList.push(inner);
 				}
-				alert(musicList);
 				$('#music-list').html(musicList);
 			}
 		});
@@ -170,7 +169,7 @@ $unique.music.tagclick = function(tag_type){
 				for(m in data){
 					var mid = data[m].id;
 					var cover_url = (null == data[m].cover_url || data[m].cover_url === '') ? './static/img/music/default-music.jpg' : data[m].cover_path;
-					var introduce = (data[m].introduce == '') ? data[m].song : introduce;
+					var introduce = (data[m].introduce && data[m].introduce != '') ?  data[m].introduce : data[m].song;
 					var inner = '<div class="col-md-4 col-sm-6 col-lg-3 music" id="m-'+ mid +'">'
 								+ '	<div class="card">'
 								+ '		<div class="media-wrapper">'
@@ -191,7 +190,6 @@ $unique.music.tagclick = function(tag_type){
 								+ '</div>';
 					musicList.push(inner);
 				}
-				alert(musicList);
 				$('#music-list').html(musicList);
 			}
 		});

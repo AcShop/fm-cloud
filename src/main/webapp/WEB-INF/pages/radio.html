@@ -1,8 +1,39 @@
-<% include("/header.html"){} %>
+<% include("/header.html", {active:'radio'}){} %>
 <link rel="stylesheet" href="${cdn}/static/css/player/reset.css">
 <link rel="stylesheet" href="${cdn}/static/css/player/style.css">
+<link rel="stylesheet" href="${cdn}/static/css/radio.css">
+
+<div class="sec bnspic">
+	<div class="big_pic">
+		<ul>
+		<li class="on"><a href="#"><img src="${cdn}/static/images/ookamikodomo.jpg" title="狼之子雨与雪" /><span class="txt">细田守《狼之子雨与雪》狼孩子的伟大母亲</span></a></li>
+		<li><a href="#"><img src="${cdn}/static/images/hotarubi.jpg" title="萤火之森" /><span class="txt">绿川幸《萤火之森》——凄美伤感的半人半妖与人类之恋</span></a></li>
+		<li><a href="#"><img src="${cdn}/static/images/tsuioku.jpg" title="对某个飞行员的追忆" /><span class="txt">犬村小六《对某个飞行员的追忆》——相爱不能相守的空战罗曼剧</span></a></li>
+		<li><a href="#"><img src="${cdn}/static/images/tokikake.jpg" title="穿越时空的少女" /><span class="txt">细田守《穿越时空的少女》——在未来等你</span></a></li>
+		<li><a href="#"><img src="${cdn}/static/images/aura.jpg" title="AURA 魔龙院光牙最后的战斗" /><span class="txt">田中罗密欧《AURA 魔龙院光牙最后的战斗》——中二先驱妄想战士</span></a></li>
+		<li><a href="#"><img src="${cdn}/static/images/neragaku.jpg" title="被狙击的学园" /><span class="txt">眉村卓《被狙击的学园》——穿越时间的警示</span></a></li>
+		<li><a href="#"><img src="${cdn}/static/images/tokikake.jpg" title="穿越时空的少女" /><span class="txt">细田守《穿越时空的少女》——在未来等你</span></a></li>
+		<li><a href="#"><img src="${cdn}/static/images/aura.jpg" title="AURA 魔龙院光牙最后的战斗" /><span class="txt">田中罗密欧《AURA 魔龙院光牙最后的战斗》——中二先驱妄想战士</span></a></li>
+		<li><a href="#"><img src="${cdn}/static/images/neragaku.jpg" title="被狙击的学园" /><span class="txt">眉村卓《被狙击的学园》——穿越时间的警示</span></a></li>
+		</ul>
+	</div><!-- /big_pic -->
+	<div class="small_pic clearfix">
+		<ul>
+			<li class="on"><a href="#"><img src="${cdn}/static/images/ookamikodomo_.jpg" alt="图片说明" /></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/hotarubi_.jpg" alt="图片说明" /></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/tsuioku_.jpg" alt="图片说明" /></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/tokikake_.jpg" alt="图片说明" /></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/aura_.jpg" alt="图片说明" /></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/neragaku_.jpg" alt="图片说明" /></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/tokikake_.jpg" alt="图片说明" /></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/aura_.jpg" alt="图片说明" /></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/neragaku_.jpg" alt="图片说明" /></a></li>
+		</ul>
+	</div><!-- /small_pic -->
+</div>
+
+
 <div id="main">
-	<h3 class="header-dividing label-default"><span class="label label-dot label-primary"></span> 标题</h3>
 	<section class="cards">
             <div class="col-md-2 col-sm-2 col-lg-2">
               <a href="###" class="card">
@@ -78,7 +109,15 @@
             </div>
           </section>
 </div>
-
+<script>
+	$(".small_pic li").mouseover(function(){
+		$(this).siblings().removeClass("on");
+		$(this).addClass("on");
+		var preNumber=$(this).prevAll().size()+1;
+		$(".big_pic li").removeClass("on");
+		$(".big_pic li:nth-child("+preNumber+")").addClass("on");
+	});
+</script>
 <script src='${cdn}/static/js/jq/jquery.jplayer.min.js'></script>
 <script src='${cdn}/static/js/jq/jplayer.playlist.min.js'></script>
 <% include("/footer.html", {jsList:['front/music.js']}){} %>

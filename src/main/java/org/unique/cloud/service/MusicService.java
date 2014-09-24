@@ -41,7 +41,7 @@ public interface MusicService {
 	 * @param introduce
 	 * @param cids
 	 */
-	boolean save(Integer uid, String singer, String song, String song_path, String cover_path, String introduce, String cids, Integer sid, String tags);
+	boolean save(Integer uid, String singer, String song, String song_path, String cover_path, String introduce, String cids, String tags, Integer sid);
 	
 	/**
 	 * 修改音乐信息
@@ -52,7 +52,7 @@ public interface MusicService {
 	 * @param cids
 	 * @return
 	 */
-	int update(Integer id, String singer, String song, String song_path, String cover_path, String introduce, String cids, Integer sid, String tags);
+	int update(Integer id, String singer, String song, String song_path, String cover_path, String introduce, String cids, String tags, Integer sid);
 	
 	/**
 	 * 查询音乐列表
@@ -61,7 +61,7 @@ public interface MusicService {
 	 * @param order
 	 * @return
 	 */
-	List<Map<String, Object>> getList(Integer uid, String singer, String song, Integer sid, String tag, String order);
+	List<Map<String, Object>> getList(Integer uid, String singer, String song, String tag, Integer sid, String order);
 	
 	/**
 	 * 随机获取音乐
@@ -79,9 +79,9 @@ public interface MusicService {
 	 * @param order
 	 * @return
 	 */
-	Page<Music> getPageList(Integer uid, String singer, String song, Integer sid, String tag, Integer page, Integer pageSize, String order);
+	Page<Music> getPageList(Integer uid, String singer, String song, String tag, Integer sid, Integer page, Integer pageSize, String order);
 	
-	Page<Map<String, Object>> getPageMapList(Integer uid, String singer, String song, Integer sid, String tag, Integer page, Integer pageSize, String order);
+	Page<Map<String, Object>> getPageMapList(Integer uid, String singer, String song, String tag, Integer sid, Integer page, Integer pageSize, String order);
 	
 	/**
 	 * 根据音乐id

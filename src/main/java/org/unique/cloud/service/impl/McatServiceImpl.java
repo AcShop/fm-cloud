@@ -23,5 +23,4 @@ public class McatServiceImpl implements McatService {
 		base.eq("t.status", status);
 		return Mcat.db.findList(base.getSQL(), base.getParams());
 	}
-
 }

@@ -2,47 +2,21 @@
 <!--装载文件-->
 <link rel="stylesheet" type="text/css" href="${cdn}/static/uploadify/uploadify.css" />
 <link rel="stylesheet" type="text/css" href="${cdn}/static/js/validator-0.7.3/jquery.validator.css">
-<!-- 
-<form id="upload_music_form" action="${base}/admin/m/save" method="post">
-	<div>
-		音乐链接：<input style="width: 300px;" name="song_path" type="text"
-			width="300" value="${music.song_path!}" />
-	</div>
-	<div>
-		歌手名称：<input style="width: 300px;" name="singer" type="text"
-			value="${music.singer!}" />
-	</div>
-	<div>
-		歌曲名称：<input style="width: 300px;" name="song" type="text"
-			value="${music.song!}" />
-	</div>
-	<div>
-		歌曲描述：
-		<textarea name="introduce" rows="3" cols="10">${music.introduce!}</textarea>
-	</div>
-	<div>
-		所属分类：<input name="cids" type="text" value="${music.cids!}" />
-	</div>
 
-	<div id="fileQueue"></div>
-	<input type="file" name="uploadify" id="uploadify" />
-	<input id="submit_btn" type="button" value="确认添加" />
-</form>
- --><!-- ${base}/admin/m/save -->
 <form id="upload_music_form" action="##" class="form-horizontal" role="form"
 	method="post" autocomplete="off">
 	<legend>添加音乐</legend>
 	<div class="form-group">
 		<label class="col-md-2 control-label required">音乐名称：</label>
 		<div class="col-md-4">
-			<input type="text" name="song" id="song" value=""
+			<input type="text" name="song" id="song" value="${music.song!}"
 				class="form-control" placeholder="请输入音乐名称">
 		</div>
 	</div>
 	<div class="form-group">
 		<label class="col-md-2 control-label">歌手名称：</label>
 		<div class="col-md-4">
-			<input type="text" name="singer" id="singer" value=""
+			<input type="text" name="singer" id="singer" value="${music.singer!}"
 				placeholder="请输入歌手名称" class="form-control"
 				style="cursor: auto; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABHklEQVQ4EaVTO26DQBD1ohQWaS2lg9JybZ+AK7hNwx2oIoVf4UPQ0Lj1FdKktevIpel8AKNUkDcWMxpgSaIEaTVv3sx7uztiTdu2s/98DywOw3Dued4Who/M2aIx5lZV1aEsy0+qiwHELyi+Ytl0PQ69SxAxkWIA4RMRTdNsKE59juMcuZd6xIAFeZ6fGCdJ8kY4y7KAuTRNGd7jyEBXsdOPE3a0QGPsniOnnYMO67LgSQN9T41F2QGrQRRFCwyzoIF2qyBuKKbcOgPXdVeY9rMWgNsjf9ccYesJhk3f5dYT1HX9gR0LLQR30TnjkUEcx2uIuS4RnI+aj6sJR0AM8AaumPaM/rRehyWhXqbFAA9kh3/8/NvHxAYGAsZ/il8IalkCLBfNVAAAAABJRU5ErkJggg==); background-attachment: scroll; background-position: 100% 50%; background-repeat: no-repeat;">
 		</div>
@@ -51,35 +25,41 @@
 		<label class="col-md-2 control-label">音乐描述：</label>
 		<div class="col-md-4">
 			<textarea name="introduce" id="introduce" rows="2"
-				class="form-control" placeholder="请输入歌曲描述"></textarea>
+				class="form-control" placeholder="请输入歌曲描述">${music.introduce!}</textarea>
 		</div>
 	</div>
 	<div class="form-group">
-		<label class="col-md-2 control-label required">所属分类：</label>
+		<label class="col-md-2 control-label required">所属分类${music.mcatList}：</label>
 		<div class="col-md-4">
 			 <%
-				for(mcat in mcatList!){
-					if(null != music.mcatList!){
-						for(cat in music.mcatList!){
-							if(mcat.id == cat){%>
-								<button name="cidbtn" type="button" class="btn" ok="1" cid="${mcat.id}" onclick="$unique.admin.music.tabok(this)">${mcat.name} <i class="icon-ok"></i></button>
-							<%} else{%>
-								<button name="cidbtn" type="button" class="btn" ok="0" cid="${mcat.id}" onclick="$unique.admin.music.tabok(this)">${mcat.name} <i class="icon-ok hide"></i></button>
-							<%}
-						}	
-					} else{%>
-						<button name="cidbtn" type="button" class="btn" ok="0" cid="${mcat.id}" ok="false" onclick="$unique.admin.music.tabok(this)">${mcat.name} <i class="icon-ok hide"></i></button>
+			 	if(null != music.mcatList!){
+			 		for(cat in catList!){
+			 			var flag = false;
+						for(mcat in music.mcatList!){
+							if(cat.id == mcat){
+							print('cat.id:' + cat.id);
+								flag = true;
+								break;
+							}
+						}
+						if(flag){%>
+							<button name="cidbtn" type="button" class="btn" ok="1" cid="${cat.id}" onclick="$unique.admin.music.tabok(this)">${cat.name} <i class="icon-ok"></i></button>
+						<%} else{%>
+							<button name="cidbtn" type="button" class="btn" ok="0" cid="${cat.id}" onclick="$unique.admin.music.tabok(this)">${cat.name} <i class="icon-ok hide"></i></button>
+						<%}
+					}
+			 	} else{
+			 		for(cat in catList!){%>
+						<button name="cidbtn" type="button" class="btn" ok="0" cid="${cat.id}" ok="false" onclick="$unique.admin.music.tabok(this)">${cat.name} <i class="icon-ok hide"></i></button>
 					<%}
-				}
-			%>
-			 
+			 }%>
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="col-md-2 control-label required">插入音乐：</label>
 		<div class="col-md-4">
-			<input type="text" name="song_path" id="song_path" value=""
+			<input type="text" name="song_path" id="song_path" value="${music.song_path!}"
 				class="form-control" placeholder="请输入音乐地址">
 		</div>
 	</div>
@@ -95,7 +75,7 @@
 	<div class="form-group">
 		<label class="col-md-2 control-label required">插入图片：</label>
 		<div class="col-md-4">
-			<input type="text" name="cover_path" id="cover_path" value=""
+			<input type="text" name="cover_path" id="cover_path" value="${music.cover_path!}"
 				class="form-control" placeholder="请输入图片地址">
 		</div>
 	</div>

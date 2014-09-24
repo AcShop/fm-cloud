@@ -1,4 +1,4 @@
-<% include("/header.html"){} %>
+<% include("/header.html", {active:'music'}){} %>
 <link rel="stylesheet" href="${cdn}/static/css/player/reset.css">
 <link rel="stylesheet" href="${cdn}/static/css/player/style.css">
 <div id="main">
@@ -99,16 +99,15 @@
 	</div>
 	<div id="comment">
 		<!-- 多说评论框 start -->
-		<div class="ds-thread" data-thread-key="请将此处替换成文章在你的站点中的ID"
-			data-title="七牛云音乐" data-url="http://music.im90.me/music"></div>
+		<div class="ds-thread" data-thread-key="music" data-title="七牛云音乐" data-url="http://127.0.0.1:8080/qiniu-cloud/music"></div>
 		<!-- 多说评论框 end -->
 		<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 		<script type="text/javascript">
-			var duoshuoQuery = {short_name:"im90-music"};
+			var duoshuoQuery = {short_name:"fm-im90"};
 			(function() {
 				var ds = document.createElement('script');
 				ds.type = 'text/javascript';ds.async = true;
-				ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+				ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.unstable.js';
 				ds.charset = 'UTF-8';
 				(document.getElementsByTagName('head')[0] 
 				 || document.getElementsByTagName('body')[0]).appendChild(ds);

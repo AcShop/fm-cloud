@@ -22,8 +22,9 @@ public class Music extends Model<Music> {
 	private String cover_path;
 	private String introduce;
 	private String cids;
-	private Integer sid;
 	private String tags;
+	private Integer sid;
+	private Integer listen_count;
 	private Integer like_count;
 	private Integer download_count;
 	private Integer create_time;
@@ -93,6 +94,14 @@ public class Music extends Model<Music> {
 	
 	public String getCids() {
 		return this.cids;
+	}
+	
+	public void setListen_count(Integer listen_count) {
+		this.listen_count = listen_count;
+	}
+	
+	public Integer getListen_count() {
+		return this.listen_count;
 	}
 	
 	public void setLike_count(Integer like_count) {

@@ -38,7 +38,7 @@ public class MusicController extends BaseController {
 			this.setAttr("music", music);
 		}
 		List<Mcat> mcatList = mcatService.getList(1);
-		this.setAttr("mcatList", mcatList);
+		this.setAttr("catList", mcatList);
 		this.render("/admin/edit_music");
 	}
 	
@@ -60,7 +60,6 @@ public class MusicController extends BaseController {
 		} else{
 			flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, null, null);
 		}
-		
 		if(flag){
 			this.renderText(WebConst.MSG_SUCCESS);
 		} else{

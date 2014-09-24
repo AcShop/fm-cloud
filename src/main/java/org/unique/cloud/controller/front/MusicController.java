@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.unique.cloud.controller.BaseController;
-import org.unique.cloud.model.Music;
 import org.unique.cloud.service.MusicService;
 import org.unique.cloud.util.WebConst;
 import org.unique.ioc.annotation.Autowired;
@@ -28,8 +27,8 @@ public class MusicController extends BaseController {
 	 * 最新10首歌
 	 */
 	public void new_music(){
-		Page<Music> top10List = musicService.getPageList(null, null, null, null, null, 1, 10, "create_time desc");
-		this.renderJson(top10List.getResults());
+		Page<Map<String, Object>> top10List = musicService.getPageMapList(null, null, null, null, null, 1, 10, "create_time desc");
+		this.renderJson(top10List);
 	}
 	
 	/**
@@ -72,7 +71,7 @@ public class MusicController extends BaseController {
 	}
 	
 	/**
-	 * 1喜欢/2下载量
+	 * 1喜欢/2收听/3下载音乐 点击+1
 	 */
 	public void hit(){
 		Integer mid = this.getParaToInt("mid");
