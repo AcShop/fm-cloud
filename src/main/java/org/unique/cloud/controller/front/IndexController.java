@@ -6,6 +6,7 @@ import java.util.Map;
 import org.unique.cloud.controller.BaseController;
 import org.unique.cloud.model.User;
 import org.unique.cloud.service.MusicService;
+import org.unique.cloud.service.SpecialService;
 import org.unique.cloud.service.UserService;
 import org.unique.cloud.util.SessionUtil;
 import org.unique.cloud.util.WebConst;
@@ -33,6 +34,8 @@ public class IndexController extends BaseController {
 	private UserService userService;
 	@Autowired
 	private MusicService musicService;
+	@Autowired
+	private SpecialService specialService;
 
 	public void index() {
 		this.render("index");
@@ -157,6 +160,8 @@ public class IndexController extends BaseController {
 	 * 电台列表
 	 */
 	public void radio(){
+		//获取推荐的前9个
+		
 		this.render("radio");
 	}
 }

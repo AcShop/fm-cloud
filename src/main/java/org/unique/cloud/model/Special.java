@@ -16,10 +16,14 @@ public class Special extends Model<Special> {
 	public static Special db = new Special();
 	private Integer id;
 	private Integer uid;
-	private String name;
+	private String title;
+	private String introduce;
+	private String cover_small;
 	private String cover_pic;
 	private Integer hit;
+	private Integer is_top;
 	private Integer create_time;
+	private Integer last_time;
 	private Integer status;
 
 	public Special(){
@@ -31,14 +35,6 @@ public class Special extends Model<Special> {
 	
 	public Integer getId() {
 		return this.id;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getName() {
-		return this.name;
 	}
 	
 	public void setStatus(Integer status) {
@@ -79,6 +75,46 @@ public class Special extends Model<Special> {
 
 	public void setCover_pic(String cover_pic) {
 		this.cover_pic = cover_pic;
+	}
+
+	public Integer getIs_top() {
+		return is_top;
+	}
+
+	public void setIs_top(Integer is_top) {
+		this.is_top = is_top;
+	}
+
+	public Integer getLast_time() {
+		return last_time;
+	}
+
+	public void setLast_time(Integer last_time) {
+		this.last_time = last_time;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getIntroduce() {
+		return introduce;
+	}
+
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
+
+	public String getCover_small() {
+		return cover_small;
+	}
+
+	public void setCover_small(String cover_small) {
+		this.cover_small = cover_small;
 	}
 
 }

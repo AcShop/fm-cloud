@@ -4,19 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.unique.cloud.api.QiniuApi;
-import org.unique.cloud.model.Music;
 import org.unique.cloud.model.Special;
 import org.unique.cloud.service.SpecialService;
+import org.unique.cloud.util.BeanUtil;
 import org.unique.common.tools.CollectionUtil;
 import org.unique.common.tools.DateUtil;
-import org.unique.common.tools.StringUtils;
-import org.unique.ioc.annotation.Service;
 import org.unique.plugin.dao.Page;
 import org.unique.plugin.dao.SqlBase;
 import org.unique.plugin.db.exception.UpdateException;
 
-@Service
 public class SpecialServiceImpl implements SpecialService {
 
 	private Logger logger = Logger.getLogger(SpecialServiceImpl.class);
@@ -35,42 +31,50 @@ public class SpecialServiceImpl implements SpecialService {
 			special = this.get(sid);
 		}
 		if (null != special) {
-			//封面图
-			if (StringUtils.isNotBlank(special.getCover_pic())) {
-				if (special.getCover_pic().startsWith("http://")) {
-					resultMap.put("mp3_url", special.getCover_pic());
-				} else {
-					String music_url = QiniuApi.getUrlByKey(special.getCover_pic());
-					resultMap.put("cover_url", music_url);
-				}
-			}
+			resultMap = BeanUtil.toMap(special);
 		}
 		return resultMap;
 	}
 
 	@Override
-	public boolean save(Integer uid, String title, String cover_pic) {
+	public boolean save(Integer uid, String title, String introduce, String cover_small, String cover_pic,
+			Integer is_top, Integer status) {
 		int count = 0;
+		Integer currentTime = DateUtil.getCurrentTime();
 		try {
-			count = Music.db.update("insert into t_special(uid, title, cover_pic, create_time)  "
-					+ "values(?, ?, ?, ?)", uid, title, cover_pic, DateUtil.getCurrentTime());
+			count = Special.db.update(
+					"insert into t_special(uid, title, introduce, cover_small, cover_pic, is_top, create_time, last_time, status) "
+							+ "values(?,?,?,?,?,?,?,?,?)", uid, title, introduce, cover_small, cover_pic, is_top,
+					currentTime, currentTime);
 		} catch (UpdateException e) {
-			logger.warn("添加专辑失败：" + e.getMessage());
+			logger.warn("保存专辑失败：" + e.getMessage());
 			count = 0;
 		}
 		return count > 0;
 	}
 
 	@Override
-	public int update(Integer id, String title, Integer hit, String cover_pic) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update(Integer sid, Integer uid, String title, String introduce, String cover_small, String cover_pic,
+			Integer is_top, Integer status) {
+		int count = 0;
+		if (null != sid) {
+			SqlBase base = SqlBase.update("update t_special");
+			base.set("uid", uid).set("title", title).set("introduce", introduce).set("cover_small", cover_small)
+					.set("cover_pic", cover_pic).set("is_top", is_top).eq("sid", sid);
+			try {
+				count = Special.db.update(base.getSQL(), base.getParams());
+			} catch (UpdateException e) {
+				logger.warn("更新专辑失败：" + e.getMessage());
+				count = 0;
+			}
+		}
+		return count;
 	}
 
 	@Override
-	public List<Map<String, Object>> getList(Integer uid, String title, String order) {
+	public List<Map<String, Object>> getList(Integer uid, String title, Integer is_top, Integer status, String order) {
 		SqlBase base = SqlBase.select("select t.* from t_special t");
-		base.eq("uid", uid).likeLeft("title", title).order(order);
+		base.eq("uid", uid).likeLeft("title", title).eq("is_top", is_top).eq("status", status).order(order);
 		List<Special> list = Special.db.findList(base.getSQL(), base.getParams());
 		return this.getSpecialMapList(list);
 	}
@@ -87,16 +91,17 @@ public class SpecialServiceImpl implements SpecialService {
 	}
 
 	@Override
-	public Page<Special> getPageList(Integer uid, String title, Integer page, Integer pageSize, String order) {
+	public Page<Special> getPageList(Integer uid, String title, Integer is_top, Integer status, Integer page,
+			Integer pageSize, String order) {
 		SqlBase base = SqlBase.select("select t.* from t_special t");
-		base.eq("uid", uid).likeLeft("title", title).order(order);
+		base.eq("uid", uid).likeLeft("title", title).eq("is_top", is_top).eq("status", status).order(order);
 		return Special.db.findListPage(page, pageSize, base.getSQL(), base.getParams());
 	}
 
 	@Override
-	public Page<Map<String, Object>> getPageMapList(Integer uid, String title, Integer page, Integer pageSize,
-			String order) {
-		Page<Special> pageList = this.getPageList(uid, title, page, pageSize, order);
+	public Page<Map<String, Object>> getPageMapList(Integer uid, String title, Integer is_top, Integer status,
+			Integer page, Integer pageSize, String order) {
+		Page<Special> pageList = this.getPageList(uid, title, is_top, status, page, pageSize, order);
 
 		List<Special> specialList = pageList.getResults();
 		Page<Map<String, Object>> pageMap = new Page<Map<String, Object>>((long) specialList.size(), pageSize, pageSize);
@@ -107,17 +112,25 @@ public class SpecialServiceImpl implements SpecialService {
 	}
 
 	@Override
-	public int delete(Integer id) {
+	public int delete(Integer sid) {
 		int count = 0;
-		if (null != id) {
+		if (null != sid) {
 			try {
-				Special.db.delete("delete from t_special where id=?", id);
+				Special.db.delete("delete from t_special where id = ?", sid);
 			} catch (UpdateException e) {
 				logger.warn("删除专辑失败：" + e.getMessage());
 				count = 0;
 			}
 		}
 		return count;
+	}
+
+	@Override
+	public int hit(Integer sid) {
+		if (null != sid) {
+			return Special.db.update("update t_special hit = (hit+1) where id = ?", sid);
+		}
+		return 0;
 	}
 
 }

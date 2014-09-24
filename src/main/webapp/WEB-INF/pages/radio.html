@@ -6,15 +6,25 @@
 <div class="sec bnspic">
 	<div class="big_pic">
 		<ul>
-		<li class="on"><a href="#"><img src="${cdn}/static/images/ookamikodomo.jpg" title="狼之子雨与雪" /><span class="txt">细田守《狼之子雨与雪》狼孩子的伟大母亲</span></a></li>
-		<li><a href="#"><img src="${cdn}/static/images/hotarubi.jpg" title="萤火之森" /><span class="txt">绿川幸《萤火之森》——凄美伤感的半人半妖与人类之恋</span></a></li>
-		<li><a href="#"><img src="${cdn}/static/images/tsuioku.jpg" title="对某个飞行员的追忆" /><span class="txt">犬村小六《对某个飞行员的追忆》——相爱不能相守的空战罗曼剧</span></a></li>
-		<li><a href="#"><img src="${cdn}/static/images/tokikake.jpg" title="穿越时空的少女" /><span class="txt">细田守《穿越时空的少女》——在未来等你</span></a></li>
-		<li><a href="#"><img src="${cdn}/static/images/aura.jpg" title="AURA 魔龙院光牙最后的战斗" /><span class="txt">田中罗密欧《AURA 魔龙院光牙最后的战斗》——中二先驱妄想战士</span></a></li>
-		<li><a href="#"><img src="${cdn}/static/images/neragaku.jpg" title="被狙击的学园" /><span class="txt">眉村卓《被狙击的学园》——穿越时间的警示</span></a></li>
-		<li><a href="#"><img src="${cdn}/static/images/tokikake.jpg" title="穿越时空的少女" /><span class="txt">细田守《穿越时空的少女》——在未来等你</span></a></li>
-		<li><a href="#"><img src="${cdn}/static/images/aura.jpg" title="AURA 魔龙院光牙最后的战斗" /><span class="txt">田中罗密欧《AURA 魔龙院光牙最后的战斗》——中二先驱妄想战士</span></a></li>
-		<li><a href="#"><img src="${cdn}/static/images/neragaku.jpg" title="被狙击的学园" /><span class="txt">眉村卓《被狙击的学园》——穿越时间的警示</span></a></li>
+			<%
+				for(radio in radioPage!){
+					<li>
+						<a href="#"><img src="${radio.cover_url}" title="${radio.title}" />
+							<span class="txt">${radio.introduce}</span>
+						</a>
+					</li>
+				}
+			%>
+			
+			<li class="on"><a href="#"><img src="${cdn}/static/images/ookamikodomo.jpg" title="狼之子雨与雪" /><span class="txt">细田守《狼之子雨与雪》狼孩子的伟大母亲</span></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/hotarubi.jpg" title="萤火之森" /><span class="txt">绿川幸《萤火之森》——凄美伤感的半人半妖与人类之恋</span></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/tsuioku.jpg" title="对某个飞行员的追忆" /><span class="txt">犬村小六《对某个飞行员的追忆》——相爱不能相守的空战罗曼剧</span></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/tokikake.jpg" title="穿越时空的少女" /><span class="txt">细田守《穿越时空的少女》——在未来等你</span></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/aura.jpg" title="AURA 魔龙院光牙最后的战斗" /><span class="txt">田中罗密欧《AURA 魔龙院光牙最后的战斗》——中二先驱妄想战士</span></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/neragaku.jpg" title="被狙击的学园" /><span class="txt">眉村卓《被狙击的学园》——穿越时间的警示</span></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/tokikake.jpg" title="穿越时空的少女" /><span class="txt">细田守《穿越时空的少女》——在未来等你</span></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/aura.jpg" title="AURA 魔龙院光牙最后的战斗" /><span class="txt">田中罗密欧《AURA 魔龙院光牙最后的战斗》——中二先驱妄想战士</span></a></li>
+			<li><a href="#"><img src="${cdn}/static/images/neragaku.jpg" title="被狙击的学园" /><span class="txt">眉村卓《被狙击的学园》——穿越时间的警示</span></a></li>
 		</ul>
 	</div><!-- /big_pic -->
 	<div class="small_pic clearfix">

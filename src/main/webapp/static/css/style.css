@@ -1,6 +1,6 @@
 @CHARSET "utf-8";
 
-*{
+* {
 	margin: 0;
 	padding: 0;
 }
@@ -13,11 +13,15 @@ body {
 	scroll: both;
 	/*background: #eee url("http://i.imgur.com/82fLDu4.jpg") no-repeat center;*/
 }
-.left{
+
+.left {
 	float: left;
 }
-.clear{
+
+.clear {
 	clear: both;
 }
 
-#upload_music_form .n-invalid {border: 1px solid #f00;}
+#upload_music_form .n-invalid {
+	border: 1px solid #f00;
+}
