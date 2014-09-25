@@ -3,18 +3,6 @@
  */
 $unique.admin.music = {};
 $(function() {
-	$('#submit_btn').click(function() {
-		var url = $unique.base + "/admin/music/save";
-		var paramter = $('#upload_music_form')
-				.serializeArray();
-		$.post(url, paramter, function(data) {
-			if (data == 'success') {
-				alert('保存成功！');
-			} else if (data == 'error') {
-				alert('保存失败！');
-			}
-		}, "text");
-	});
 
 	$("#uploadify").uploadify({
 		'uploader' : $unique.base + '/upload/temp_file',
@@ -85,13 +73,13 @@ $(function() {
 	    	});
 	    	$(form).find('#cids').val(cids.join(','));
 	    	
-	    	var url = $unique.base + '/admin/m/save';
+	    	var url = $unique.base + '/admin/music/save';
 			var param = $(form).serializeArray();
 			$.post(url, param, function(data) {
 				if(data){
 					if(data === 'success'){
 						$unique.alert('保存成功！');
-						window.location.href = $unique.base + '/admin/m';
+						//window.location.href = $unique.base + '/admin/music';
 					} else{
 						$unique.alert('保存失败！');
 					}
@@ -117,15 +105,15 @@ $unique.admin.music.tabok = function(obj){
 $unique.admin.music.del = function(mid){
 	art.dialog({
 	    lock: true,
-	    content: '确定删除该用户吗',
+	    content: '确定删除该音乐吗',
 	    icon: 'error',
 	    ok: function () {
 	    	var url = $unique.base + '/admin/music/del';
 			var param = { mid : mid };
 			$.post(url, param, function(data) {
-				if(data && data ==='success'){
+				if(data && data === 'success'){
 					$unique.alert('删除成功！');
-					window.location.reload();
+					window.location.href = $unique.base + '/admin/music';
 				} else{
 					$unique.alert('删除失败！');
 				}

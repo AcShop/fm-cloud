@@ -59,7 +59,7 @@
 	<div class="form-group">
 		<label class="col-md-2 control-label required">插入音乐：</label>
 		<div class="col-md-4">
-			<input type="text" name="song_path" id="song_path" value="${music.song_path!}"
+			<input type="text" name="song_path" id="song_path" value="${music.mp3_url!}"
 				class="form-control" placeholder="请输入音乐地址">
 		</div>
 	</div>
@@ -75,7 +75,7 @@
 	<div class="form-group">
 		<label class="col-md-2 control-label required">插入图片：</label>
 		<div class="col-md-4">
-			<input type="text" name="cover_path" id="cover_path" value="${music.cover_path!}"
+			<input type="text" name="cover_path" id="cover_path" value="${music.cover_url!}"
 				class="form-control" placeholder="请输入图片地址">
 		</div>
 	</div>
@@ -93,11 +93,11 @@
 			<input type="button" class="btn" value="返回上级" onclick="window.location.href='${base}/admin/music'">
 			<input type="submit" id="submit" class="btn btn-primary" value="保存音乐" data-loading="请稍候...">
 			<input type="hidden" name="cids" id="cids" value="">
+			<input type="hidden" name="step" value="submit">
+			<input type="hidden" name="mid" value="${music.id!}">
 		</div>
 	</div>
 </form>
 
 <script type="text/javascript" src="${cdn}/static/uploadify/jquery.uploadify.min.js"></script>
-<script type="text/javascript" src="${cdn}/static/js/validator-0.7.3/jquery.validator.js"></script>
-<script type="text/javascript" src="${cdn}/static/js/validator-0.7.3/local/zh_CN.js"></script>
 <% include("/admin/footer.html",{jsList:['admin/music.js']}){} %>

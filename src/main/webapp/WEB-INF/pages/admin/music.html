@@ -1,6 +1,6 @@
 <% include("/admin/header.html", {active : 'music'}){} %>
 <div style="margin: 10px;">
-	<button class="btn btn-primary btn-xs" onclick="window.location.href='${base}/admin/music/edit'">
+	<button class="btn btn-primary btn-xs" onclick="window.location.href='${base}/admin/music/save'">
 		<i class="icon-edit"></i> 添加音乐
 	</button>
 </div>
@@ -23,7 +23,7 @@
 			<% for(music in pageMap.results!){%>
 			<tr>
 				<td>${musicLP.index}</td>
-				<td><a href="${base}/admin/m/edit/${music.id!}" title="编辑">${music.song!}</a></td>
+				<td><a href="${base}/admin/music/${music.id!}" title="编辑">${music.song!}</a></td>
 				<td>${music.singer!}</td>
 				<td>${music.mcat!}</td>
 				<td>${music.like_count!}</td>
@@ -31,11 +31,8 @@
 				<td>${music.time_zh!}</td>
 				<td>${music.nickname!}</td>
 				<td>
-					<button class="btn btn-info btn-xs" onclick="window.location.href='${base}/admin/music/edit/${music.id!}'">
+					<button class="btn btn-info btn-xs" onclick="window.location.href='${base}/admin/music/${music.id!}'">
 						<i class="icon-edit"></i> 编辑
-					</button>
-					<button class="btn btn-danger btn-xs" onclick="$unique.admin.music.enable(${music.id!})">
-						<i class="icon-edit"></i> 禁用
 					</button>
 					<button class="btn btn-danger btn-xs" onclick="$unique.admin.music.del(${music.id!})">
 						<i class="icon-edit"></i> 删除
@@ -46,4 +43,5 @@
 		</tbody>
 	</table>
 </div>
+<script type="text/javascript" src="${cdn}/static/uploadify/jquery.uploadify.min.js"></script>
 <% include("/admin/footer.html",{jsList:['admin/music.js']}){} %>
