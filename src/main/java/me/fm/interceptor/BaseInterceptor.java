@@ -1,28 +1,24 @@
 package me.fm.interceptor;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import me.fm.util.SessionUtil;
-import me.fm.util.WebConst;
-
-import org.unique.common.tools.StringUtils;
 import org.unique.ioc.annotation.Component;
+import org.unique.web.annotation.Intercept;
 import org.unique.web.core.ActionContext;
 import org.unique.web.core.ActionInvocation;
-import org.unique.web.interceptor.GlobalInterceptor;
+import org.unique.web.interceptor.Interceptor;
 
 /**
  * 全局拦截器
  * @author Rex
  */
 @Component
-public class BaseInterceptor extends GlobalInterceptor{
+@Intercept
+public class BaseInterceptor implements Interceptor{
 
 	@Override
-	public void intercept(ActionInvocation ai) {
+	public void intercept(ActionInvocation ai) throws Exception {
 		//System.out.println("全局before");
 	    HttpServletRequest request = ActionContext.single().getHttpServletRequest();
 	    HttpServletResponse response = ActionContext.single().getHttpServletResponse();

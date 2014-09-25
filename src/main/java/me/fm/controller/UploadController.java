@@ -80,7 +80,7 @@ public class UploadController extends Controller {
 				uploadDir.mkdirs();
 			}
 
-			logger.info("savepath:" + savePath);
+			logger.debug("savepath:" + savePath);
 
 			DiskFileItemFactory diskFactory = new DiskFileItemFactory();
 			// threshold 极限、临界值，即硬盘缓存 1M  
@@ -124,7 +124,7 @@ public class UploadController extends Controller {
 		long size = item.getSize();
 		String type = item.getContentType();
 
-		logger.info("length:" + size + "\t type:" + type);
+		logger.debug("length:" + size + "\t type:" + type);
 
 		if (StringUtils.isBlank(fileName)) {
 			return;
