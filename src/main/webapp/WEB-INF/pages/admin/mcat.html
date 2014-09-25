@@ -1,0 +1,41 @@
+<% include("/admin/header.html", {active : 'mcat'}){} %>
+<div style="margin: 10px;">
+	<button class="btn btn-info btn-xs" onclick="$unique.admin.mcat.open();">
+		<i class="icon-edit"></i> 添加分类
+	</button>
+</div>
+<div>
+	<table class="table table-hover table-bordered">
+		<thead>
+			<tr>
+				<th>编号</th>
+				<th>分类名称</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for(mcat in mcatList!){%>
+			<tr>
+				<td>${mcat.id!}</td>
+				<td><span>${mcat.name!}</span>
+					<div class="hide">
+						<input type="text" value="${mcat.name!}" />
+						<button class="btn btn-info btn-xs" onclick="$unique.admin.mcat.save(${mcat.id!}, this)">
+							<i class="icon-save"></i> 保存
+						</button>
+					</div>
+				</td>
+				<td>
+					<button class="btn btn-info btn-xs" onclick="$unique.admin.mcat.edit(this)">
+						<i class="icon-edit"></i> 编辑
+					</button>
+					<button class="btn btn-danger btn-xs" onclick="$unique.admin.user.del(${user.uid!})">
+						<i class="icon-edit"></i> 停用
+					</button>
+				</td>
+			</tr>
+			<% }%>
+		</tbody>
+	</table>
+</div>
+<% include("/admin/footer.html",{jsList:['admin/mcat.js']}){} %>

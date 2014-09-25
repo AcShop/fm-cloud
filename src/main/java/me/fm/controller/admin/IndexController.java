@@ -46,7 +46,14 @@ public class IndexController extends BaseController {
 	public void index() {
 		this.render("index");
 	}
-	
+
+	/**
+	 * 管理员退出
+	 */
+	public void logout(){
+		
+		this.render("login");
+	}
 	/**
 	 * 用户登录
 	 */
@@ -68,9 +75,8 @@ public class IndexController extends BaseController {
 		this.render("login");
 	}
 
-	
 	/*-----------------------------------music--------------------------------------------*/
-	
+
 	public void music() {
 		String singer = this.getPara("singer");
 		String song = this.getPara("song");
@@ -79,15 +85,15 @@ public class IndexController extends BaseController {
 		this.setAttr("pageMap", musicPage);
 		this.render("music");
 	}
-	
+
 	/**
 	 * 编辑音乐
 	 */
 	@Action("music/{mid}")
-	public void edit_music(){
+	public void edit_music() {
 		Integer mid = this.getParaToInt();
 		// 编辑
-		if(null != mid){
+		if (null != mid) {
 			Map<String, Object> music = musicService.getMap(null, mid);
 			this.setAttr("music", music);
 		}
@@ -109,26 +115,26 @@ public class IndexController extends BaseController {
 		String introduce = this.getPara("introduce");
 		String cids = this.getPara("cids");
 		String step = this.getPara("step");
-		if(StringUtils.isNoneBlank(step)){
+		if (StringUtils.isNoneBlank(step)) {
 			boolean flag = false;
 			uid = 1;
-			if(null != mid){
+			if (null != mid) {
 				flag = musicService.update(uid, singer, song, song_path, cover_path, introduce, cids, null, null) > 0;
-			} else{
+			} else {
 				flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, null, null);
 			}
-			if(flag){
+			if (flag) {
 				this.renderText(WebConst.MSG_SUCCESS);
-			} else{
+			} else {
 				this.renderText(WebConst.MSG_ERROR);
 			}
 			return;
 		}
 		this.render("edit_music");
 	}
-	
+
 	/*-----------------------------------user--------------------------------------------*/
-	
+
 	/**
 	 * 用户列表
 	 */
@@ -137,7 +143,7 @@ public class IndexController extends BaseController {
 		this.setAttr("userPage", userPage);
 		this.render("user");
 	}
-	
+
 	/**
 	 * 删除用户
 	 */
@@ -151,43 +157,41 @@ public class IndexController extends BaseController {
 			this.renderText(WebConst.MSG_FAILURE);
 		}
 	}
-	
+
 	/**
 	 * 保存用户
 	 */
 	@Action("users/save")
 	public void save_user() {
 		Integer uid = this.getParaToInt("uid");
-		if(null != uid){
+		if (null != uid) {
 			String nickname = this.getPara("nickname");
 			Long space_size = this.getParaToLong("space_size");
 			int count = userService.update(uid, null, nickname, space_size, null);
-			if(count > 0){
+			if (count > 0) {
 				this.renderText(WebConst.MSG_SUCCESS);
-			} else{
+			} else {
 				this.renderText(WebConst.MSG_FAILURE);
 			}
 			return;
 		}
 		this.render("edit_user");
 	}
-	
-	
+
 	/**
 	 * 编辑用户
 	 */
 	@Action("users/{uid}")
-	public void edit_user(){
+	public void edit_user() {
 		Integer uid = this.getParaToInt();
 		// 编辑
-		if(null != uid){
+		if (null != uid) {
 			Map<String, Object> user = userService.getMap(null, uid);
 			this.setAttr("user", user);
 		}
 		this.render("edit_user");
 	}
-	
-	
+
 	/**
 	 * 删除音乐
 	 */
@@ -195,17 +199,17 @@ public class IndexController extends BaseController {
 	public void delete_music() {
 		Integer mid = this.getParaToInt("mid");
 		boolean flag = false;
-		if(null != mid){
+		if (null != mid) {
 			flag = musicService.enable(mid, 0);
 			if (flag) {
 				this.renderText(WebConst.MSG_SUCCESS);
 			} else {
 				this.renderText(WebConst.MSG_FAILURE);
 			}
-		} else{
+		} else {
 			this.renderText(WebConst.MSG_FAILURE);
 		}
-		
+
 	}
 
 	/*-----------------------------------mcat--------------------------------------------*/
@@ -218,23 +222,44 @@ public class IndexController extends BaseController {
 		this.render("mcat");
 	}
 
+	/**
+	 * 保存分类
+	 */
+	@Action("mcat/save")
+	public void save_cat() {
+		Integer id = this.getParaToInt("id");
+		String name = this.getPara("name");
+		boolean flag = false;
+		if (null != id) {
+			flag = mcatService.update(id, name, null);
+		} else {
+			flag = mcatService.save(name);
+		}
+		if (flag) {
+			this.renderText(WebConst.MSG_SUCCESS);
+		} else {
+			this.renderText(WebConst.MSG_FAILURE);
+		}
+	}
+
 	/*-----------------------------------special--------------------------------------------*/
 	/**
 	 * 专辑列表
 	 */
 	public void special() {
-		Page<Map<String, Object>> specialPage = specialService.getPageMapList(null, null, null, null, page, pageSize, "last_time desc");
+		Page<Map<String, Object>> specialPage = specialService.getPageMapList(null, null, null, null, page, pageSize,
+				"last_time desc");
 		this.setAttr("specialPage", specialPage);
 		this.render("special");
 	}
-	
+
 	/**
 	 * 保存专辑
 	 */
 	@Action("special/save")
 	public void save_special() {
 		String step = this.getPara("step");
-		if(StringUtils.isNoneBlank(step)){
+		if (StringUtils.isNoneBlank(step)) {
 			Integer id = this.getParaToInt("id");
 			String title = this.getPara("title");
 			String introduce = this.getPara("introduce");
@@ -244,35 +269,35 @@ public class IndexController extends BaseController {
 			Integer status = this.getParaToInt("status");
 			boolean flag = false;
 			uid = 1;
-			if(null != id){
+			if (null != id) {
 				flag = specialService.update(id, uid, title, introduce, cover_small, cover_pic, is_top, status) > 0;
-			} else{
+			} else {
 				flag = specialService.save(uid, title, introduce, cover_small, cover_pic, is_top, 1);
 			}
-			if(flag){
+			if (flag) {
 				this.renderText(WebConst.MSG_SUCCESS);
-			} else{
+			} else {
 				this.renderText(WebConst.MSG_ERROR);
 			}
 			return;
 		}
 		this.render("edit_special");
 	}
-	
+
 	/**
 	 * 编辑专辑
 	 */
 	@Action("special/{mid}")
-	public void edit_special(){
+	public void edit_special() {
 		Integer sid = this.getParaToInt();
 		// 编辑
-		if(null != sid){
+		if (null != sid) {
 			Map<String, Object> music = specialService.getMap(null, sid);
 			this.setAttr("special", music);
 		}
 		this.render("edit_special");
 	}
-	
+
 	/**
 	 * 禁用专辑
 	 */
@@ -281,14 +306,14 @@ public class IndexController extends BaseController {
 		Integer sid = this.getParaToInt("sid");
 		Integer status = this.getParaToInt("status");
 		boolean flag = false;
-		if(null != sid && null != status){
+		if (null != sid && null != status) {
 			flag = specialService.enable(sid, status);
 			if (flag) {
 				this.renderText(WebConst.MSG_SUCCESS);
 			} else {
 				this.renderText(WebConst.MSG_FAILURE);
 			}
-		} else{
+		} else {
 			this.renderText(WebConst.MSG_FAILURE);
 		}
 	}

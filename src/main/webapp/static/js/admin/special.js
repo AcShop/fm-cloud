@@ -1,6 +1,7 @@
 /**
  * 全局music
  */
+$unique.admin.special = {};
 $(function() {
 
 	$("#uploadify").uploadify({
@@ -119,8 +120,3 @@ $unique.admin.special.enable = function(sid, status){
 		});
 	}
 }
-
-/**
- * 编辑音乐
- */
-$unique.admin.music.edit = function(mid){}

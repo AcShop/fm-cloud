@@ -3,6 +3,7 @@ $(function() {
 	
 });
 
+$unique.admin.user = {};
 /**
  * 保存用户
  */

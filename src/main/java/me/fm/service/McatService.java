@@ -17,5 +17,9 @@ public interface McatService {
 	Mcat get(Integer id);
 	
 	List<Mcat> getList(Integer status);
+
+	boolean save(String name);
+	
+	boolean update(Integer id, String name, Integer status);
 	
 }
