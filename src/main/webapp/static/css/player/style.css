@@ -29,17 +29,35 @@ div#music-album-list{
 	overflow:hidden;
 	overflow: scroll; 
 	scroll: both;
+	padding: 0 10px;
 }
-
-#album-left .mlist .song-name{
+#album-left .img-desc{
+	position: relative;
+	display: block;
+}
+#album-left .img-desc cite {
+	background: #111;
+	filter:alpha(opacity=55);
+	opacity:.55;
+	color: #fff;
+	position: absolute;
+	bottom: 0;
+	left: 0;
 	width: 180px;
+	padding: 10px;
+	border-top: 1px solid #999;
+}
+#album-left .mlist .song-name{
+	width: 200px;
 	padding-right:20px;
 	overflow: hidden;
+	text-align: left;
 	text-shadow: 0 -1px 1px #eee;
 }
+
 #album-left .mlist img{
-	width:200px;
-	height:150px;
+	width:180px;
+	height:180px;
 	cursor: pointer;
 }
 #album-left .mlist .profile{

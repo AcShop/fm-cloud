@@ -46,7 +46,7 @@ public class IndexController extends BaseController {
 	public void index() {
 		this.render("index");
 	}
-
+	
 	/**
 	 * 管理员退出
 	 */
