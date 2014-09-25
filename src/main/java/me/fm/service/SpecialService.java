@@ -34,4 +34,6 @@ public interface SpecialService {
 	int delete(Integer sid);
 	
 	int hit(Integer sid);
+
+	boolean enable(Integer sid, Integer status);
 }

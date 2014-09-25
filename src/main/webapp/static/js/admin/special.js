@@ -1,7 +1,6 @@
 /**
  * 全局music
  */
-$unique.admin.music = {};
 $(function() {
 
 	$("#uploadify").uploadify({
@@ -10,20 +9,19 @@ $(function() {
 		'cancelImg' : $unique.cdn + '/static/uploadify/uploadify-cancel.png',
 		'queueID' : 'fileQueue',// 与下面的id对应
 		'queueSizeLimit' : 10,
-		'fileExt' : '*.mp3',
-		'fileTypeDesc' : '*.mp3',
-		'fileExt' : '*.mp3',
+		'fileSizeLimit' : '5MB',
+		'fileExt' : '*.jpg;*.jpeg;*.png;',
+		'fileTypeDesc' : '*.jpeg; *.jpg; *.png',
 		'method' : 'get',
 		'auto' : true,
 		'multi' : false,
 		'simUploadLimit' : 1,
-		'buttonText' : '选择音乐文件',
+		'buttonText' : '选择图片文件',
 		'onUploadSuccess' : function(file, data, response) {// 上传完成时触发（每个文件触发一次）
 			if (data) {
 				data = eval("(" + data + ")");
-				$('#upload_music_form').find('input[name="song_path"]')
+				$('#upload_special_form').find('input[name="cover_small"]')
 						.val(data.save_path).attr('readonly', true);
-				$('#upload_music_form').find('input[name="song"]').val(data.file_name);
 				$('#uploadify').val('');
 			}
 		}
@@ -46,42 +44,34 @@ $(function() {
 		'onUploadSuccess' : function(file, data, response) {// 上传完成时触发（每个文件触发一次）
 			if (data) {
 				data = eval("(" + data + ")");
-				$('#upload_music_form').find('input[name="cover_path"]')
+				$('#upload_special_form').find('input[name="cover_pic"]')
 						.val(data.save_path).attr('readonly', true);
 				$('#uploadify2').val('');
 			}
 		}
 	});
 	
-	$('#upload_music_form').validator({
+	$('#upload_special_form').validator({
 	    rules: {
 	    	mobile: [/^1[3458]\d{9}$/, '请检查手机号格式']
 	    },
-	    fields: {
-	    	song: 'required; length[1~50]',
-	    	singer : 'length[1~50]',
-	    	introduce : 'length[1~200]',
-	    	song_path : 'required; ',
-	    	cover_path : 'required; '
+	    display: function(el){
+	        return el.getAttribute('placeholder') || '';
 	    },
-	    //自定义用于当前实例的消息
-	    messages: {
-	        required: "请填写{0}"
+	    fields: {
+	    	title: 'required; length[1~50]',
+	    	introduce : 'required;; length[1~200]',
+	    	cover_small : 'required; ',
+	    	cover_pic : 'required; '
 	    },
 	    valid: function(form){
-	    	var cids = [];
-	    	$(form).find('button[name="cidbtn"][ok="1"]').each(function(k, v){
-	    		cids.push($(v).attr('cid'));
-	    	});
-	    	$(form).find('#cids').val(cids.join(','));
-	    	
-	    	var url = $unique.base + '/admin/music/save';
+	    	var url = $unique.base + '/admin/special/save';
 			var param = $(form).serializeArray();
 			$.post(url, param, function(data) {
 				if(data){
 					if(data === 'success'){
 						$unique.alert('保存成功！');
-						window.location.href = $unique.base + '/admin/music';
+						window.location.href = $unique.base + '/admin/special';
 					} else{
 						$unique.alert('保存失败！');
 					}
@@ -92,37 +82,42 @@ $(function() {
 	});
 });
 
-$unique.admin.music.tabok = function(obj){
-	var ok = $(obj).attr('ok');
-	if(ok === '1'){
-		$(obj).attr('ok', '0');
-	} else{
-		$(obj).attr('ok', '1');
-	}
-	$(obj).find('i').toggle();
-}
+
 /**
- * 删除音乐
+ * 禁用专辑
  */
-$unique.admin.music.del = function(mid){
-	art.dialog({
-	    lock: true,
-	    content: '确定删除该音乐吗',
-	    icon: 'error',
-	    ok: function () {
-	    	var url = $unique.base + '/admin/music/del';
-			var param = { mid : mid };
-			$.post(url, param, function(data) {
-				if(data && data === 'success'){
-					$unique.alert('删除成功！');
-					window.location.href = $unique.base + '/admin/music';
-				} else{
-					$unique.alert('删除失败！');
-				}
-			},'text');
-	    },
-	    cancel: true
-	});
+$unique.admin.special.enable = function(sid, status){
+	if(status == 1){
+		var url = $unique.base + '/admin/special/enable';
+		var param = { sid : sid, status : status };
+		$.post(url, param, function(data) {
+			if(data && data === 'success'){
+				$unique.alert('禁用成功！');
+				window.location.href = $unique.base + '/admin/special';
+			} else{
+				$unique.alert('禁用失败！');
+			}
+		},'text');
+	} else{
+		art.dialog({
+		    lock: true,
+		    content: '确定禁用该专辑吗',
+		    icon: 'error',
+		    ok: function () {
+		    	var url = $unique.base + '/admin/special/enable';
+				var param = { sid : sid, status : status };
+				$.post(url, param, function(data) {
+					if(data && data === 'success'){
+						$unique.alert('禁用成功！');
+						window.location.href = $unique.base + '/admin/special';
+					} else{
+						$unique.alert('禁用失败！');
+					}
+				},'text');
+		    },
+		    cancel: true
+		});
+	}
 }
 
 /**

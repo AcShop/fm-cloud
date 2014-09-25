@@ -1,0 +1,78 @@
+<% include("/admin/header.html", {active : 'special'}){} %>
+<div style="margin: 10px;">
+	<button class="btn btn-primary btn-xs" onclick="window.location.href='${base}/admin/special/save'">
+		<i class="icon-edit"></i> 添加专辑
+	</button>
+</div>
+<div>
+	<table class="table table-hover table-bordered">
+		<thead>
+			<tr>
+				<th>编号</th>
+				<th>上传人</th>
+				<th>标题</th>
+				<th>描述</th>
+				<th>人气</th>
+				<th>小图</th>
+				<th>大图</th>
+				<th>是否置顶</th>
+				<th>创建时间</th>
+				<th>最后更新时间</th>
+				<th>状态</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for(special in specialPage.results!){%>
+			<tr>
+				<td>${special.id!}</td>
+				<td>${special.uid!}</td>
+				<td>${special.title!}</td>
+				<td>${special.introduce!}</td>
+				<td>${special.hit!}</td>
+				<td>
+					<a href="${special.cover_small_url!}" target="_blank"><img src="${special.cover_small_url!}" width="50" height="50" /></a>
+				</td>
+				<td>
+					<a href="${special.cover_pic_url!}" target="_blank"><img src="${special.cover_pic_url!}" width="80" height="80" /></a>
+				</td>
+				<td>
+					<%
+						if(1==special.is_top!){%>
+							置顶
+						<%} else{%>
+							不置顶
+					<%} %>
+				</td>
+				<td>${special.create_time_zh!}</td>
+				<td>${special.last_time_zh!}</td>
+				<td><%
+						if(1==special.status!){%>
+							正常
+						<%} else{%>
+							禁用
+					<%} %>
+				</td>
+				<td>
+					<button class="btn btn-info btn-xs" onclick="window.location.href='${base}/admin/special/${special.id!}'">
+						<i class="icon-edit"></i> 编辑
+					</button>
+					<%
+					if(1 == special.status!){%>
+						<button class="btn btn-danger btn-xs" onclick="$unique.admin.special.enable(${special.id!}, 0)">
+							<i class="icon-edit"></i> 禁用
+						</button>
+					<%} else{%>
+						<button class="btn btn-primary btn-xs" onclick="$unique.admin.special.enable(${special.id!}, 1)">
+							<i class="icon-edit"></i> 启用
+						</button>
+					<%} %>
+					
+				</td>
+			</tr>
+			<% }%>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript" src="${cdn}/static/uploadify/jquery.uploadify.min.js"></script>
+<% include("/admin/footer.html", {jsList : ['admin/special.js']}){} %>

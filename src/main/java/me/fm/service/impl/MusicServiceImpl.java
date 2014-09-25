@@ -191,16 +191,19 @@ public class MusicServiceImpl implements MusicService {
 					base.set("song_path", key);
 				}
 				//判断音乐封面是否修改
-				if (StringUtils.isNotBlank(cover_path) && 
-						!cover_path.endsWith(music.getCover_path()) && FileUtil.exists(cover_path)) {
-					cover_key = AttachUtil.getMusicCoverKey(music.getUid(), cover_path, random);
-					//删除原有文件
-					String oldKey = music.getCover_path();
-					fileService.delete(oldKey);
+				if (StringUtils.isNotBlank(cover_path) && FileUtil.exists(cover_path)) {
+					
+					if(StringUtils.isEmpty(music.getCover_path()) || 
+							(StringUtils.isNotBlank(music.getCover_path()) && !cover_path.endsWith(music.getCover_path()))){
+						cover_key = AttachUtil.getMusicCoverKey(music.getUid(), cover_path, random);
+						//删除原有文件
+						String oldKey = music.getCover_path();
+						fileService.delete(oldKey);
 
-					fileService.upload(cover_key, cover_path);
+						fileService.upload(cover_key, cover_path);
 
-					base.set("cover_path", cover_key);
+						base.set("cover_path", cover_key);
+					}
 				}
 				//是否修改描述
 				if(StringUtils.isNotBlank(introduce) && !introduce.equals(music.getIntroduce())){

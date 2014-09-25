@@ -46,10 +46,31 @@ public class IndexController extends BaseController {
 	public void index() {
 		this.render("index");
 	}
-
+	
 	/**
-	 * 音乐列表
+	 * 用户登录
 	 */
+	public void login() {
+		String step = this.getPara("step");
+		if (null != step && step.equals("login")) {
+			String email = this.getPara("login_name");
+			String pass_word = this.getPara("pass_word");
+			User user = userService.login(email, pass_word);
+			//登录成功
+			if (null != user) {
+				SessionUtil.setLoginUser(user);
+				this.renderText(WebConst.MSG_SUCCESS);
+			} else {
+				this.renderText(WebConst.MSG_FAILURE);
+			}
+			return;
+		}
+		this.render("login");
+	}
+
+	
+	/*-----------------------------------music--------------------------------------------*/
+	
 	public void music() {
 		String singer = this.getPara("singer");
 		String song = this.getPara("song");
@@ -58,7 +79,56 @@ public class IndexController extends BaseController {
 		this.setAttr("pageMap", musicPage);
 		this.render("music");
 	}
+	
+	/**
+	 * 编辑音乐
+	 */
+	@Action("music/{mid}")
+	public void edit_music(){
+		Integer mid = this.getParaToInt();
+		// 编辑
+		if(null != mid){
+			Map<String, Object> music = musicService.getMap(null, mid);
+			this.setAttr("music", music);
+		}
+		List<Mcat> mcatList = mcatService.getList(1);
+		this.setAttr("catList", mcatList);
+		this.render("edit_music");
+	}
 
+	/**
+	 * 保存音乐
+	 */
+	@Action("music/save")
+	public void save_music() {
+		Integer mid = this.getParaToInt("mid");
+		String singer = this.getPara("singer");
+		String song = this.getPara("song");
+		String song_path = this.getPara("song_path");
+		String cover_path = this.getPara("cover_path");
+		String introduce = this.getPara("introduce");
+		String cids = this.getPara("cids");
+		String step = this.getPara("step");
+		if(StringUtils.isNoneBlank(step)){
+			boolean flag = false;
+			uid = 1;
+			if(null != mid){
+				flag = musicService.update(uid, singer, song, song_path, cover_path, introduce, cids, null, null) > 0;
+			} else{
+				flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, null, null);
+			}
+			if(flag){
+				this.renderText(WebConst.MSG_SUCCESS);
+			} else{
+				this.renderText(WebConst.MSG_ERROR);
+			}
+			return;
+		}
+		this.render("edit_music");
+	}
+	
+	/*-----------------------------------user--------------------------------------------*/
+	
 	/**
 	 * 用户列表
 	 */
@@ -67,25 +137,7 @@ public class IndexController extends BaseController {
 		this.setAttr("userPage", userPage);
 		this.render("user");
 	}
-
-	/**
-	 * 分类列表
-	 */
-	public void mcat() {
-		List<Mcat> mcatList = mcatService.getList(null);
-		this.setAttr("mcatList", mcatList);
-		this.render("mcat");
-	}
-
-	/**
-	 * 专辑列表
-	 */
-	public void special() {
-		Page<Map<String, Object>> specialPage = specialService.getPageMapList(null, null, null, null, page, pageSize, "last_time desc");
-		this.setAttr("specialPage", specialPage);
-		this.render("special");
-	}
-
+	
 	/**
 	 * 删除用户
 	 */
@@ -120,33 +172,6 @@ public class IndexController extends BaseController {
 		this.render("edit_user");
 	}
 	
-	@Action("music/save")
-	public void save_music() {
-		Integer mid = this.getParaToInt("mid");
-		String singer = this.getPara("singer");
-		String song = this.getPara("song");
-		String song_path = this.getPara("song_path");
-		String cover_path = this.getPara("cover_path");
-		String introduce = this.getPara("introduce");
-		String cids = this.getPara("cids");
-		String step = this.getPara("step");
-		if(StringUtils.isNoneBlank(step)){
-			boolean flag = false;
-			uid = 1;
-			if(null != mid){
-				flag = musicService.update(uid, singer, song, song_path, cover_path, introduce, cids, null, null) > 0;
-			} else{
-				flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, null, null);
-			}
-			if(flag){
-				this.renderText(WebConst.MSG_SUCCESS);
-			} else{
-				this.renderText(WebConst.MSG_ERROR);
-			}
-			return;
-		}
-		this.render("edit_music");
-	}
 	
 	/**
 	 * 编辑用户
@@ -162,24 +187,9 @@ public class IndexController extends BaseController {
 		this.render("edit_user");
 	}
 	
-	/**
-	 * 编辑音乐
-	 */
-	@Action("music/{mid}")
-	public void edit_music(){
-		Integer mid = this.getParaToInt();
-		// 编辑
-		if(null != mid){
-			Map<String, Object> music = musicService.getMap(null, mid);
-			this.setAttr("music", music);
-		}
-		List<Mcat> mcatList = mcatService.getList(1);
-		this.setAttr("catList", mcatList);
-		this.render("edit_music");
-	}
 	
 	/**
-	 * 删除用户
+	 * 删除音乐
 	 */
 	@Action("music/del")
 	public void delete_music() {
@@ -198,25 +208,88 @@ public class IndexController extends BaseController {
 		
 	}
 
+	/*-----------------------------------mcat--------------------------------------------*/
 	/**
-	 * 用户登录
+	 * 分类列表
 	 */
-	public void login() {
+	public void mcat() {
+		List<Mcat> mcatList = mcatService.getList(null);
+		this.setAttr("mcatList", mcatList);
+		this.render("mcat");
+	}
+
+	/*-----------------------------------special--------------------------------------------*/
+	/**
+	 * 专辑列表
+	 */
+	public void special() {
+		Page<Map<String, Object>> specialPage = specialService.getPageMapList(null, null, null, null, page, pageSize, "last_time desc");
+		this.setAttr("specialPage", specialPage);
+		this.render("special");
+	}
+	
+	/**
+	 * 保存专辑
+	 */
+	@Action("special/save")
+	public void save_special() {
 		String step = this.getPara("step");
-		if (null != step && step.equals("login")) {
-			String email = this.getPara("login_name");
-			String pass_word = this.getPara("pass_word");
-			User user = userService.login(email, pass_word);
-			//登录成功
-			if (null != user) {
-				SessionUtil.setLoginUser(user);
+		if(StringUtils.isNoneBlank(step)){
+			Integer id = this.getParaToInt("id");
+			String title = this.getPara("title");
+			String introduce = this.getPara("introduce");
+			String cover_small = this.getPara("cover_small");
+			String cover_pic = this.getPara("cover_pic");
+			Integer is_top = this.getParaToInt("is_top");
+			Integer status = this.getParaToInt("status");
+			boolean flag = false;
+			uid = 1;
+			if(null != id){
+				flag = specialService.update(id, uid, title, introduce, cover_small, cover_pic, is_top, status) > 0;
+			} else{
+				flag = specialService.save(uid, title, introduce, cover_small, cover_pic, is_top, 1);
+			}
+			if(flag){
+				this.renderText(WebConst.MSG_SUCCESS);
+			} else{
+				this.renderText(WebConst.MSG_ERROR);
+			}
+			return;
+		}
+		this.render("edit_special");
+	}
+	
+	/**
+	 * 编辑专辑
+	 */
+	@Action("special/{mid}")
+	public void edit_special(){
+		Integer sid = this.getParaToInt();
+		// 编辑
+		if(null != sid){
+			Map<String, Object> music = specialService.getMap(null, sid);
+			this.setAttr("special", music);
+		}
+		this.render("edit_special");
+	}
+	
+	/**
+	 * 禁用专辑
+	 */
+	@Action("special/enable")
+	public void delete_special() {
+		Integer sid = this.getParaToInt("sid");
+		Integer status = this.getParaToInt("status");
+		boolean flag = false;
+		if(null != sid && null != status){
+			flag = specialService.enable(sid, status);
+			if (flag) {
 				this.renderText(WebConst.MSG_SUCCESS);
 			} else {
 				this.renderText(WebConst.MSG_FAILURE);
 			}
-			return;
+		} else{
+			this.renderText(WebConst.MSG_FAILURE);
 		}
-		this.render("login");
 	}
-
 }
