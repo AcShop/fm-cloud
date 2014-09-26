@@ -142,7 +142,7 @@ public class IndexController extends BaseController {
 	public void radio() {
 		//获取推荐的前9个
 		Page<Map<String, Object>> specialPage = specialService.getPageMapList(null, null, 1, 1, 1, 9, "last_time desc");
-		this.setAttr("specialPage", specialPage.getResults());
+		this.setAttr("pageData", specialPage.getResults());
 		this.render("radio");
 	}
 }

@@ -3,7 +3,7 @@
 左边
 */
 body{
-	background: #eee url("../../img/bg/default.jpg") no-repeat center;
+	background: #eee url("../../img/bg/bg_02.jpg") no-repeat center;
   	opacity:0.8;
   	filter:alpha(opacity=80);
   	-moz-opacity:0.8;opacity:0.8;
