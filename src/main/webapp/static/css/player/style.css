@@ -2,9 +2,15 @@
 /*
 左边
 */
+body{
+	background: #eee url("../../img/bg/default.jpg") no-repeat center;
+  	opacity:0.8;
+  	filter:alpha(opacity=80);
+  	-moz-opacity:0.8;opacity:0.8;
+  	-khtml-opacity: 0.8;
+}
 div#music-album-list{
 	height: 770px;
-	border: 1px solid gray;
 	padding: 0;
 	margin-top: 20px;
 }
@@ -26,11 +32,17 @@ div#music-album-list{
 	height: 90%;
 	max-width:100%;
 	max-height:90%;
-	overflow:hidden;
-	overflow: scroll; 
+	overflow-y: scroll; 
 	scroll: both;
 	padding: 0 10px;
 }
+
+#album-left .mlist img{
+	width:180px;
+	height:180px;
+	cursor: pointer;
+}
+/*封面描述*/
 #album-left .img-desc{
 	position: relative;
 	display: block;
@@ -47,6 +59,7 @@ div#music-album-list{
 	padding: 10px;
 	border-top: 1px solid #999;
 }
+/*音乐名称*/
 #album-left .mlist .song-name{
 	width: 200px;
 	padding-right:20px;
@@ -55,11 +68,6 @@ div#music-album-list{
 	text-shadow: 0 -1px 1px #eee;
 }
 
-#album-left .mlist img{
-	width:180px;
-	height:180px;
-	cursor: pointer;
-}
 #album-left .mlist .profile{
 	clear:both;
 	margin-top: 20px;
@@ -72,13 +80,9 @@ div#music-album-list{
 	width: 220px;
 	height: 220px;
 }
-#album-left .mlist .music .media-wrapper{
-	border: 1px solid gray;
-}
 
 #album-left {
 	width: 62%;
-	background: #eee url("../../img/music/bg.jpg") no-repeat;
 }
 #album-right {
 	width: 38%;
@@ -91,7 +95,6 @@ div#music-album-list{
 #album-right .other {
 	height: 38%;
 }
-
 
 /*
  * 右边
@@ -109,6 +112,7 @@ div#music-album-list{
   width: 90%;
   height: 290px;
   margin: 8px auto;
+  margin-top: 75px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
   border-radius: 10px;
   background: #222;

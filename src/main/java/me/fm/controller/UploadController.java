@@ -2,6 +2,7 @@ package me.fm.controller;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +12,17 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
+import org.json.JSONException;
 import org.unique.common.tools.CollectionUtil;
 import org.unique.common.tools.DateUtil;
 import org.unique.common.tools.FileUtil;
 import org.unique.common.tools.StringUtils;
+import org.unique.web.annotation.Action;
 import org.unique.web.annotation.Path;
 import org.unique.web.core.Const;
 import org.unique.web.core.Controller;
+
+import com.baidu.ueditor.ActionEnter;
 
 /**
  * 文件上传
@@ -161,4 +166,10 @@ public class UploadController extends Controller {
 		return url;
 	}
 
+	public void ueditor() throws UnsupportedEncodingException, JSONException{
+		request.setCharacterEncoding( "utf-8" );
+		response.setHeader("Content-Type" , "text/html");
+		String rootPath = request.getServletContext().getRealPath( "/" );
+		this.renderText(new ActionEnter( request, rootPath ).exec());
+	}
 }
