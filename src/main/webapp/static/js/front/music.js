@@ -20,7 +20,7 @@ $unique.img.loadind = function() {
 		beforehand : 0, // 预先提前多少像素加载图片(默认：0)
 		event : "scroll", // 触发加载图片事件(默认：scroll)
 		duration : "normal", // 三种预定淡出(入)速度之一的字符串("slow", "normal", or
-								// "fast")或表示动画时长的毫秒数值(如：1000),默认:"normal"
+		// "fast")或表示动画时长的毫秒数值(如：1000),默认:"normal"
 		container : window, // 对象加载的位置容器(默认：window)
 		success : function(imgObj) {
 		}, // 加载图片成功后的回调函数(默认：不执行任何操作)
@@ -44,6 +44,10 @@ $(function() {
 		poster : $unique.cdn + "/static/img/tumblr_nbmb3j8nU51sq3g2zo1_500.png"
 	} ];
 	myPlaylist = new jPlayerPlaylist(cssSelector, playlist, options);
+	
+	uParse('.lrc', {
+	    rootPath: '../../ueditor'
+	});
 });
 
 /**
@@ -68,6 +72,11 @@ $unique.music.playerMp3 = function(mid) {
 				// 设置自动播放
 				myPlaylist.option("autoPlay", true);
 				myPlaylist.play(0);
+				if(data.lrc && data.lrc != ''){
+					$('#album-right').find('div.lrc').css('overflow-y', 'scroll').html(data.lrc);
+				} else{
+					$('#album-right').find('div.lrc').css('overflow','hidden').html('暂无歌词');
+				}
 			}
 		}, 'json');
 	}

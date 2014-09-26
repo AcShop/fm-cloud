@@ -89,11 +89,12 @@ div#music-album-list{
 }
 
 #album-right .cover {
-	height: 60%;
+	height: 40%;
 }
 
-#album-right .other {
-	height: 38%;
+#album-right .lrc {
+	height: 50%;
+	padding: 20px;
 }
 
 /*

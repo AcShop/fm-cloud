@@ -65,8 +65,6 @@ public class FileManager {
 		
 		File file = null;
 		
-		System.out.println("root:" + rootPath);
-
 		for (Object obj : files) {
 			if (obj == null) {
 				break;

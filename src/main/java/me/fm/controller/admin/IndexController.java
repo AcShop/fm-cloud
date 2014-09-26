@@ -107,21 +107,23 @@ public class IndexController extends BaseController {
 	 */
 	@Action("music/save")
 	public void save_music() {
-		Integer mid = this.getParaToInt("mid");
-		String singer = this.getPara("singer");
-		String song = this.getPara("song");
-		String song_path = this.getPara("song_path");
-		String cover_path = this.getPara("cover_path");
-		String introduce = this.getPara("introduce");
-		String cids = this.getPara("cids");
 		String step = this.getPara("step");
 		if (StringUtils.isNoneBlank(step)) {
+			Integer mid = this.getParaToInt("mid");
+			String singer = this.getPara("singer");
+			String song = this.getPara("song");
+			String song_path = this.getPara("song_path");
+			String cover_path = this.getPara("cover_path");
+			String introduce = this.getPara("introduce");
+			String lrc = this.getPara("lrc");
+			String cids = this.getPara("cids");
+			
 			boolean flag = false;
 			uid = 1;
 			if (null != mid) {
-				flag = musicService.update(uid, singer, song, song_path, cover_path, introduce, cids, null, null) > 0;
+				flag = musicService.update(uid, singer, song, song_path, cover_path, introduce, cids, lrc, null, null) > 0;
 			} else {
-				flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, null, null);
+				flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, lrc, null, null);
 			}
 			if (flag) {
 				this.renderText(WebConst.MSG_SUCCESS);

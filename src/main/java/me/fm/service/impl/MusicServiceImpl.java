@@ -50,7 +50,7 @@ public class MusicServiceImpl implements MusicService {
 
 	@Override
 	public boolean save(Integer uid, String singer, String song, String song_path, String cover_path, String introduce,
-			String cids, String tags, Integer sid) {
+			String cids, String lrc, String tags, Integer sid) {
 		int count = 0;
 		//1 上传到七牛
 		String random = DateUtil.convertDateToInt(new Date()) + StringUtils.randomNum(4);
@@ -90,8 +90,8 @@ public class MusicServiceImpl implements MusicService {
 		//2 保存数据库
 		try {
 			count = Music.db.update(
-					"insert into t_music(uid, singer, song, song_path, cover_path, introduce, cids, tags, sid, create_time) "
-							+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", uid, singer, song, song_key, cover_key, introduce, cids, tags,
+					"insert into t_music(uid, singer, song, song_path, cover_path, introduce, cids, lrc, tags, sid, create_time) "
+							+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", uid, singer, song, song_key, cover_key, introduce, cids, lrc, tags,
 							sid, DateUtil.getCurrentTime());
 		} catch (UpdateException e) {
 			logger.warn("添加音乐失败：" + e.getMessage());
@@ -163,7 +163,7 @@ public class MusicServiceImpl implements MusicService {
 
 	@Override
 	public int update(Integer id, String singer, String song, String song_path, String cover_path, String introduce,
-			String cids, String tags, Integer sid) {
+			String cids, String lrc, String tags, Integer sid) {
 		int count = 0;
 		if (null != id) {
 
@@ -216,6 +216,10 @@ public class MusicServiceImpl implements MusicService {
 				//是否修改tags
 				if(StringUtils.isNotBlank(tags) && !tags.equals(music.getTags())){
 					base.set("tags", tags);
+				}
+				//是否修改歌词信息
+				if(StringUtils.isNotBlank(lrc) && !lrc.equals(music.getLrc())){
+					base.set("lrc", lrc);
 				}
 				base.eq("id", id);
 				try {

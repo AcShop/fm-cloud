@@ -42,7 +42,8 @@ public interface MusicService {
 	 * @param introduce
 	 * @param cids
 	 */
-	boolean save(Integer uid, String singer, String song, String song_path, String cover_path, String introduce, String cids, String tags, Integer sid);
+	boolean save(Integer uid, String singer, String song, String song_path, String cover_path, 
+			String introduce, String cids, String lrc, String tags, Integer sid);
 	
 	/**
 	 * 修改音乐信息
@@ -53,7 +54,8 @@ public interface MusicService {
 	 * @param cids
 	 * @return
 	 */
-	int update(Integer id, String singer, String song, String song_path, String cover_path, String introduce, String cids, String tags, Integer sid);
+	int update(Integer id, String singer, String song, String song_path, String cover_path, String introduce,
+			String cids, String lrc, String tags, Integer sid);
 	
 	/**
 	 * 查询音乐列表

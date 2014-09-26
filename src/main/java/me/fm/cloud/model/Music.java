@@ -22,6 +22,7 @@ public class Music extends Model<Music> {
 	private String cover_path;
 	private String introduce;
 	private String cids;
+	private String lrc;
 	private String tags;
 	private Integer sid;
 	private Integer listen_count;
@@ -151,6 +152,14 @@ public class Music extends Model<Music> {
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public String getLrc() {
+		return lrc;
+	}
+
+	public void setLrc(String lrc) {
+		this.lrc = lrc;
 	}
 
 }
