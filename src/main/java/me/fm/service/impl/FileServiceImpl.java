@@ -36,7 +36,7 @@ import com.qiniu.api.rsf.RSFEofException;
 public class FileServiceImpl implements FileService {
 
 	private Logger logger = Logger.getLogger(FileServiceImpl.class);
-	
+
 	@Override
 	public List<ListItem> getList(String prefix) {
 
@@ -62,39 +62,55 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public Entry getInfo(String key) {
-        RSClient client = QiniuApi.getRSCClient();
-        Entry statRet = client.stat(QiniuConst.BUCKETNAME, key);
-        return statRet;
-	}
-
-	@Override
-	public int copy(String keySrc, String keyDest) {
-        RSClient client = QiniuApi.getRSCClient();
-        return client.copy(QiniuConst.BUCKETNAME, keySrc, QiniuConst.BUCKETNAME, keyDest).getStatusCode();
-	}
-
-	@Override
-	public int move(String keySrc, String keyDest) {
 		RSClient client = QiniuApi.getRSCClient();
-		return client.move(QiniuConst.BUCKETNAME, keySrc, QiniuConst.BUCKETNAME, keyDest).getStatusCode();
+		Entry statRet = client.stat(QiniuConst.BUCKETNAME, key);
+		return statRet;
+	}
+	
+	
+	@Override
+	public void copy(final String keySrc, final String keyDest) {
+		new Thread(){
+			@Override
+			public void run() {
+				RSClient client = QiniuApi.getRSCClient();
+				client.copy(QiniuConst.BUCKETNAME, keySrc, QiniuConst.BUCKETNAME, keyDest);
+			}
+		}.start();
 	}
 
 	@Override
-	public int delete(String key) {
-		RSClient client = QiniuApi.getRSCClient();
-        return client.delete(QiniuConst.BUCKETNAME, key).getStatusCode();
+	public void move(final String keySrc, final String keyDest) {
+		new Thread(){
+			@Override
+			public void run() {
+				RSClient client = QiniuApi.getRSCClient();
+				client.move(QiniuConst.BUCKETNAME, keySrc, QiniuConst.BUCKETNAME, keyDest);
+			}
+		}.start();
+	}
+
+	@Override
+	public void delete(final String key) {
+		new Thread() {
+			@Override
+			public void run() {
+				RSClient client = QiniuApi.getRSCClient();
+				client.delete(QiniuConst.BUCKETNAME, key);
+			}
+		}.start();
 	}
 
 	@Override
 	public BatchStatRet batchGetInfo(Set<String> keys) {
-		if(!CollectionUtil.isEmpty(keys)){
+		if (!CollectionUtil.isEmpty(keys)) {
 			List<EntryPath> entries = new ArrayList<EntryPath>();
 			RSClient client = QiniuApi.getRSCClient();
-			for(String key : keys){
+			for (String key : keys) {
 				EntryPath e = new EntryPath();
-		        e.bucket = QiniuConst.BUCKETNAME;
-		        e.key = key;
-		        entries.add(e);
+				e.bucket = QiniuConst.BUCKETNAME;
+				e.key = key;
+				entries.add(e);
 			}
 			return client.batchStat(entries);
 		}
@@ -102,84 +118,97 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public int batchCopy(Map<String, String> keys) {
-		if(!CollectionUtil.isEmpty(keys)){
+	public void batchCopy(final Map<String, String> keys) {
+		if (!CollectionUtil.isEmpty(keys)) {
 			
-			List<EntryPathPair> entries = new ArrayList<EntryPathPair>();
-			RSClient client = QiniuApi.getRSCClient();
+			new Thread(){
+				@Override
+				public void run() {
+					List<EntryPathPair> entries = new ArrayList<EntryPathPair>();
+					RSClient client = QiniuApi.getRSCClient();
+
+					for (String key : keys.keySet()) {
+
+						EntryPathPair pair = new EntryPathPair();
+						EntryPath src = new EntryPath();
+						src.bucket = QiniuConst.BUCKETNAME;
+						src.key = key;
+
+						EntryPath dest = new EntryPath();
+						dest.bucket = QiniuConst.BUCKETNAME;
+						dest.key = keys.get(key);
+
+						pair.src = src;
+						pair.dest = dest;
+
+						entries.add(pair);
+					}
+					client.batchCopy(entries);
+				}
+			}.start();
 			
-			for(String key : keys.keySet()){
-				
-				EntryPathPair pair = new EntryPathPair();
-		        EntryPath src = new EntryPath();
-		        src.bucket = QiniuConst.BUCKETNAME;
-		        src.key = key;
-
-		        EntryPath dest = new EntryPath();
-		        dest.bucket = QiniuConst.BUCKETNAME;
-		        dest.key = keys.get(key);
-
-		        pair.src = src;
-		        pair.dest = dest;
-		        
-		        entries.add(pair);
-			}
-			return client.batchCopy(entries).getStatusCode();
 		}
-		return 0;
 	}
 
 	@Override
-	public int batchMove(Map<String, String> keys) {
-		if(!CollectionUtil.isEmpty(keys)){
+	public void batchMove(final Map<String, String> keys) {
+		if (!CollectionUtil.isEmpty(keys)) {
 			
-			List<EntryPathPair> entries = new ArrayList<EntryPathPair>();
-			RSClient client = QiniuApi.getRSCClient();
-			
-			for(String key : keys.keySet()){
-				
-				EntryPathPair pair = new EntryPathPair();
-		        EntryPath src = new EntryPath();
-		        src.bucket = QiniuConst.BUCKETNAME;
-		        src.key = key;
+			new Thread() {
+				@Override
+				public void run() {
+					List<EntryPathPair> entries = new ArrayList<EntryPathPair>();
+					RSClient client = QiniuApi.getRSCClient();
 
-		        EntryPath dest = new EntryPath();
-		        dest.bucket = QiniuConst.BUCKETNAME;
-		        dest.key = keys.get(key);
+					for (String key : keys.keySet()) {
 
-		        pair.src = src;
-		        pair.dest = dest;
-		        
-		        entries.add(pair);
-			}
-			return client.batchMove(entries).getStatusCode();
+						EntryPathPair pair = new EntryPathPair();
+						EntryPath src = new EntryPath();
+						src.bucket = QiniuConst.BUCKETNAME;
+						src.key = key;
+
+						EntryPath dest = new EntryPath();
+						dest.bucket = QiniuConst.BUCKETNAME;
+						dest.key = keys.get(key);
+
+						pair.src = src;
+						pair.dest = dest;
+
+						entries.add(pair);
+					}
+					client.batchMove(entries);
+				}
+			}.start();
 		}
-		return 0;
 	}
 
 	@Override
-	public int batchDelete(Set<String> keys) {
-		if(!CollectionUtil.isEmpty(keys)){
-			List<EntryPath> entries = new ArrayList<EntryPath>();
-			RSClient client = QiniuApi.getRSCClient();
-			for(String key : keys){
-				EntryPath e = new EntryPath();
-		        e.bucket = QiniuConst.BUCKETNAME;
-		        e.key = key;
-		        entries.add(e);
-			}
-			return client.batchDelete(entries).getStatusCode();
+	public void batchDelete(final Set<String> keys) {
+		if (!CollectionUtil.isEmpty(keys)) {
+			new Thread() {
+				@Override
+				public void run() {
+					List<EntryPath> entries = new ArrayList<EntryPath>();
+					RSClient client = QiniuApi.getRSCClient();
+					for (String key : keys) {
+						EntryPath e = new EntryPath();
+						e.bucket = QiniuConst.BUCKETNAME;
+						e.key = key;
+						entries.add(e);
+					}
+					client.batchDelete(entries);
+				}
+			}.start();
 		}
-		return 0;
 	}
 
 	@Override
 	public void upload(final String key, final String filePath) {
-		if(FileUtil.exists(filePath) && StringUtils.isNotBlank(key)){
-			new Thread(){
+		if (FileUtil.exists(filePath) && StringUtils.isNotBlank(key)) {
+			new Thread() {
 				public void run() {
 					PutPolicy putPolicy = new PutPolicy(QiniuConst.BUCKETNAME);
-			        Mac mac = new Mac(QiniuConst.ACCESS_KEY, QiniuConst.SECRET_KEY);
+					Mac mac = new Mac(QiniuConst.ACCESS_KEY, QiniuConst.SECRET_KEY);
 					String uptoken;
 					try {
 						uptoken = putPolicy.token(mac);

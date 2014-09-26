@@ -180,16 +180,12 @@ public class MusicServiceImpl implements MusicService {
 				//判断音乐文件是否修改
 				if (StringUtils.isNotBlank(song_path)) {
 					if (FileUtil.exists(song_path)) {
-						if (!song_path.endsWith(music.getSong_path())) {
-							key = AttachUtil.getMusicKey(music.getUid(), song_path, random);
-							//删除原有文件
-							String oldKey = music.getSong_path();
-							fileService.delete(oldKey);
-
-							fileService.upload(key, song_path);
-
-							base.set("song_path", key);
-						}
+						key = AttachUtil.getMusicKey(music.getUid(), song_path, random);
+						//删除原有文件
+						String oldKey = music.getSong_path();
+						fileService.upload(key, song_path);
+						base.set("song_path", key);
+						fileService.delete(oldKey);
 					} else if (song_path.startsWith("http://")) {
 						base.set("song_path", song_path);
 					}

@@ -36,7 +36,7 @@ public interface FileService {
 	 * @param keyDest
 	 * @return 返回200成功
 	 */
-	int copy(String keySrc, String keyDest);
+	void copy(String keySrc, String keyDest);
 	
 	/**
 	 * 移动单个文件
@@ -44,14 +44,14 @@ public interface FileService {
 	 * @param keyDest
 	 * @return 返回200成功
 	 */
-	int move(String keySrc, String keyDest);
+	void move(String keySrc, String keyDest);
 	
 	/**
 	 * 删除单个文件
 	 * @param key
 	 * @return 返回200成功
 	 */
-	int delete(String key);
+	void delete(String key);
 	
 	/**
 	 * 批量获取文件属性
@@ -65,21 +65,21 @@ public interface FileService {
 	 * @param keys
 	 * @return
 	 */
-	int batchCopy(Map<String, String> keys);
+	void batchCopy(Map<String, String> keys);
 	
 	/**
 	 * 批量移动文件
 	 * @param keys
 	 * @return
 	 */
-	int batchMove(Map<String, String> keys);
+	void batchMove(Map<String, String> keys);
 	
 	/**
 	 * 批量删除文件
 	 * @param keys
 	 * @return
 	 */
-	int batchDelete(Set<String> keys);
+	void batchDelete(Set<String> keys);
 	
 	/**
 	 * 上传文件
