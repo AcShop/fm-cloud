@@ -40,7 +40,7 @@ public class MusicServiceImpl implements MusicService {
 	private UserService userService;
 	@Autowired
 	private McatService mcatService;
-	
+
 	@Override
 	public Music get(Integer mid) {
 		SqlBase base = SqlBase.select("select * from t_music");
@@ -54,16 +54,16 @@ public class MusicServiceImpl implements MusicService {
 		int count = 0;
 		//1 上传到七牛
 		String random = DateUtil.convertDateToInt(new Date()) + StringUtils.randomNum(4);
-		String song_key = AttachUtil.getMusicKey(uid, song_path, random);
-		String cover_key = "";
+		String song_key = "", cover_key = "";
 
 		if (StringUtils.isNotBlank(song_path)) {
 			if (FileUtil.exists(song_path)) {
+				song_key = AttachUtil.getMusicKey(uid, song_path, random);
 				//上传歌曲
 				fileService.upload(song_key, song_path);
 				//增加用户剩余空间
-//				Entry musicEntry = fileService.getInfo(song_key);
-//				userService.updateUseSize(uid, +musicEntry.getFsize());
+				//				Entry musicEntry = fileService.getInfo(song_key);
+				//				userService.updateUseSize(uid, +musicEntry.getFsize());
 			}
 			if (song_path.startsWith("http://")) {
 				song_key = song_path;
@@ -72,12 +72,12 @@ public class MusicServiceImpl implements MusicService {
 
 		if (StringUtils.isNotBlank(cover_path)) {
 			if (FileUtil.exists(cover_path)) {
-				cover_key = AttachUtil.getMusicCoverKey(uid, song_path, random);
+				cover_key = AttachUtil.getMusicCoverKey(uid, cover_path, random);
 				//上传封面
 				fileService.upload(cover_key, cover_path);
 				//增加用户剩余空间
-//				Entry coverEntry = fileService.getInfo(cover_key);
-//				userService.updateUseSize(uid, + coverEntry.getFsize());
+				//				Entry coverEntry = fileService.getInfo(cover_key);
+				//				userService.updateUseSize(uid, + coverEntry.getFsize());
 			}
 			if (cover_path.startsWith("http://")) {
 				cover_key = cover_path;
@@ -87,8 +87,8 @@ public class MusicServiceImpl implements MusicService {
 		try {
 			count = Music.db.update(
 					"insert into t_music(uid, singer, song, song_path, cover_path, introduce, cids, lrc, tags, sid, create_time) "
-							+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", uid, singer, song, song_key, cover_key, introduce, cids, lrc, tags,
-							sid, DateUtil.getCurrentTime());
+							+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", uid, singer, song, song_key, cover_key,
+					introduce, cids, lrc, tags, sid, DateUtil.getCurrentTime());
 		} catch (UpdateException e) {
 			logger.warn("添加音乐失败：" + e.getMessage());
 			count = 0;
@@ -98,17 +98,21 @@ public class MusicServiceImpl implements MusicService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getList(Integer uid, String singer, String song, String tag, Integer sid, String order) {
+	public List<Map<String, Object>> getList(Integer uid, String singer, String song, String tag, Integer sid,
+			String order) {
 		SqlBase base = SqlBase.select("select t.* from t_music t");
-		base.eq("uid", uid).likeLeft("singer", singer).likeLeft("song", song).eq("sid", sid).like("tags", tag).order(order);
+		base.eq("uid", uid).likeLeft("singer", singer).likeLeft("song", song).eq("sid", sid).like("tags", tag)
+				.order(order);
 		List<Music> list = Music.db.findList(base.getSQL(), base.getParams());
 		return this.getMusicMapList(list);
 	}
 
 	@Override
-	public Page<Music> getPageList(Integer uid, String singer, String song, String tag, Integer sid, Integer status, Integer page, Integer pageSize, String order) {
+	public Page<Music> getPageList(Integer uid, String singer, String song, String tag, Integer sid, Integer status,
+			Integer page, Integer pageSize, String order) {
 		SqlBase base = SqlBase.select("select t.* from t_music t");
-		base.eq("t.uid", uid).likeLeft("t.singer", singer).like("t.song", song).eq("t.status", status).eq("t.sid", sid).like("t.tags", tag).order(order);
+		base.eq("t.uid", uid).likeLeft("t.singer", singer).like("t.song", song).eq("t.status", status).eq("t.sid", sid)
+				.like("t.tags", tag).order(order);
 		return Music.db.findListPage(page, pageSize, base.getSQL(), base.getParams());
 	}
 
@@ -170,31 +174,31 @@ public class MusicServiceImpl implements MusicService {
 
 				SqlBase base = SqlBase.update("update t_music");
 				//判断是否修改歌手
-				if(StringUtils.isNotBlank(singer) && !singer.equals(music.getSinger())){
+				if (StringUtils.isNotBlank(singer) && !singer.equals(music.getSinger())) {
 					base.set("singer", singer);
 				}
 				//判断音乐文件是否修改
 				if (StringUtils.isNotBlank(song_path)) {
-					if(FileUtil.exists(song_path)){
-						if(!song_path.endsWith(music.getSong_path())){
+					if (FileUtil.exists(song_path)) {
+						if (!song_path.endsWith(music.getSong_path())) {
 							key = AttachUtil.getMusicKey(music.getUid(), song_path, random);
 							//删除原有文件
 							String oldKey = music.getSong_path();
 							fileService.delete(oldKey);
 
 							fileService.upload(key, song_path);
-							
+
 							base.set("song_path", key);
 						}
-					} else if(song_path.startsWith("http://")){
+					} else if (song_path.startsWith("http://")) {
 						base.set("song_path", song_path);
 					}
-					
+
 				}
 				//判断音乐封面是否修改
 				if (StringUtils.isNotBlank(cover_path)) {
-					if(FileUtil.exists(cover_path)){
-						if(!cover_path.endsWith(music.getCover_path())){
+					if (FileUtil.exists(cover_path)) {
+						if (!cover_path.endsWith(music.getCover_path())) {
 							cover_key = AttachUtil.getMusicCoverKey(music.getUid(), cover_path, random);
 							//删除原有文件
 							String oldKey = music.getCover_path();
@@ -204,31 +208,31 @@ public class MusicServiceImpl implements MusicService {
 
 							base.set("cover_path", cover_key);
 						}
-					} else if(cover_path.startsWith("http://")){
+					} else if (cover_path.startsWith("http://")) {
 						base.set("cover_path", cover_path);
 					}
 				}
 				//是否修改描述
-				if(StringUtils.isNotBlank(introduce) && !introduce.equals(music.getIntroduce())){
+				if (StringUtils.isNotBlank(introduce) && !introduce.equals(music.getIntroduce())) {
 					base.set("introduce", introduce);
 				}
 				//是否修改分类
-				if(StringUtils.isNotBlank(cids) && !cids.equals(music.getCids())){
+				if (StringUtils.isNotBlank(cids) && !cids.equals(music.getCids())) {
 					base.set("cids", cids);
 				}
 				//是否修改tags
-				if(StringUtils.isNotBlank(tags) && !tags.equals(music.getTags())){
+				if (StringUtils.isNotBlank(tags) && !tags.equals(music.getTags())) {
 					base.set("tags", tags);
 				}
 				//是否修改歌词信息
-				if(StringUtils.isNotBlank(lrc) && !lrc.equals(music.getLrc())){
+				if (StringUtils.isNotBlank(lrc) && !lrc.equals(music.getLrc())) {
 					base.set("lrc", lrc);
 				}
 				base.eq("id", music.getId());
 				try {
-					if(base.getSetMap().size() == 0){
+					if (base.getSetMap().size() == 0) {
 						return 1;
-					} 
+					}
 					count = Music.db.update(base.getSQL(), base.getParams());
 				} catch (UpdateException e) {
 					logger.warn("更新音乐失败：" + e.getMessage());
@@ -241,21 +245,23 @@ public class MusicServiceImpl implements MusicService {
 
 	@Override
 	public List<Map<String, Object>> getRandom(Integer count) {
-		List<Music> list = Music.db.findList("select t1.id,t1.singer,t1.song,t1.song_path,t1.like_count from t_music t1 " + "join(select max(id) id from  t_music) t2 "
-				+ "on (t1.id >= floor( t2.id*rand() )) limit ?", count);
+		List<Music> list = Music.db.findList(
+				"select t1.id,t1.singer,t1.song,t1.song_path,t1.like_count from t_music t1 "
+						+ "join(select max(id) id from  t_music) t2 " + "on (t1.id >= floor( t2.id*rand() )) limit ?",
+				count);
 		return this.getMusicMapList(list);
 	}
-	
+
 	/**
 	 * 私有的list转map
 	 * @param list
 	 * @return
 	 */
-	private List<Map<String, Object>> getMusicMapList(List<Music> list){
+	private List<Map<String, Object>> getMusicMapList(List<Music> list) {
 		List<Map<String, Object>> mapList = CollectionUtil.newArrayList();
-		for(int i = 0,len=list.size(); i<len; i++){
+		for (int i = 0, len = list.size(); i < len; i++) {
 			Music music = list.get(i);
-			if(null != music){
+			if (null != music) {
 				mapList.add(this.getMap(music, null));
 			}
 		}
@@ -294,7 +300,7 @@ public class MusicServiceImpl implements MusicService {
 				}
 			}
 			// 歌曲封面
-			if(StringUtils.isNotBlank(music.getCover_path())){
+			if (StringUtils.isNotBlank(music.getCover_path())) {
 				if (music.getCover_path().startsWith("http://")) {
 					resultMap.put("cover_url", music.getCover_path());
 				} else {
@@ -303,13 +309,13 @@ public class MusicServiceImpl implements MusicService {
 				}
 			}
 			// 所属分类
-			if(StringUtils.isNotBlank(music.getCids())){
+			if (StringUtils.isNotBlank(music.getCids())) {
 				String[] cids = music.getCids().split(",");
 				List<String> mcatList = CollectionUtil.newArrayList();
-				if(null != cids && cids.length > 0){
-					for(String cid : cids){
+				if (null != cids && cids.length > 0) {
+					for (String cid : cids) {
 						Mcat mcat = mcatService.get(Integer.valueOf(cid));
-						if(null != mcat){
+						if (null != mcat) {
 							mcatList.add(mcat.getName());
 						}
 					}
@@ -318,12 +324,13 @@ public class MusicServiceImpl implements MusicService {
 				resultMap.put("mcatList", Arrays.asList(cids));
 			}
 			// 上传日期
-			if(null != music.getCreate_time()){
+			if (null != music.getCreate_time()) {
 				resultMap.put("date_zh", DateUtil.convertIntToDatePattern(music.getCreate_time(), "yyyy/MM/dd"));
-				resultMap.put("time_zh", DateUtil.convertIntToDatePattern(music.getCreate_time(), "yyyy-MM-dd HH:mm:ss"));
+				resultMap.put("time_zh",
+						DateUtil.convertIntToDatePattern(music.getCreate_time(), "yyyy-MM-dd HH:mm:ss"));
 			}
 			// 上传人
-			if(null != music.getUid()){
+			if (null != music.getUid()) {
 				User user = userService.getByUid(music.getUid());
 				resultMap.put("nickname", user.getNickname());
 			}
@@ -332,13 +339,13 @@ public class MusicServiceImpl implements MusicService {
 	}
 
 	@Override
-	public Page<Map<String, Object>> getPageMapList(Integer uid, String singer, String song, String tag,
-			Integer sid, Integer status, Integer page, Integer pageSize, String order) {
+	public Page<Map<String, Object>> getPageMapList(Integer uid, String singer, String song, String tag, Integer sid,
+			Integer status, Integer page, Integer pageSize, String order) {
 		Page<Music> pageList = this.getPageList(uid, singer, song, tag, sid, status, page, pageSize, order);
-		
+
 		List<Music> musicList = pageList.getResults();
-		Page<Map<String, Object>> pageMap = new Page<Map<String,Object>>((long) musicList.size(), pageSize, pageSize);
-		
+		Page<Map<String, Object>> pageMap = new Page<Map<String, Object>>((long) musicList.size(), pageSize, pageSize);
+
 		List<Map<String, Object>> listMap = this.getMusicMapList(musicList);
 		pageMap.setResults(listMap);
 		return pageMap;
@@ -346,7 +353,7 @@ public class MusicServiceImpl implements MusicService {
 
 	@Override
 	public boolean enable(Integer mid, Integer status) {
-		if(null != mid){
+		if (null != mid) {
 			return Music.db.update("update t_music set status = ? where id = ?", status, mid) > 0;
 		}
 		return false;
