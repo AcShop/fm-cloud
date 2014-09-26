@@ -2,11 +2,11 @@
 	<footer id="footer" class="clearfix">
 	</footer>
 	
-	<script type="text/javascript" src="${cdn}/static/js/jq/jquery.form.js?v=${static_v}"></script>
-	<script type="text/javascript" src="${cdn}/static/zui/js/zui.min.js?v=${static_v}"></script>
-	<script type="text/javascript" src="${cdn}/static/js/nice/jquery.validator.js?v=${static_v}"></script>
-	<script type="text/javascript" src="${cdn}/static/js/nice/local/zh_CN.js?v=${static_v}"></script>
-	<script type="text/javascript" src="${cdn}/static/js/art/artDialog.js?skin=default"></script>
+	<script type="text/javascript" src="${cdn}/assets/js/jq/jquery.form.js?v=${static_v}"></script>
+	<script type="text/javascript" src="${cdn}/assets/zui/js/zui.min.js?v=${static_v}"></script>
+	<script type="text/javascript" src="${cdn}/assets/js/nice/jquery.validator.js?v=${static_v}"></script>
+	<script type="text/javascript" src="${cdn}/assets/js/nice/local/zh_CN.js?v=${static_v}"></script>
+	<script type="text/javascript" src="${cdn}/assets/js/art/artDialog.js?skin=default"></script>
 	<script type="text/javascript">
 	var $unique = {};
 	$unique.music = {};
@@ -29,7 +29,7 @@
 	</script>
 	<%
 		for(js_src in jsList!){%>
-			<script type="text/javascript" charset="utf-8" src="${cdn}/static/js/${js_src}?v=${static_v}"></script>
+			<script type="text/javascript" charset="utf-8" src="${cdn}/assets/js/${js_src}?v=${static_v}"></script>
 	<%	}%>
 	<!-- 
 	<a class="bshareDiv" href="http://www.bshare.cn/share">分享按钮</a>

@@ -1,6 +1,6 @@
 <% include("/header.html", {active:'music', title:'音乐视听-找回你放松的感觉!'}){} %>
-<link rel="stylesheet" href="${cdn}/static/css/player/reset.css">
-<link rel="stylesheet" href="${cdn}/static/css/player/style.css">
+<link rel="stylesheet" href="${cdn}/assets/css/player/reset.css">
+<link rel="stylesheet" href="${cdn}/assets/css/player/style.css">
 <div id="main">
 	<!-- 音乐专辑 -->
 	<div id="music-album-list" class="col-lg-12">
@@ -26,7 +26,7 @@
 				<%for(music in pageData!){%>
 					<div id="m-${music.id}" class="col-md-4 col-sm-6 col-lg-3 music">
 						<div class="img-desc">
-							<img class="img-rounded" originalSrc="${music.cover_url!'./static/img/music/default-music.jpg'}" title="${music.song!}" onclick="$unique.music.playerMp3(${music.id})">
+							<img class="img-rounded" originalSrc="${music.cover_url!'./assets/img/music/default-music.jpg'}" title="${music.song!}" onclick="$unique.music.playerMp3(${music.id})">
 							<cite>${music.song!}</cite>
 						</div>
 						<div class="card-heading">
@@ -106,8 +106,8 @@
 	 -->
 </div>
 
-<script src='${cdn}/static/js/jq/jquery.jplayer.min.js'></script>
-<script src='${cdn}/static/js/jq/jplayer.playlist.min.js'></script>
-<script src='${cdn}/static/js/jq/lyz.delayLoading.min.js'></script>
-<script src='${cdn}/static/ueditor/ueditor.parse.js'></script>
+<script src='${cdn}/assets/js/jq/jquery.jplayer.min.js'></script>
+<script src='${cdn}/assets/js/jq/jplayer.playlist.min.js'></script>
+<script src='${cdn}/assets/js/jq/lyz.delayLoading.min.js'></script>
+<script src='${cdn}/assets/ueditor/ueditor.parse.js'></script>
 <% include("/footer.html", {jsList:['front/music.js']}){} %>

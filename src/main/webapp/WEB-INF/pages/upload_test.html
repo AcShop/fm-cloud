@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!--装载文件-->  
-<link href="${cdn}/static/uploadify/uploadify.css" rel="stylesheet" type="text/css" />  
-<script type="text/javascript" src="${cdn}/static/js/jq/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="${cdn}/static/uploadify/jquery.uploadify.min.js"></script>
+<link href="${cdn}/assets/uploadify/uploadify.css" rel="stylesheet" type="text/css" />  
+<script type="text/javascript" src="${cdn}/assets/js/jq/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="${cdn}/assets/uploadify/jquery.uploadify.min.js"></script>
 </head>
 <body>
 	<div id="fileQueue"></div>  
@@ -25,8 +25,8 @@
 		$(document).ready(function() {  
 	        $("#uploadify").uploadify({  
 	            'uploader' : '${base}/upload/temp_file',  
-	            'swf' : '${cdn}/static/uploadify/uploadify.swf',  
-	            'cancelImg' : '${cdn}/static/uploadify/uploadify-cancel.png',  
+	            'swf' : '${cdn}/assets/uploadify/uploadify.swf',  
+	            'cancelImg' : '${cdn}/assets/uploadify/uploadify-cancel.png',  
 	            //'folder' : 'uploads',//您想将文件保存到的路径  
 	            'queueID' : 'fileQueue',//与下面的id对应  
 	            'queueSizeLimit' : 5,  

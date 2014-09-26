@@ -1,7 +1,7 @@
 <% include("/admin/header.html", {active : 'music'}){} %>
 <!--装载文件-->
-<link rel="stylesheet" type="text/css" href="${cdn}/static/uploadify/uploadify.css" />
-<link rel="stylesheet" type="text/css" href="${cdn}/static/js/validator-0.7.3/jquery.validator.css">
+<link rel="stylesheet" type="text/css" href="${cdn}/assets/uploadify/uploadify.css" />
+<link rel="stylesheet" type="text/css" href="${cdn}/assets/js/validator-0.7.3/jquery.validator.css">
 
 <form id="upload_music_form" action="##" class="form-horizontal" role="form"
 	method="post" autocomplete="off">
@@ -106,7 +106,7 @@
 	</div>
 </form>
 
-<script type="text/javascript" src="${cdn}/static/uploadify/jquery.uploadify.min.js"></script>
-<script type="text/javascript" src="${cdn}/static/ueditor/ueditor.config.js"></script>
-<script type="text/javascript" src="${cdn}/static/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript" src="${cdn}/assets/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="${cdn}/assets/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="${cdn}/assets/ueditor/ueditor.all.min.js"></script>
 <% include("/admin/footer.html",{jsList:['admin/edit_music.js']}){} %>

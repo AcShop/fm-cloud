@@ -173,7 +173,7 @@ public final class ConfigManager {
 	}
 
 	private String getConfigPath() {
-		String configPath = rootPath + "static/ueditor/" + ConfigManager.configFileName;
+		String configPath = rootPath + "assets/ueditor/" + ConfigManager.configFileName;
 		//System.out.println("config:" + this.parentPath + File.separator + ConfigManager.configFileName);
 		//return this.parentPath + File.separator + ConfigManager.configFileName;
 		return configPath;

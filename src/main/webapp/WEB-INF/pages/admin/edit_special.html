@@ -1,7 +1,7 @@
 <% include("/admin/header.html", {active : 'special'}){} %>
 <!--装载文件-->
-<link rel="stylesheet" type="text/css" href="${cdn}/static/uploadify/uploadify.css" />
-<link rel="stylesheet" type="text/css" href="${cdn}/static/js/validator-0.7.3/jquery.validator.css">
+<link rel="stylesheet" type="text/css" href="${cdn}/assets/uploadify/uploadify.css" />
+<link rel="stylesheet" type="text/css" href="${cdn}/assets/js/validator-0.7.3/jquery.validator.css">
 
 <form id="upload_special_form" action="##" class="form-horizontal" role="form"
 	method="post" autocomplete="off">
@@ -68,5 +68,5 @@
 	</div>
 </form>
 
-<script type="text/javascript" src="${cdn}/static/uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript" src="${cdn}/assets/uploadify/jquery.uploadify.min.js"></script>
 <% include("/admin/footer.html",{jsList:['admin/special.js']}){} %>

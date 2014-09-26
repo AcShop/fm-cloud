@@ -6,7 +6,7 @@
 		<%for(music in pageData!){%>
 		<div class="col-md-4 col-sm-4 col-lg-3" id="music-${music.id}">
 			<div class="card">
-				<img class="music-cover" src="${music.cover_url!'./static/img/music/default-music.jpg'}" alt="${music.song!}" onclick="$unique.music.playerMp3(${music.id})">
+				<img class="music-cover" src="${music.cover_url!'./assets/img/music/default-music.jpg'}" alt="${music.song!}" onclick="$unique.music.playerMp3(${music.id})">
 				<div class="card-heading">
 					<span class="pull-right">
 						<a href="javascript:void(0);" onclick="$unique.music.like(this,${music.id!})"><i class="icon-star-empty"></i></a>
@@ -39,5 +39,5 @@
 </div>
 
 <% include("/common.html"){} %>
-<script type="text/javascript" src="${cdn}/static/js/front/music.js"></script>
+<script type="text/javascript" src="${cdn}/assets/js/front/music.js"></script>
 <% include("/footer.html"){} %>

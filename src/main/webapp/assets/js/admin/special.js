@@ -6,8 +6,8 @@ $(function() {
 
 	$("#uploadify").uploadify({
 		'uploader' : $unique.base + '/upload/temp_file',
-		'swf' : $unique.cdn + '/static/uploadify/uploadify.swf',
-		'cancelImg' : $unique.cdn + '/static/uploadify/uploadify-cancel.png',
+		'swf' : $unique.cdn + '/assets/uploadify/uploadify.swf',
+		'cancelImg' : $unique.cdn + '/assets/uploadify/uploadify-cancel.png',
 		'queueID' : 'fileQueue',// 与下面的id对应
 		'queueSizeLimit' : 10,
 		'fileSizeLimit' : '5MB',
@@ -30,8 +30,8 @@ $(function() {
 	
 	$("#uploadify2").uploadify({
 		'uploader' : $unique.base + '/upload/temp_file',
-		'swf' : $unique.cdn + '/static/uploadify/uploadify.swf',
-		'cancelImg' : $unique.cdn + '/static/uploadify/uploadify-cancel.png',
+		'swf' : $unique.cdn + '/assets/uploadify/uploadify.swf',
+		'cancelImg' : $unique.cdn + '/assets/uploadify/uploadify-cancel.png',
 		'queueID' : 'fileQueue2',// 与下面的id对应
 		'queueSizeLimit' : 10,
 		'fileSizeLimit' : '5MB',

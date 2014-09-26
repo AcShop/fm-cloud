@@ -7,14 +7,14 @@ var cssSelector = {
 };
 
 var options = {
-	swfPath : $unique.cdn + "/static/js/jq/Jplayer.swf",
+	swfPath : $unique.cdn + "/assets/js/jq/Jplayer.swf",
 	supplied : "ogv, m4v, oga, mp3"
 };
 var myPlaylist = null;
 $unique.img = {};
 $unique.img.loadind = function() {
 	$("img").delayLoading({
-		defaultImg : $unique.cdn + "/static/img/loading.jpg", // 预加载前显示的图片
+		defaultImg : $unique.cdn + "/assets/img/loading.jpg", // 预加载前显示的图片
 		errorImg : "", // 读取图片错误时替换图片(默认：与defaultImg一样)
 		imgSrcAttr : "originalSrc", // 记录图片路径的属性(默认：originalSrc，页面img的src属性也要替换为originalSrc)
 		beforehand : 0, // 预先提前多少像素加载图片(默认：0)
@@ -35,13 +35,13 @@ $(function() {
 		artist : "Miaow",
 		mp3 : "http://jq22.qiniudn.com/i1.mp3",
 		// oga:"http://www.jplayer.org/audio/ogg/Miaow-02-Hidden.ogg",
-		poster : $unique.cdn + "/static/img/tumblr_mxp7a0v3fr1rqx86wo1_500.png"
+		poster : $unique.cdn + "/assets/img/tumblr_mxp7a0v3fr1rqx86wo1_500.png"
 	}, {
 		title : "Cro Magnon Man",
 		artist : "The Stark Palace",
 		mp3 : "http://jq22.qiniudn.com/i2.mp3",
 		// oga:"http://www.jplayer.org/audio/ogg/TSP-01-Cro_magnon_man.ogg",
-		poster : $unique.cdn + "/static/img/tumblr_nbmb3j8nU51sq3g2zo1_500.png"
+		poster : $unique.cdn + "/assets/img/tumblr_nbmb3j8nU51sq3g2zo1_500.png"
 	} ];
 	myPlaylist = new jPlayerPlaylist(cssSelector, playlist, options);
 	
@@ -161,7 +161,7 @@ $unique.music.tagclick = function(tag_type) {
 								var data = r.results;
 								for (m in data) {
 									var mid = data[m].id;
-									var cover_url = (null == data[m].cover_url || data[m].cover_url === '') ? './static/img/music/default-music.jpg'
+									var cover_url = (null == data[m].cover_url || data[m].cover_url === '') ? './assets/img/music/default-music.jpg'
 											: data[m].cover_path;
 									var introduce = (data[m].introduce && data[m].introduce != '') ? data[m].introduce
 											: data[m].song;
@@ -221,7 +221,7 @@ $unique.music.tagclick = function(tag_type) {
 								var data = r.results;
 								for (m in data) {
 									var mid = data[m].id;
-									var cover_url = (null == data[m].cover_url || data[m].cover_url === '') ? './static/img/music/default-music.jpg'
+									var cover_url = (null == data[m].cover_url || data[m].cover_url === '') ? './assets/img/music/default-music.jpg'
 											: data[m].cover_path;
 									var introduce = (data[m].introduce && data[m].introduce != '') ? data[m].introduce
 											: data[m].song;

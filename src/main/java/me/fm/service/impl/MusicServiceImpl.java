@@ -198,11 +198,9 @@ public class MusicServiceImpl implements MusicService {
 							cover_key = AttachUtil.getMusicCoverKey(music.getUid(), cover_path, random);
 							//删除原有文件
 							String oldKey = music.getCover_path();
-							fileService.delete(oldKey);
-
 							fileService.upload(cover_key, cover_path);
-
 							base.set("cover_path", cover_key);
+							fileService.delete(oldKey);
 						}
 					} else if (cover_path.startsWith("http://")) {
 						base.set("cover_path", cover_path);
