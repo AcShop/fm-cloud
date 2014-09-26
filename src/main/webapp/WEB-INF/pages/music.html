@@ -26,7 +26,7 @@
 				<%for(music in pageData!){%>
 					<div id="m-${music.id}" class="col-md-4 col-sm-6 col-lg-3 music">
 						<div class="img-desc">
-							<img class="img-rounded" src="${music.cover_url!'./static/img/music/default-music.jpg'}" title="${music.song!}" onclick="$unique.music.playerMp3(${music.id})">
+							<img class="img-rounded" originalSrc="${music.cover_url!'./static/img/music/default-music.jpg'}" title="${music.song!}" onclick="$unique.music.playerMp3(${music.id})">
 							<cite>${music.song!}</cite>
 						</div>
 						<div class="card-heading">
@@ -90,11 +90,9 @@
 			<div class="clear other">歌词部分。</div>
 		</div>
 	</div>
+	<!-- 
 	<div id="comment">
-		<!-- 多说评论框 start -->
 		<div class="ds-thread" data-thread-key="music" data-title="七牛云音乐" data-url="http://127.0.0.1:8080/qiniu-cloud/music"></div>
-		<!-- 多说评论框 end -->
-		<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 		<script type="text/javascript">
 			var duoshuoQuery = {short_name:"fm-im90"};
 			(function() {
@@ -106,10 +104,11 @@
 				 || document.getElementsByTagName('body')[0]).appendChild(ds);
 			})();
 		</script>
-		<!-- 多说公共JS代码 end -->
 	</div>
+	 -->
 </div>
 
 <script src='${cdn}/static/js/jq/jquery.jplayer.min.js'></script>
 <script src='${cdn}/static/js/jq/jplayer.playlist.min.js'></script>
+<script src='${cdn}/static/js/jq/lyz.delayLoading.min.js'></script>
 <% include("/footer.html", {jsList:['front/music.js']}){} %>
