@@ -17,7 +17,6 @@ import org.unique.common.tools.CollectionUtil;
 import org.unique.common.tools.DateUtil;
 import org.unique.common.tools.FileUtil;
 import org.unique.common.tools.StringUtils;
-import org.unique.web.annotation.Action;
 import org.unique.web.annotation.Path;
 import org.unique.web.core.Const;
 import org.unique.web.core.Controller;

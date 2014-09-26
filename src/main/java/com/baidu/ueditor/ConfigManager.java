@@ -21,6 +21,7 @@ import com.baidu.ueditor.define.ActionMap;
  * @author hancong03@baidu.com
  *
  */
+@SuppressWarnings("unused")
 public final class ConfigManager {
 
 	private final String rootPath;
