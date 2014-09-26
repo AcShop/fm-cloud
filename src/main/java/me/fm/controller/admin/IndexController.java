@@ -81,7 +81,7 @@ public class IndexController extends BaseController {
 		String singer = this.getPara("singer");
 		String song = this.getPara("song");
 		Page<Map<String, Object>> musicPage = musicService.getPageMapList(uid, singer, song, null, null, 1, page,
-				pageSize, "create_time");
+				pageSize, "id desc");
 		this.setAttr("pageMap", musicPage);
 		this.render("music");
 	}
@@ -121,7 +121,7 @@ public class IndexController extends BaseController {
 			boolean flag = false;
 			uid = 1;
 			if (null != mid) {
-				flag = musicService.update(uid, singer, song, song_path, cover_path, introduce, cids, lrc, null, null) > 0;
+				flag = musicService.update(mid, singer, song, song_path, cover_path, introduce, cids, lrc, null, null) > 0;
 			} else {
 				flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, lrc, null, null);
 			}
@@ -132,6 +132,8 @@ public class IndexController extends BaseController {
 			}
 			return;
 		}
+		List<Mcat> mcatList = mcatService.getList(1);
+		this.setAttr("catList", mcatList);
 		this.render("edit_music");
 	}
 

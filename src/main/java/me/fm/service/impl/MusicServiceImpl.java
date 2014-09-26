@@ -178,31 +178,38 @@ public class MusicServiceImpl implements MusicService {
 					base.set("singer", singer);
 				}
 				//判断音乐文件是否修改
-				if (StringUtils.isNotBlank(song_path) && 
-						!song_path.endsWith(music.getSong_path()) && FileUtil.exists(song_path)) {
-					
-					key = AttachUtil.getMusicKey(music.getUid(), song_path, random);
-					//删除原有文件
-					String oldKey = music.getSong_path();
-					fileService.delete(oldKey);
+				if (StringUtils.isNotBlank(song_path)) {
+					if(FileUtil.exists(song_path)){
+						if(!song_path.endsWith(music.getSong_path())){
+							key = AttachUtil.getMusicKey(music.getUid(), song_path, random);
+							//删除原有文件
+							String oldKey = music.getSong_path();
+							fileService.delete(oldKey);
 
-					fileService.upload(key, song_path);
+							fileService.upload(key, song_path);
+							
+							base.set("song_path", key);
+						}
+					} else{
+						base.set("song_path", song_path);
+					}
 					
-					base.set("song_path", key);
 				}
 				//判断音乐封面是否修改
-				if (StringUtils.isNotBlank(cover_path) && FileUtil.exists(cover_path)) {
-					
-					if(StringUtils.isEmpty(music.getCover_path()) || 
-							(StringUtils.isNotBlank(music.getCover_path()) && !cover_path.endsWith(music.getCover_path()))){
-						cover_key = AttachUtil.getMusicCoverKey(music.getUid(), cover_path, random);
-						//删除原有文件
-						String oldKey = music.getCover_path();
-						fileService.delete(oldKey);
+				if (StringUtils.isNotBlank(cover_path)) {
+					if(FileUtil.exists(cover_path)){
+						if(!cover_path.endsWith(music.getCover_path())){
+							cover_key = AttachUtil.getMusicCoverKey(music.getUid(), cover_path, random);
+							//删除原有文件
+							String oldKey = music.getCover_path();
+							fileService.delete(oldKey);
 
-						fileService.upload(cover_key, cover_path);
+							fileService.upload(cover_key, cover_path);
 
-						base.set("cover_path", cover_key);
+							base.set("cover_path", cover_key);
+						}
+					} else{
+						base.set("cover_path", cover_path);
 					}
 				}
 				//是否修改描述
@@ -221,11 +228,11 @@ public class MusicServiceImpl implements MusicService {
 				if(StringUtils.isNotBlank(lrc) && !lrc.equals(music.getLrc())){
 					base.set("lrc", lrc);
 				}
-				base.eq("id", id);
+				base.eq("id", music.getId());
 				try {
 					if(base.getSetMap().size() == 0){
 						return 1;
-					}
+					} 
 					count = Music.db.update(base.getSQL(), base.getParams());
 				} catch (UpdateException e) {
 					logger.warn("更新音乐失败：" + e.getMessage());
