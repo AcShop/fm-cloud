@@ -1,8 +1,14 @@
 package me.fm.interceptor;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import me.fm.util.SessionUtil;
+import me.fm.util.WebConst;
+
+import org.unique.common.tools.StringUtils;
 import org.unique.ioc.annotation.Component;
 import org.unique.web.annotation.Intercept;
 import org.unique.web.core.ActionContext;
@@ -32,21 +38,21 @@ public class BaseInterceptor implements Interceptor{
 	    
 	    String reqUrl = request.getRequestURI();
 	    
-//	    if(reqUrl.contains("login")){
-//	    	ai.invoke();
-//	    	return;
-//	    }
-//	    //拦截后台登录
-//	    if(reqUrl.startsWith(basePath + "/admin/")){
-//	    	if(StringUtils.isBlank(SessionUtil.getAdminUser())){
-//	    		try {
-//					response.sendRedirect(basePath + WebConst.ADMIN_LOGIN);
-//					return;
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//	    	}
-//	    }
+	    if(reqUrl.contains("login")){
+	    	ai.invoke();
+	    	return;
+	    }
+	    //拦截后台登录
+	    if(reqUrl.startsWith(basePath + "/admin/")){
+	    	if(null == SessionUtil.getLoginUser()){
+	    		try {
+					response.sendRedirect(basePath + WebConst.ADMIN_LOGIN);
+					return;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	    	}
+	    }
 	    ai.invoke();
 		//System.out.println("全局after");
 	}
