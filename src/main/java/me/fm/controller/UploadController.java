@@ -52,7 +52,7 @@ public class UploadController extends Controller {
 	 */
 	public void temp_file() throws Exception {
 		savePath = this.getRequest().getServletContext().getRealPath("/")
-				+ Const.CONST_MAP.get("unique.web.upload.path").toString() + "\\temp\\";
+				+ Const.CONST_MAP.get("unique.web.upload.path").toString() + File.separator + "temp" + File.separator;
 		fileupload(savePath);
 	}
 

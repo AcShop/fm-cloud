@@ -87,5 +87,5 @@ public interface FileService {
 	 * @param filePath 物理路径
 	 * @return
 	 */
-	int upload(String key, String filePath);
+	void upload(String key, String filePath);
 }

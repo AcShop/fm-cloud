@@ -60,12 +60,10 @@ public class MusicServiceImpl implements MusicService {
 		if (StringUtils.isNotBlank(song_path)) {
 			if (FileUtil.exists(song_path)) {
 				//上传歌曲
-				int code = fileService.upload(song_key, song_path);
-				if (code == 200) {
-					//增加用户剩余空间
-					Entry musicEntry = fileService.getInfo(song_key);
-					userService.updateUseSize(uid, +musicEntry.getFsize());
-				}
+				fileService.upload(song_key, song_path);
+				//增加用户剩余空间
+//				Entry musicEntry = fileService.getInfo(song_key);
+//				userService.updateUseSize(uid, +musicEntry.getFsize());
 			}
 			if (song_path.startsWith("http://")) {
 				song_key = song_path;
@@ -76,12 +74,10 @@ public class MusicServiceImpl implements MusicService {
 			if (FileUtil.exists(cover_path)) {
 				cover_key = AttachUtil.getMusicCoverKey(uid, song_path, random);
 				//上传封面
-				int code = fileService.upload(cover_key, cover_path);
-				if (code == 200) {
-					//增加用户剩余空间
-					Entry coverEntry = fileService.getInfo(song_key);
-					userService.updateUseSize(uid, +coverEntry.getFsize());
-				}
+				fileService.upload(cover_key, cover_path);
+				//增加用户剩余空间
+//				Entry coverEntry = fileService.getInfo(cover_key);
+//				userService.updateUseSize(uid, + coverEntry.getFsize());
 			}
 			if (cover_path.startsWith("http://")) {
 				cover_key = cover_path;
@@ -190,7 +186,7 @@ public class MusicServiceImpl implements MusicService {
 							
 							base.set("song_path", key);
 						}
-					} else{
+					} else if(song_path.startsWith("http://")){
 						base.set("song_path", song_path);
 					}
 					
@@ -208,7 +204,7 @@ public class MusicServiceImpl implements MusicService {
 
 							base.set("cover_path", cover_key);
 						}
-					} else{
+					} else if(cover_path.startsWith("http://")){
 						base.set("cover_path", cover_path);
 					}
 				}

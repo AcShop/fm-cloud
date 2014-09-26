@@ -174,23 +174,26 @@ public class FileServiceImpl implements FileService {
 	}
 
 	@Override
-	public int upload(String key, String filePath) {
-		try {
-			if(!FileUtil.exists(filePath) || StringUtils.isBlank(key)){
-				return 0;
-			}
-			PutPolicy putPolicy = new PutPolicy(QiniuConst.BUCKETNAME);
-	        Mac mac = new Mac(QiniuConst.ACCESS_KEY, QiniuConst.SECRET_KEY);
-			String uptoken = putPolicy.token(mac);
-			PutExtra extra = new PutExtra();
-			PutRet ret = IoApi.putFile(uptoken, key, filePath, extra);
-			return ret.getStatusCode();
-		} catch (AuthException e) {
-			logger.warn("upload file auth error " + e.getMessage());
-		} catch (JSONException e) {
-			logger.warn("upload file json error " + e.getMessage());
+	public void upload(final String key, final String filePath) {
+		if(FileUtil.exists(filePath) && StringUtils.isNotBlank(key)){
+			new Thread(){
+				public void run() {
+					PutPolicy putPolicy = new PutPolicy(QiniuConst.BUCKETNAME);
+			        Mac mac = new Mac(QiniuConst.ACCESS_KEY, QiniuConst.SECRET_KEY);
+					String uptoken;
+					try {
+						uptoken = putPolicy.token(mac);
+						PutExtra extra = new PutExtra();
+						PutRet ret = IoApi.putFile(uptoken, key, filePath, extra);
+						logger.info(key + "上传结果：" + ret.getResponse());
+					} catch (AuthException e) {
+						e.printStackTrace();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				};
+			}.start();
 		}
-		return 0;
 	}
 
 }
