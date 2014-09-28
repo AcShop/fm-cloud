@@ -88,8 +88,8 @@ $unique.music.playerMp3 = function(mid) {
  */
 $unique.music.like = function(obj, mid) {
 	var cls = $(obj).find('i').attr('class');
-	if (mid && cls === 'icon-star-empty') {
-		var url = $unique.root + '/m/hit';
+	if (mid && cls === 'icon-heart-empty') {
+		var url = $unique.base + '/m/hit';
 		var param = {
 			mid : mid,
 			type : 1
@@ -97,12 +97,9 @@ $unique.music.like = function(obj, mid) {
 		// 点击+1
 		$.get(url, param, function(data) {
 			if (data && data === 'success') {
-				var count = $('div#music-' + mid).find('span.like-count')
-						.text();
-				$('div#music-' + mid).find('span.like-count').text(
-						parseInt(count) + 1);
-				$(obj).find('i').removeClass('icon-star-empty').addClass(
-						'icon-star');
+				var count = $(obj).find('span.like-count').text();
+				$(obj).find('span.like-count').text(parseInt(count) + 1);
+				$(obj).find('i').removeClass('icon-heart-empty').addClass('icon-heart');
 			}
 		});
 	}
@@ -114,7 +111,7 @@ $unique.music.like = function(obj, mid) {
  */
 $unique.music.download = function(mid, downloadUrl) {
 	if (mid && downloadUrl) {
-		var url = $unique.root + '/m/hit';
+		var url = $unique.base + '/m/hit';
 		var param = {
 			mid : mid,
 			type : 3
@@ -154,62 +151,46 @@ $unique.music.tagclick = function(tag_type) {
 	// 热门曲目
 	if (tag_type == 1) {
 		url = $unique.base + '/m/hot';
-		$
-				.get(
-						url,
-						null,
-						function(r) {
-							if (r) {
-								var musicList = [];
-								var data = r.results;
-								for (m in data) {
-									var mid = data[m].id;
-									var cover_url = (null == data[m].cover_url || data[m].cover_url === '') ? './assets/img/music/default-music.jpg'
-											: data[m].cover_path;
-									var introduce = (data[m].introduce && data[m].introduce != '') ? data[m].introduce
-											: data[m].song;
-									var inner = '	<div class="col-md-4 col-sm-6 col-lg-3 music" id="m-'
-											+ mid
-											+ '">'
-											+ '			<div class="img-desc">'
-											+ '				<img class="img-rounded" onclick="$unique.music.playerMp3('
-											+ mid
-											+ ')" title="'
-											+ data[m].song
-											+ '" originalSrc="'
-											+ cover_url
-											+ '">'
-											+ '				<cite>'
-											+ data[m].song
-											+ '</cite>'
-											+ '			</div>'
-											+ '			<div class="card-heading">'
-											+ '					<div class="profile" style="margin-top: 8px;">'
-											+ '					<span title="有'
-											+ data[m].like_count
-											+ '人喜欢这首歌" onclick="$unique.music.like(this,'
-											+ mid
-											+ ')"><i class="icon-heart-empty"></i> <span class="like-count">1</span></span>&nbsp;&nbsp;'
-											+ '				<span title="下载：'
-											+ data[m].song
-											+ '" onclick="$unique.music.download(\''
-											+ mid
-											+ ', '
-											+ data[m].mp3_url
-											+ '\')"><i class="icon-arrow-down"></i> 下载</span>&nbsp;&nbsp;'
-											+ '				<span><i class="icon-time"></i> '
-											+ data[m].date_zh
-											+ '</span>'
-											+ '					</div>'
-											+ '				</div>'
-											+ '			</div>';
+		$.get(url,null,function(r) {
+			if (r) {
+				var musicList = [];
+				var data = r.results;
+				for (m in data) {
+					var mid = data[m].id;
+					var cover_url = (null == data[m].cover_url || data[m].cover_url === '') ? './assets/img/music/default-music.jpg'
+							: data[m].cover_path;
+					var introduce = (data[m].introduce && data[m].introduce != '') ? data[m].introduce
+							: data[m].song;
+					var inner = '	<div class="col-md-4 col-sm-6 col-lg-3 music" id="m-' + mid + '">'
+							+ '			<div class="img-desc">'
+							+ '				<img class="img-rounded" onclick="$unique.music.playerMp3(' + mid + ')" title="'
+							+ data[m].song + '" originalSrc="' + cover_url + '">' 
+							+ '	<cite>' + data[m].song + '</cite>'
+							+ '		</div>'
+							+ '			<div class="card-heading">'
+							+ '					<div class="profile" style="margin-top: 8px;">'
+							+ '					<span title="有' + data[m].like_count + '人喜欢这首歌" onclick="$unique.music.like(this,'
+							+ mid + ')"><i class="icon-heart-empty"></i> <span class="like-count">' + data[m].like_count + '</span></span>&nbsp;&nbsp;'
+							+ '				<span title="下载：'
+							+ data[m].song
+							+ '" onclick="$unique.music.download(\''
+							+ mid
+							+ ', '
+							+ data[m].mp3_url
+							+ '\')"><i class="icon-arrow-down"></i> 下载</span>&nbsp;&nbsp;'
+							+ '				<span><i class="icon-time"></i> '
+							+ data[m].date_zh
+							+ '</span>'
+							+ '					</div>'
+							+ '				</div>'
+							+ '			</div>';
 
-									musicList.push(inner);
-								}
-								$('#music-list').html(musicList);
-								$unique.img.loadind();
-							}
-						});
+					musicList.push(inner);
+				}
+				$('#music-list').html('').html(musicList);
+				$unique.img.loadind();
+			}
+		});
 	}
 	// 最新曲目
 	if (tag_type == 2) {
@@ -228,8 +209,7 @@ $unique.music.tagclick = function(tag_type) {
 											: data[m].cover_path;
 									var introduce = (data[m].introduce && data[m].introduce != '') ? data[m].introduce
 											: data[m].song;
-									var inner = '	<div class="col-md-4 col-sm-6 col-lg-3 music" id="m-'
-											+ mid
+									var inner = '	<div class="col-md-4 col-sm-6 col-lg-3 music" id="m-' + mid
 											+ '">'
 											+ '			<div class="img-desc">'
 											+ '				<img class="img-rounded" onclick="$unique.music.playerMp3('
@@ -241,15 +221,13 @@ $unique.music.tagclick = function(tag_type) {
 											+ '">'
 											+ '				<cite>'
 											+ data[m].song
-											+ '</cite>'
-											+ '			</div>'
-											+ '			<div class="card-heading">'
+											+ '</cite></div>'
+											+ '		<div class="card-heading">'
 											+ '					<div class="profile" style="margin-top: 8px;">'
 											+ '					<span title="有'
 											+ data[m].like_count
 											+ '人喜欢这首歌" onclick="$unique.music.like(this,'
-											+ mid
-											+ ')"><i class="icon-heart-empty"></i> <span class="like-count">1</span></span>&nbsp;&nbsp;'
+											+ mid + ')"><i class="icon-heart-empty"></i> <span class="like-count">'+data[m].like_count+'</span></span>&nbsp;&nbsp;'
 											+ '				<span title="下载：'
 											+ data[m].song
 											+ '" onclick="$unique.music.download(\''

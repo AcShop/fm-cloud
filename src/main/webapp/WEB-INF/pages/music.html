@@ -31,8 +31,12 @@
 						</div>
 						<div class="card-heading">
 							<div class="profile" style="margin-top: 8px;">
-								<span onclick="$unique.music.like(this,${music.id!})" title="有${music.like_count}人喜欢这首歌"><i class="icon-heart-empty"></i> <span class="like-count">${music.like_count}</span></span>&nbsp;&nbsp;
-								<span onclick="$unique.music.download('${music.id!}, ${music.mp3_url!}')" title="下载：${music.song!}"><i class="icon-arrow-down"></i> 下载</span>&nbsp;&nbsp; 
+								<span onclick="$unique.music.like(this, ${music.id!})" title="有${music.like_count!}人喜欢这首歌">
+									<i class="icon-heart-empty"></i> 
+									<span class="like-count">${music.like_count!}</span>
+								</span>&nbsp;&nbsp;
+								<span onclick="$unique.music.download(${music.id!}, '${music.mp3_url!}')" title="下载：${music.song!}">
+									<i class="icon-arrow-down"></i> 下载</span>&nbsp;&nbsp; 
 								<span><i class="icon-time"></i> ${music.date_zh!}</span>
 							</div>
 						</div>
@@ -48,7 +52,7 @@
 					<div class="info">
 						<div class="left">
 							<a href="javascript:;" class="icon-play-shuffle"></a>
-							<a href="javascript:;" class="icon-play-heart"></a>
+							<!-- <a href="javascript:;" class="icon-play-heart"></a> -->
 						</div>
 						<div class="center">
 							<div class="jp-playlist">

@@ -96,7 +96,7 @@ public class UploadController extends Controller {
 
 			Integer maxSize = Integer.valueOf(Const.CONST_MAP.get("unique.web.upload.maxSize").toString().trim());
 			// 设置允许上传的最大文件大小（单位MB）
-			upload.setSizeMax(maxSize * 1024);
+			upload.setSizeMax(maxSize * 1048576);
 			upload.setHeaderEncoding("utf-8");
 			try {
 				// 解析HTTP请求消息头  
@@ -111,6 +111,7 @@ public class UploadController extends Controller {
 				}
 
 			} catch (FileUploadException ex) {
+				logger.warn("上传文件失败：" + ex.getMessage());
 				return;
 			}
 		}
