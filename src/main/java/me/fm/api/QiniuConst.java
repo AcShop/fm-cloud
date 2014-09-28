@@ -5,6 +5,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.unique.common.tools.PropUtil;
 
+import com.qiniu.api.config.Config;
+
 /**
  * 七牛参数
  * @author Rex
@@ -28,6 +30,7 @@ public class QiniuConst {
 			QiniuConst.SECRET_KEY = qiniu.get("SECRET_KEY").trim();
 			BUCKETNAME = qiniu.get("BUCKETNAME").trim();
 			DOMAIN = "http://" + BUCKETNAME + ".qiniudn.com";
+			Config.UP_HOST = "http://up.qiniu.com";
 		} catch (RuntimeException e) {
 			logger.error("qiniu config file init error!" + e.getMessage());
 		}
