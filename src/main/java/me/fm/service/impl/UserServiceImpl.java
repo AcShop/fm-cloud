@@ -20,6 +20,7 @@ import org.unique.ioc.annotation.Service;
 import org.unique.plugin.dao.Page;
 import org.unique.plugin.dao.SqlBase;
 import org.unique.plugin.db.exception.UpdateException;
+import org.unique.plugin.mail.SendMail;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
 		int count = 0;
 		try {
 			count = User.db.update("insert into t_user(nickname, email, password, reg_ip, reg_time, log_time, status) "
-					+ "values(?, ?, ?, ?, ?, ?, ?)", nickname, email, md5pwd, ip, currtime, currtime, 0);
+					+ "values(?, ?, ?, ?, ?, ?, ?)", nickname, email, md5pwd, ip, currtime, currtime, 1);
 		} catch (UpdateException e) {
 			count = 0;
 		}
@@ -58,7 +59,10 @@ public class UserServiceImpl implements UserService {
 			// 生成激活码: sha1(email) 激活码
 			String code = Base64.encoder(email);
 			activeService.save(user.getUid(), code);
-			// 发送邮件
+//			String url = "http://fm.im90.me/active?code="+code;
+//			// 发送邮件
+//			SendMail.asynSend("七牛云音乐电台激活帐号通知", 
+//					"点击链接激活您的邮箱  <a herf='"+url+"' target='_blank'>"+url+"</a>", email);
 		}
 		return user;
 	}

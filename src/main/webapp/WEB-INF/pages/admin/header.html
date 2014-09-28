@@ -30,7 +30,7 @@
 				<li class="cat-item <% if(active=='special'){%>active<%}%>"><a href="${base}/admin/special">专辑管理</a></li>
 				<li class="cat-item <% if(active=='mcat'){%>active<%}%>"><a href="${base}/admin/mcat">分类管理</a></li>
 				<li class="cat-item dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">更多<b class="caret"></b></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">${login_user.nickname!}<b class="caret"></b></a>
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="${base}/admin/logout">退出</a></li>
                     <li class="divider"></li>

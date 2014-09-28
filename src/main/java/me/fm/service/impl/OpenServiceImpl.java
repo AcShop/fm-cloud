@@ -17,7 +17,7 @@ public class OpenServiceImpl implements OpenService {
 	private Open find(Integer id, String email, String openid,
 			Integer type, Integer status){
 		SqlBase base = SqlBase.select("select * from t_open t");
-        base.eq("t.id", id).eq("t.email", email).eq("openid", openid).eq("type", type).eq("u.status", status);
+        base.eq("t.id", id).eq("t.email", email).eq("t.openid", openid).eq("t.type", type).eq("t.status", status);
         return Open.db.find(base.getSQL(), base.getParams());
 	}
 	

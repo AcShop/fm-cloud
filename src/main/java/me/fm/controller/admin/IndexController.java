@@ -51,8 +51,8 @@ public class IndexController extends BaseController {
 	 * 管理员退出
 	 */
 	public void logout(){
-		
-		this.render("login");
+		SessionUtil.removeLoginUser();
+		this.redirect("/");
 	}
 	/**
 	 * 用户登录

@@ -25,7 +25,7 @@ public class ActiveServiceImpl implements ActiveService {
 	public int save(Integer uid, String code) {
 		int count = 0;
 		try {
-			count = Active.db.update("insert into t_active(uid, code, status)", uid, code, 1);
+			count = Active.db.update("insert into t_active(uid, code, status) values(?,?,?)", uid, code, 1);
 		} catch (UpdateException e) {
 			logger.warn("添加激活码失败：" + e.getMessage());
 			count = 0;

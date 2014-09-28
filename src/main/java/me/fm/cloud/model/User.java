@@ -26,6 +26,7 @@ public class User extends Model<User> {
 	private Integer follow_count;
 	private Integer space_size;
 	private Integer use_size;
+	private Integer is_admin;
 	private Integer status;
 
 	public User(){
@@ -133,6 +134,14 @@ public class User extends Model<User> {
 
 	public void setFollow_count(Integer follow_count) {
 		this.follow_count = follow_count;
+	}
+
+	public Integer getIs_admin() {
+		return is_admin;
+	}
+
+	public void setIs_admin(Integer is_admin) {
+		this.is_admin = is_admin;
 	}
 
 }

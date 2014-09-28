@@ -22,4 +22,8 @@ public class WebConst {
 	
 	public static final Integer PAGE_SIZE = 10;
 	
+	public static String QQ_TOKEN = "";
+	
+	public static Long QQ_TOKEN_EXPIREIN = 0L;
+	
 }
