@@ -23,7 +23,7 @@
 	<!-- header:S -->
 	<header>
 		<ul class="nav nav-secondary nav-justified">
-			<li <%if(null == active!){%>class="active"<%}%>>
+			<li <%if('home' == active!){%>class="active"<%}%>>
 				<a href="${base}/index"><i class="icon-home"></i>首页 <i class="icon-heart pull-right"></i></a>
 			</li>
 			<li <%if('music' == active!){%>class="active"<%}%>>
@@ -41,8 +41,7 @@
 				<a class="dropdown-toggle" data-toggle="dropdown" href="###">
 					更多 <span class="caret"></span></a>
 				<ul class="dropdown-menu">
-					<li><a href="${base}/admin/music">音乐列表</a></li>
-					<li><a href="${base}/admin/music/save">添加音乐</a></li>
+					<li><a href="${base}/admin/login">管理员入口</a></li>
 				</ul>
 			</li>
 		</ul>

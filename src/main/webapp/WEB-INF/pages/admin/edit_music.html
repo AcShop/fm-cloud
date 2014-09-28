@@ -34,18 +34,18 @@
 			 <%
 			 	if(null != music.mcatList!){
 			 		for(cat in catList!){
-			 			var flag = false;
+			 			var flag = 0;
+			 			var catId = cat.id + '';
 						for(mcat in music.mcatList!){
-							if(cat.id == mcat){
-							print('cat.id:' + cat.id);
-								flag = true;
+							if(mcat == catId){
+								flag = 1;
 								break;
 							}
 						}
-						if(flag){%>
-							<button name="cidbtn" type="button" class="btn" ok="1" cid="${cat.id}" onclick="$unique.admin.music.tabok(this)">${cat.name} <i class="icon-ok"></i></button>
+						if(flag == 1){%>
+							<button name="cidbtn" type="button" class="btn" ok="1" cid="${cat.id}" onclick="$unique.admin.music.tabok(this)">${cat.name!} <i class="icon-ok"></i></button>
 						<%} else{%>
-							<button name="cidbtn" type="button" class="btn" ok="0" cid="${cat.id}" onclick="$unique.admin.music.tabok(this)">${cat.name} <i class="icon-ok hide"></i></button>
+							<button name="cidbtn" type="button" class="btn" ok="0" cid="${cat.id}" onclick="$unique.admin.music.tabok(this)">${cat.name!} <i class="icon-ok hide"></i></button>
 						<%}
 					}
 			 	} else{
@@ -55,7 +55,19 @@
 			 }%>
 		</div>
 	</div>
-
+	<div class="form-group">
+		<label class="col-md-2 control-label">所属专辑：</label>
+		<div class="col-md-4">
+			<%for(special in specialList!){
+				if(special.id == music.sid!){%>
+					<label class="radio-inline"> <input type="radio" checked="checked" name="sid" value="${special.id}"> ${special.title!} </label> &nbsp;&nbsp;
+				<%} else{%>
+					<label class="radio-inline"> <input type="radio" name="sid" value="${special.id}"> ${special.title!} </label> &nbsp;&nbsp;
+				<%}
+			} %>
+			<label class="radio-inline"> <input type="radio" name="sid" value=""> 无</label>
+		</div>
+	</div>
 	<div class="form-group">
 		<label class="col-md-2 control-label required">插入音乐：</label>
 		<div class="col-md-4">

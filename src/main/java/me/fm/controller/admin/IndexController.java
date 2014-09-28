@@ -98,7 +98,9 @@ public class IndexController extends BaseController {
 			this.setAttr("music", music);
 		}
 		List<Mcat> mcatList = mcatService.getList(1);
+		List<Map<String, Object>> specialList = specialService.getList(null, null, 1, 1, "id desc");
 		this.setAttr("catList", mcatList);
+		this.setAttr("specialList", specialList);
 		this.render("edit_music");
 	}
 
@@ -112,6 +114,7 @@ public class IndexController extends BaseController {
 			Integer mid = this.getParaToInt("mid");
 			String singer = this.getPara("singer");
 			String song = this.getPara("song");
+			Integer sid = this.getParaToInt("sid");
 			String song_path = this.getPara("song_path");
 			String cover_path = this.getPara("cover_path");
 			String introduce = this.getPara("introduce");
@@ -121,9 +124,9 @@ public class IndexController extends BaseController {
 			boolean flag = false;
 			uid = 1;
 			if (null != mid) {
-				flag = musicService.update(mid, singer, song, song_path, cover_path, introduce, cids, lrc, null, null) > 0;
+				flag = musicService.update(mid, singer, song, song_path, cover_path, introduce, cids, lrc, null, sid) > 0;
 			} else {
-				flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, lrc, null, null);
+				flag = musicService.save(uid, singer, song, song_path, cover_path, introduce, cids, lrc, null, sid);
 			}
 			if (flag) {
 				this.renderText(WebConst.MSG_SUCCESS);
@@ -133,7 +136,9 @@ public class IndexController extends BaseController {
 			return;
 		}
 		List<Mcat> mcatList = mcatService.getList(1);
+		List<Map<String, Object>> specialList = specialService.getList(null, null, 1, 1, "id desc");
 		this.setAttr("catList", mcatList);
+		this.setAttr("specialList", specialList);
 		this.render("edit_music");
 	}
 
